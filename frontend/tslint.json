@@ -14,6 +14,19 @@
     "no-consecutive-blank-lines": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": [true, "single"]
+    "quotemark": [true, "single"],
+    "encoding": true,
+    "eofline": true,
+    "no-eval": true,
+    "array-type": [true, "array"],
+    "await-promise": true,
+    "class-name": true,
+    "comment-format": [true, "check-space"],
+    "completed-docs": [true, "classes", "interfaces"],
+    "cyclomatic-complexity": [true, 7],
+    "no-duplicate-variable": true,
+    "no-unused-variable": true,
+    "semicolon": true,
+    "triple-equals": true
   }
 }
