@@ -1,0 +1,59 @@
+stages:
+  - backend-type-check
+  - backend-test
+  - frontend-lint
+  - frontend-build
+
+.job_template: &backend_definition
+  image: python:3.7.4-slim
+  cache:
+    key: "$CI_COMMIT_REF_SLUG-python_packages"
+    paths:
+      - backend/.cache/pip
+      - backend/venv/
+  before_script:
+    - cd backend
+    - python -V
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+  
+backend-type-check:
+  <<: *backend_definition
+  stage: backend-type-check
+  script:
+    - mypy *.py
+
+backend-test:
+  <<: *backend_definition
+  stage: backend-test
+  script:
+    - python -m unittest
+
+.job_template: &frontend_definition
+  image: node:10.16.3-jessie-slim
+  before_script:
+    - node -v
+    - npm -v
+    - cd frontend
+    - npm install
+  cache:
+    key: "$CI_COMMIT_REF_SLUG-node_modules"
+    paths:
+      - frontend/node_modules
+
+frontend-lint:
+  <<: *frontend_definition
+  stage: frontend-lint
+  script:
+    - npm run lint -- --no-fix
+
+frontend-build:
+  <<: *frontend_definition
+  stage: frontend-build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist
