@@ -22,7 +22,7 @@
 
 Dans le venv:
 
-    pip install flask flask_sqlalchemy flask_migrate
+    pip install -r requirements.txt
     
     export FLASK_APP=JDISCTF
     export FLASK_ENV=development
