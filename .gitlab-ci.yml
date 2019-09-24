@@ -19,7 +19,7 @@ stages:
     - source venv/bin/activate
     - pip install -r requirements.txt
     - export MYPYPATH=$(pwd)/venv/lib/site-packages
-    - echo MYPYPATH
+    - echo $(MYPYPATH)
   
 backend-type-check:
   <<: *backend_definition
