@@ -5,6 +5,10 @@ from config import Config
 from flask_migrate import Migrate, MigrateCommand
 from flask_sqlalchemy import SQLAlchemy
 
+# Initialized here so we can import db in our models
+db = SQLAlchemy()
+migrate = Migrate()
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -19,13 +23,16 @@ def create_app(test_config=None):
     # ensure the instance folder exists
     os.makedirs(app.instance_path, exist_ok=True)
 
+    # Import models, makes models available for sqlalchemy/alembic
+    from JDISCTF import models
+
     # Setup database
-    db = SQLAlchemy(app)
-    migrate = Migrate(app, db)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
     # Ici on devrait caller des app.register_blueprints pour chaque entité / pages et pages d'erreurs. Example : 
     # On délegue la création des routes aux blueprintes
-
+    # Register blueprints
     from JDISCTF.auth import auth
     app.register_blueprint(auth)
 
