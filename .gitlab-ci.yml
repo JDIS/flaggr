@@ -18,7 +18,7 @@ stages:
     - virtualenv venv
     - source venv/bin/activate
     - pip install -r requirements.txt
-    - export MYPYPATH="./venv/lib/site-packages"
+    - export MYPYPATH=$(pwd)/venv/lib/site-packages
   
 backend-type-check:
   <<: *backend_definition
