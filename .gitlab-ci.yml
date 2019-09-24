@@ -30,7 +30,7 @@ backend-test:
   <<: *backend_definition
   stage: backend-test
   script:
-    - python -m unittest
+    - pytest
 
 .job_template: &frontend_definition
   image: node:10.16.3-jessie-slim

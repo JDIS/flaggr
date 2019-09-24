@@ -72,3 +72,6 @@ venv.bak/
 
 # IDE local configurations
 .vscode/*
+
+# mypy
+.mypy_cache/*

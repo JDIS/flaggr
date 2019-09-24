@@ -3,3 +3,4 @@ flask
 flask_sqlalchemy
 flask_migrate
 psycopg2-binary
+pytest
