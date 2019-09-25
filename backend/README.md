@@ -30,10 +30,14 @@ Dans le venv:
 
     pip install -r requirements.txt
 
-    export FLASK_APP=main.py
-    export FLASK_ENV=development
-    export POSTGRES_URL="127.0.0.1:5432"
-    export POSTGRES_USER="jdisctf"
-    export POSTGRES_PW="jdisctf"
-    export POSTGRES_DB="jdisctf_db"
-    flask run
+    ./run.sh
+
+### Migration
+
+Pour faire une migration
+
+    flask db migrate -m "Nom de la migration"
+
+Pour appliquer la migration
+
+    flask db upgrade

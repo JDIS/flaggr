@@ -2,5 +2,6 @@ mypy
 flask
 flask_sqlalchemy
 flask_migrate
+flask-rebar
 psycopg2-binary
 pytest
