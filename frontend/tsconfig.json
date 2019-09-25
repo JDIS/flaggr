@@ -11,6 +11,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
+      "webpack",
       "webpack-env"
     ],
     "paths": {

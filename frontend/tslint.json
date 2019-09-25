@@ -25,7 +25,7 @@
     "completed-docs": [true, "classes", "interfaces"],
     "cyclomatic-complexity": [true, 7],
     "no-duplicate-variable": true,
-    "semicolon": true,
+    "semicolon": false,
     "trailing-comma": false,
     "triple-equals": true
   }
