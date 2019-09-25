@@ -1,5 +1,5 @@
 <template>
-  <div>Challenges</div>
+  <div>{{ $t("title.challenges") }}</div>
 </template>
 
 <script lang="ts">
