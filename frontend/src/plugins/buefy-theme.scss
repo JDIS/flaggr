@@ -1,0 +1,58 @@
+@import "~bulma/sass/utilities/_all";
+@import '@/style/theme.scss';
+/* COLORS */
+
+$primary: $primary-color;
+$primary-invert: findColorInvert($primary);
+
+$transparent: rgba(0,0,0,0);
+
+/* FONTS */
+$family-primary: 'Open Sans';
+$family-secondary: 'Raleway';
+
+$title-family: $family-secondary;
+
+/* GENERAL */
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+$navbar-height: 4.25rem;
+$navbar-item-img-max-height: 3rem;
+
+$title-weight: 400;
+
+/* DARK THEME */
+$grey-dark: #282828;
+$grey-darker: #131313;
+$black-bis: #131313;
+$white-bis: #F2F2F2;
+
+$body-background-color: $grey-dark;
+$text: $white-bis;
+$title-color: $text;
+
+$navbar-background-color: $black-bis;
+$navbar-item-color: $text;
+$navbar-item-hover-color: $text;
+$navbar-item-active-color: $text;
+$navbar-item-hover-background-color: $transparent;
+$navbar-box-shadow-color: rgba(0,0,0,0.5);
+$navbar-box-shadow-size: 1px 1px 5px 0;
+
+/* CLASSES SETUP */
+$colors: (
+    "white": ($white, $black),
+    "black": ($black, $white),
+    "light": ($light, $light-invert),
+    "dark": ($dark, $dark-invert),
+    "primary": ($primary, $primary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "warning": ($warning, $warning-invert),
+    "danger": ($danger, $danger-invert),
+);
+
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
