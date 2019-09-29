@@ -20,12 +20,12 @@ def register():
     user = User.query.filter_by(email=email).first()
     
     if user is not None:
-        raise errors.Conflict("An user with that email already exists")
+        raise errors.Conflict("A user with that email already exists")
 
     user = User.query.filter_by(username=username).first()
     
     if user is not None:
-        raise errors.Conflict("An user with that username already exists")
+        raise errors.Conflict("A user with that username already exists")
 
 
     user = User(email=email, username=username)
