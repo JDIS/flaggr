@@ -1,13 +1,21 @@
+from __future__ import annotations
 from JDISCTF import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class User(db.Model):
-    __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'Users'
 
     email = db.Column(db.String(255), index=True, unique=True)
     username = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
     def __repr__(self):
-        return '<User id:{} user:{} email:{}>'.format(self.id, self.username, self.email)
+        return '<User id:{} email:{} username:{}>'.format(self.id, self.email, self.username)
+
+    def set_password(self, password: str):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password: str) -> bool:
+        return check_password_hash(self.password_hash, password)
