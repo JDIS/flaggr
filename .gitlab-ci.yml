@@ -1,5 +1,4 @@
 stages:
-  - backend-type-check
   - backend-test
   - frontend-lint
   - frontend-build
@@ -18,14 +17,7 @@ stages:
     - virtualenv venv
     - source venv/bin/activate
     - pip install -r requirements.txt
-    - export MYPYPATH=$PWD/venv/lib/python3.7/site-packages/
   
-backend-type-check:
-  <<: *backend_definition
-  stage: backend-type-check
-  script:
-    - mypy *.py
-
 backend-test:
   <<: *backend_definition
   stage: backend-test
