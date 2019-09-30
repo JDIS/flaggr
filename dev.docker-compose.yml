@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:10.10-alpine
+    environment:
+      POSTGRES_USER: jdisctf
+      POSTGRES_PASSWORD: jdisctf
+      POSTGRES_DB: jdisctf_db
+    ports:
+      - "5432:5432"
+  
+  migration:
+    environment:
+      FLASK_APP: main.py
+      POSTGRES_URL: db:5432
+      POSTGRES_USER: jdisctf
+      POSTGRES_PW: jdisctf
+      POSTGRES_DB: jdisctf_db
+    build: ./backend
+    command: sh -c "sleep 10s && flask db upgrade"
+    depends_on:
+      - db
