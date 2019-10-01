@@ -1,3 +1,3 @@
-from JDISCTF import create_app
+from JDISCTF.app import create_app
 
 app = create_app()

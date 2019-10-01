@@ -2,12 +2,12 @@
 
 import flask_rebar
 from flask_rebar import errors
-from JDISCTF import db, registry
+from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
 from JDISCTF.schemas import USER_SCHEMA, CREATE_USER_SCHEMA
 
 
-@registry.handles(
+@REGISTRY.handles(
     rule="/register",
     method="POST",
     request_body_schema=CREATE_USER_SCHEMA,
@@ -34,7 +34,7 @@ def register():
     user = User(email=email, username=username)
     user.set_password(password)
 
-    db.session.add(user)
-    db.session.commit()
+    DB.session.add(user)
+    DB.session.commit()
 
     return user, 201

@@ -1,12 +1,12 @@
 """Users routes"""
 
 from flask_rebar import errors
-from JDISCTF import registry
+from JDISCTF.app import REGISTRY
 from JDISCTF.models import User
 from JDISCTF.schemas import USER_SCHEMA
 
 
-@registry.handles(
+@REGISTRY.handles(
     rule="/users/<int:user_id>",
     method="GET",
     response_body_schema=USER_SCHEMA
