@@ -1,1 +1,3 @@
-from JDISCTF.schemas.User import userSchema, createUserSchema
+"""Marshmallow schemas"""
+
+from JDISCTF.schemas.user import USER_SCHEMA, CREATE_USER_SCHEMA

@@ -1,3 +1,6 @@
+"""The JDIS ctf platform backend"""
+# pylint: disable=invalid-name
+
 import os
 
 from config import Config
@@ -12,6 +15,7 @@ registry = rebar.create_handler_registry(prefix="/api")
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app(test_config=None) -> Flask:
     """Initialize the core application"""
     app = Flask(__name__, instance_relative_config=True)
@@ -23,12 +27,6 @@ def create_app(test_config=None) -> Flask:
 
     # ensure the instance folder exists
     os.makedirs(app.instance_path, exist_ok=True)
-
-    # Make models available for sqlalchemy
-    from JDISCTF import models
-
-    # Import controllers for flask_rebar
-    from JDISCTF.api import auth, users
 
     db.init_app(app)
     migrate.init_app(app, db)
