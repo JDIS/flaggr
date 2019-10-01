@@ -1,4 +1,5 @@
 stages:
+  - backend-lint
   - backend-test
   - frontend-lint
   - frontend-build
@@ -17,6 +18,12 @@ stages:
     - virtualenv venv
     - source venv/bin/activate
     - pip install -r requirements.txt
+
+backend-lint:
+  <<: *backend_definition
+  stage: backend-lint
+  script:
+    - pylint JDISCTF
   
 backend-test:
   <<: *backend_definition
