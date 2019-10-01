@@ -1,5 +1,3 @@
-werkzeug
-marshmallow
 flask
 flask_sqlalchemy
 flask_migrate
