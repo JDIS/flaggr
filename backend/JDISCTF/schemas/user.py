@@ -6,17 +6,15 @@ from flask_rebar import RequestSchema
 
 class CreateUserSchema(RequestSchema):
     """Schema for creating a new user"""
-    email = fields.String(required=True)
+    email = fields.Email(required=True)
     username = fields.String(required=True)
     password = fields.String(required=True)
 
 
 class UserSchema(Schema):
     """Schema for getting a user's info"""
-    class Meta:
-        """Schema fields"""
-        # Fields to expose
-        fields = ("email", "username")
+    email = fields.Email()
+    username = fields.String()
 
 
 USER_SCHEMA = UserSchema()

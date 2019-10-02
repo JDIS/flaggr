@@ -33,7 +33,7 @@ def create_app(test_config=None) -> Flask:
     return app
 
 
-def register_extensions(app) -> None:
+def register_extensions(app):
     """Register the various flask extensions used by the app"""
 
     DB.init_app(app)

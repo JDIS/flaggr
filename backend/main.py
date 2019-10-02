@@ -1,3 +1,5 @@
-from JDISCTF.app import create_app
+"""Flask app / WSGI entrypoint"""
+
+from JDISCTF import create_app
 
 app = create_app()

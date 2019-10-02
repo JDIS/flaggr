@@ -6,3 +6,4 @@ from JDISCTF import models
 
 # Import controllers for flask_rebar
 from JDISCTF.api import auth, users
+from JDISCTF.app import create_app
