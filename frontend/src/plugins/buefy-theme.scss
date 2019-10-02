@@ -1,5 +1,5 @@
 @import "~bulma/sass/utilities/_all";
-@import '@/style/theme.scss';
+@import '../style/theme.scss';
 /* COLORS */
 
 $primary: $primary-color;
@@ -24,10 +24,16 @@ $navbar-item-img-max-height: 3rem;
 $title-weight: 400;
 
 /* DARK THEME */
-$grey-dark: #282828;
-$grey-darker: #131313;
-$black-bis: #131313;
-$white-bis: #F2F2F2;
+$grey-dark: $dark-1;
+$grey-darker: $dark-0;
+$grey: $dark-2;
+$grey-light: $dark-3;
+$grey-lighter: $light-2;
+$black-bis: $dark-0;
+$white-bis: $light-1;
+$white-ter: $light-1;
+
+$input-placeholder-color: $light-1;
 
 $body-background-color: $grey-dark;
 $text: $white-bis;
@@ -40,6 +46,15 @@ $navbar-item-active-color: $text;
 $navbar-item-hover-background-color: $transparent;
 $navbar-box-shadow-color: rgba(0,0,0,0.5);
 $navbar-box-shadow-size: 1px 1px 5px 0;
+
+// https://bulma.io/documentation/form/input/#variables
+$input-background-color: $grey-light;
+$input-border-color: $grey;
+$input-hover-border-color: $grey-lighter;
+$input-hover-color: $white;
+$input-arrow: $white-ter;
+$input-color: $white;
+$label-color: $white;
 
 /* CLASSES SETUP */
 $colors: (

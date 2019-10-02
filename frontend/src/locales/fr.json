@@ -1,5 +1,21 @@
 {
+	"projectName": "JDIS",
 	"title.challenges": "Défis",
 	"title.scoreboard": "Classement",
-	"title.home": "Accueil"
+	"title.home": "Accueil",
+	"form.usernameOrEmail": "Nom d'utilisateur ou courriel",
+	"form.password": "Mot de passe",
+	"form.passwordConfirmation": "Mot de passe (confirmation)",
+	"form.email": "Courriel",
+	"signin": "Connexion",
+	"signup": "Inscription",
+	"nav.connectionInscription": "Connexion/inscription",
+	"nav.manageTeam": "Gérer son équipe",
+	"create": "Créer",
+	"join": "Joindre",
+	"createTeam": "Créer l'équipe",
+	"joinTeam": "Rejoindre l'équipe",
+	"teamName": "Nom d'équipe",
+	"teamManagement": "Gestion d'équipe",
+	"teamToJoin": "Équipe à rejoindre"
 }

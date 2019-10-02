@@ -16,7 +16,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "@/style/theme.scss";
+@import "../style/theme.scss";
 
 .nav-links {
   display: flex;
