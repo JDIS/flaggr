@@ -6,3 +6,17 @@ $primary-color-dark: #00702d;
 $secondary-color: #DD272D;
 $secondary-color-light: #ff6257;
 $secondary-color-dark: #a30005;
+
+$dark-0: #131313;
+$dark-1: #282828;
+$dark-2: #333333;
+$dark-3: #555555;
+
+$light-0: #FFF;
+$light-1: #CCC;
+$light-2: #999;
+$light-3: #777;
+
+/deep/ .button {
+  width: 100%;
+}

@@ -17,7 +17,8 @@ export default Vue.extend({
 });
 </script>
 
+
 <style lang="scss">
-@import '@/style/fonts.scss';
-@import '@/plugins/buefy-theme.scss';
+@import 'style/fonts.scss';
+@import 'plugins/buefy-theme.scss';
 </style>

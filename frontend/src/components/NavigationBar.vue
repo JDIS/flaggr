@@ -2,8 +2,8 @@
   <b-navbar class="has-shadow">
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <img src="@/assets/jdis_logo.svg" />
-        <h1 class="title">JDIS</h1>
+        <img src="../assets/jdis_logo.svg" alt="Brand logo" class="is-marginless" />
+        <h1 class="title">{{ $t('projectName')}}</h1>
       </b-navbar-item>
     </template>
     <template slot="start">
@@ -11,27 +11,47 @@
     </template>
 
     <template slot="end">
-      <b-navbar-item tag="div">
-          <base-button text="Connexion / Inscription" />
-      </b-navbar-item>
+      <TeamButtonContainer id="teamButtonContainer"></TeamButtonContainer>
+      <ConnectionButtonContainer></ConnectionButtonContainer>
     </template>
   </b-navbar>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { BaseButton, NavigationBarLinks } from '../components';
+    import Vue from 'vue';
+    import {NavigationBarLinks} from '../components';
+    import TeamButtonContainer from '@/components/TeamButtonContainer.vue';
+    import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue';
 
-export default Vue.extend({
+    export default Vue.extend({
   name: 'NavigationBar',
+  data() {
+    return {
+      connectionModalShown: false,
+      isConnected: true, // To change later
+      teamModalShown: false
+    }
+  },
+  methods: {
+      toggleConnectionModalVisibility() {
+          this.connectionModalShown = !this.connectionModalShown
+      }
+  },
   components: {
-    BaseButton,
-    NavigationBarLinks
+    NavigationBarLinks,
+    TeamButtonContainer,
+    ConnectionButtonContainer
   }
 });
 </script>
 
 <style scoped lang="scss">
+@import "../style/theme.scss";
+
+#teamButtonContainer {
+  margin-right: 1rem;
+}
+
 .navbar-item img {
   margin-left: 1rem;
 }
