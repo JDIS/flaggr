@@ -4,3 +4,4 @@ flask_migrate
 flask-rebar
 psycopg2-binary
 pytest
+pylint

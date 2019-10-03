@@ -1,1 +1,3 @@
-from JDISCTF.models.User import User
+"""Models for SQLAlchemy"""
+
+from JDISCTF.models.user import User
