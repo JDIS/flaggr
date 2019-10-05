@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_rebar import Rebar
 from flask_sqlalchemy import SQLAlchemy
+from functools import partial
 
 # Globally accessible libraries
 DB = SQLAlchemy()
@@ -15,6 +16,10 @@ MIGRATE = Migrate()
 REBAR = Rebar()
 LOGIN_MANAGER = LoginManager()
 REGISTRY = REBAR.create_handler_registry(prefix="/api")
+
+# make columns non-nullable by default, most of them should be
+DB.Column = partial(DB.Column, nullable=False)
+
 
 def create_app(test_config=None) -> Flask:
     """Initialize the core application"""
