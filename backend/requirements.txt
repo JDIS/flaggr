@@ -1,6 +1,7 @@
 flask
 flask_sqlalchemy
 flask_migrate
+flask-login
 flask-rebar
 psycopg2-binary
 pytest

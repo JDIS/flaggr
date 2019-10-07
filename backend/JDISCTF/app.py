@@ -4,16 +4,17 @@ import os
 
 from config import Config
 from flask import Flask
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_rebar import Rebar
 from flask_sqlalchemy import SQLAlchemy
 
 # Globally accessible libraries
-REBAR = Rebar()
-REGISTRY = REBAR.create_handler_registry(prefix="/api")
 DB = SQLAlchemy()
 MIGRATE = Migrate()
-
+REBAR = Rebar()
+LOGIN_MANAGER = LoginManager()
+REGISTRY = REBAR.create_handler_registry(prefix="/api")
 
 def create_app(test_config=None) -> Flask:
     """Initialize the core application"""
@@ -39,3 +40,4 @@ def register_extensions(app):
     DB.init_app(app)
     MIGRATE.init_app(app, DB)
     REBAR.init_app(app)
+    LOGIN_MANAGER.init_app(app)
