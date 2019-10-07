@@ -3,7 +3,7 @@
 from JDISCTF.app import DB
 
 
-class Events(DB.Model):
+class Event(DB.Model):
     """Event model"""
     id = DB.Column(DB.Integer, primary_key=True)
     __tablename__ = 'Events'
