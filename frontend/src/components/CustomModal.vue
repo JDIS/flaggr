@@ -1,5 +1,3 @@
-<!-- Generic Modal to display stuff underneat other stuff -->
-
 <template>
   <div class="modalComponent">
     <div id="invisible" @click="sendCloseEvent()"></div>
@@ -16,22 +14,23 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
+import Vue from 'vue'
 
-  export default Vue.extend({
+/**
+ * Generic Modal to display stuff over other stuff
+ */
+export default Vue.extend({
   name: 'CustomModal',
   props: ['visible'],
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
     sendCloseEvent() {
-        this.$emit('close')
+      this.$emit('close')
     }
   },
-  components: {
-  }
+  components: {}
 });
 </script>
 

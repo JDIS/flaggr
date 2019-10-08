@@ -8,16 +8,19 @@
         type="is-primary"
       >{{ $t("nav.connectionInscription") }}</b-button>
     </b-navbar-item>
-    <CustomModal v-if="shown" :visible="shown" v-on:close="toggleVisibility()">
-      <ConnectionModal class="connectionModalComponent"></ConnectionModal>
-    </CustomModal>
+    <FadeTransition>
+      <CustomModal v-if="shown" :visible="shown" v-on:close="toggleVisibility()">
+        <ConnectionModal class="connectionModalComponent"></ConnectionModal>
+      </CustomModal>
+    </FadeTransition>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import ConnectionModal from '@/components/ConnectionModal.vue';
-import CustomModal from '@/components/CustomModal.vue';
+import Vue from 'vue'
+import ConnectionModal from '@/components/ConnectionModal.vue'
+import CustomModal from '@/components/CustomModal.vue'
+import FadeTransition from '@/components/FadeTransition.vue'
 
 export default Vue.extend({
   name: 'ConnectionButtonContainer',
@@ -35,6 +38,7 @@ export default Vue.extend({
   components: {
     ConnectionModal,
     CustomModal,
+    FadeTransition
   }
 });
 </script>

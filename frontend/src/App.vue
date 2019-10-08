@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {NavigationBar} from './components';
-import AppFooter from '@/components/AppFooter.vue';
+import Vue from 'vue'
+import { NavigationBar } from './components'
+import AppFooter from '@/components/AppFooter.vue'
 
 export default Vue.extend({
   name: 'app',
