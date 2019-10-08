@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { ChallengeCard } from '../components';
-import { Challenge } from '../models/challenge';
+import Vue from 'vue'
+import { ChallengeCard } from '../components'
+import { Challenge } from '@/models/challenge'
 
 /**
  * Container for a challenge track
