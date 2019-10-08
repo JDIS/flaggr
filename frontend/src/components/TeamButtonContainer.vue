@@ -12,16 +12,19 @@
         <b-icon pack="mdi-light" size="is-size-3" icon="account-group"></b-icon>
       </b-tooltip>
     </b-navbar-item>
-    <CustomModal v-if="shown" :visible="shown" v-on:close="toggleVisibility()">
-      <TeamModal class="connectionModalComponent"></TeamModal>
-    </CustomModal>
+    <FadeTransition>
+      <CustomModal v-if="shown" :visible="shown" v-on:close="toggleVisibility()">
+        <TeamModal class="connectionModalComponent"></TeamModal>
+      </CustomModal>
+    </FadeTransition>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import CustomModal from '@/components/CustomModal.vue';
-import TeamModal from '@/components/TeamModal.vue';
+import Vue from 'vue'
+import CustomModal from '@/components/CustomModal.vue'
+import TeamModal from '@/components/TeamModal.vue'
+import FadeTransition from '@/components/FadeTransition.vue'
 
 export default Vue.extend({
   name: 'TeamButtonContainer',
@@ -38,7 +41,8 @@ export default Vue.extend({
   },
   components: {
     TeamModal,
-    CustomModal
+    CustomModal,
+    FadeTransition
   }
 });
 </script>
