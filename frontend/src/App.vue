@@ -3,6 +3,7 @@
     <navigation-bar />
     <router-view />
     <AppFooter></AppFooter>
+    <div class="footer-margin"></div>
   </div>
 </template>
 
@@ -24,4 +25,14 @@ export default Vue.extend({
 <style lang="scss">
 @import 'style/fonts.scss';
 @import 'plugins/buefy-theme.scss';
+
+#app {
+  position: relative;
+  display: flow-root;
+  min-height: 100vh;
+
+  .footer-margin {
+    margin-top: 3rem;
+  }
+}
 </style>

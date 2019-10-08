@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 
 export default Vue.extend({
   name: 'AppFooter',
@@ -16,5 +16,12 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+
+.footer {
+  margin-top: 0.5rem;
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+}
 
 </style>
