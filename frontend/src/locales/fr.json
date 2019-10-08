@@ -17,5 +17,12 @@
 	"joinTeam": "Rejoindre l'équipe",
 	"teamName": "Nom d'équipe",
 	"teamManagement": "Gestion d'équipe",
-	"teamToJoin": "Équipe à rejoindre"
+	"teamToJoin": "Équipe à rejoindre",
+	"submit": "Soumettre",
+	"challenge.solves": "Réussi {number} fois",
+	"scoreboard.rank": "Position",
+	"scoreboard.affiliation": "Affiliation",
+	"scoreboard.score": "Score",
+	"scoreboard.lastUpdate": "Dernière mise à jour",
+	"scoreboard.team": "Équipe"
 }

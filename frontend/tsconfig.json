@@ -10,6 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "plugins": [{"name": "typescript-tslint-plugin"}],
     "types": [
       "webpack",
       "webpack-env"
