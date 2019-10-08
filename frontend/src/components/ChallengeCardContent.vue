@@ -33,8 +33,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Challenge } from '../models/challenge';
+import Vue from 'vue'
+import { Challenge } from '@/models/challenge'
 
 /**
  * Content of the challenge card
@@ -50,7 +50,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-@import "@/style/theme.scss";
+@import "../style/theme.scss";
 
 .solves {
     margin-bottom: 0.5rem;
@@ -66,5 +66,7 @@ export default Vue.extend({
 
 .tags {
     justify-content: flex-end!important;
+    margin-right: 0!important;
+    margin-left: 0.5rem!important;
 }
 </style>

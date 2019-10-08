@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Challenge } from '../models/challenge';
-import ChallengeCardHeader from './ChallengeCardHeader.vue';
-import ChallengeCardContent from './ChallengeCardContent.vue';
+import Vue from 'vue'
+import { Challenge } from '@/models/challenge'
+import ChallengeCardHeader from './ChallengeCardHeader.vue'
+import ChallengeCardContent from './ChallengeCardContent.vue'
 
 /**
  * Card that displays a challenge
@@ -31,7 +31,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-@import "@/style/theme.scss";
+@import "../style/theme.scss";
 .card {
     margin: 2rem 0;
     border-radius: 4px;
