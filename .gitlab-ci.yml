@@ -23,7 +23,7 @@ backend-lint:
   <<: *backend_definition
   stage: backend-lint
   script:
-    - pylint JDISCTF
+    - pylint JDISCTF seeds
   
 backend-test:
   <<: *backend_definition

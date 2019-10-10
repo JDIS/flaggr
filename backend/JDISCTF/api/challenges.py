@@ -1,6 +1,5 @@
 """Challenges routes"""
 
-import flask_rebar
 from flask_rebar import errors
 from JDISCTF.app import REGISTRY
 from JDISCTF.schemas import ChallengeSchema
