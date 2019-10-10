@@ -12,10 +12,9 @@ class Category(DB.Model):
     event_id = DB.Column(DB.Integer, ForeignKey('Events.id'), nullable=True)
     name = DB.Column(DB.String(64), index=True)
 
-    __table_args__ = \
-        (
-            UniqueConstraint('event_id', 'name', name='_event_name_uc'),
-        )
+    __table_args__ = (
+        UniqueConstraint('event_id', 'name', name='_event_name_uc'),
+    )
 
     def __repr__(self):
         return '<Category id:{} event_id:{} name:{}'.format(self.id, self.event_id, self.name)
