@@ -24,7 +24,7 @@
     </div>
     <div id="form">
       <b-field :label="$t('form.usernameOrEmail')" custom-class="is-size-7" label-for="username">
-        <b-input placeholder="XxUserxX" expanded v-model="teamName" id="username" icon="account"></b-input>
+        <b-input placeholder="XxUserxX" expanded v-model="username" id="username" icon="account"></b-input>
       </b-field>
       <b-field
         v-if="isInscription"
@@ -64,26 +64,31 @@
       <b-button
         type="is-primary"
         :icon-right="isInscription ? 'plus-box' : 'arrow-right'"
+        @click="isInscription ? signup() : signin()"
       >{{ $t(isInscription ? "signup" : "signin") }}</b-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 
 export default Vue.extend({
   name: 'ConnectionModal',
   data() {
     return {
       isInscription: false,
-      teamName: '',
+      username: '',
       email: '',
       password: '',
       passwordConfirmation: '',
     }
   },
   methods: {
+    signin() {
+      this.$store.dispatch('user/connectUser', {username: this.username, password: this.password})
+    },
+
     focusCreateTeam() {
       this.isInscription = false
     },

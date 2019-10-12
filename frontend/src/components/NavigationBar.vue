@@ -11,20 +11,24 @@
     </template>
 
     <template slot="end">
-      <TeamButtonContainer id="teamButtonContainer"></TeamButtonContainer>
-      <ConnectionButtonContainer></ConnectionButtonContainer>
+      <TeamButtonContainer v-if="user" id="teamButtonContainer"></TeamButtonContainer>
+      <SignoutButton v-if="user"></SignoutButton>
+      <ConnectionButtonContainer v-else></ConnectionButtonContainer>
     </template>
   </b-navbar>
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
-    import {NavigationBarLinks} from '../components';
-    import TeamButtonContainer from '@/components/TeamButtonContainer.vue';
-    import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue';
+import Vue from 'vue'
+import { NavigationBarLinks } from '../components'
+import TeamButtonContainer from '@/components/TeamButtonContainer.vue'
+import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue'
+import { UserMixin } from '@/mixins/UserMixin'
+import SignoutButton from '@/components/SignoutButton.vue'
 
-    export default Vue.extend({
+export default Vue.extend({
   name: 'NavigationBar',
+  mixins: [UserMixin],
   data() {
     return {
       connectionModalShown: false,
@@ -40,8 +44,9 @@
   components: {
     NavigationBarLinks,
     TeamButtonContainer,
-    ConnectionButtonContainer
-  }
+    ConnectionButtonContainer,
+    SignoutButton
+  },
 });
 </script>
 
