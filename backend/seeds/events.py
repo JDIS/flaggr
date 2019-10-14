@@ -14,5 +14,3 @@ def get_records():
 
 
 FILTER_ARGS = {'name'}
-
-CLASS = Event
