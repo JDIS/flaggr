@@ -12,4 +12,4 @@ class Event(DB.Model):
     teams = DB.Column(DB.Boolean)
 
     def __repr__(self):
-        return '<Category id:{} name:{} teams: {}'.format(self.id, self.name, self.teams)
+        return '<Event id:{} name:{} teams: {}'.format(self.id, self.name, self.teams)
