@@ -46,4 +46,4 @@ Pour appliquer la migration
 
 Pour seeder la database de développement
 
-    flask seed
+    flask seed [-v/--verbose]
