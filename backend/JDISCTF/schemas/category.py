@@ -8,4 +8,3 @@ class CategorySchema(Schema):
     id = fields.Integer(required=True)
     event_id = fields.Integer(required=True)
     name = fields.String(required=True)
-
