@@ -1,7 +1,7 @@
 """Challenge marshmallow schemas"""
 
 from marshmallow import fields, Schema
-from JDISCTF.schemas import CategorySchema
+from JDISCTF.schemas.category import CategorySchema
 
 
 class ChallengeSchema(Schema):

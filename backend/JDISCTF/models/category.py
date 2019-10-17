@@ -2,6 +2,7 @@
 
 from JDISCTF.app import DB
 from sqlalchemy import ForeignKey, UniqueConstraint
+from sqlalchemy.orm import relationship
 
 
 class Category(DB.Model):
@@ -15,6 +16,8 @@ class Category(DB.Model):
     __table_args__ = (
         UniqueConstraint('event_id', 'name', name='_event_name_uc'),
     )
+
+    challenges = relationship('Challenge', lazy='noload')
 
     def __repr__(self):
         return '<Category id:{} event_id:{} name:{}'.format(self.id, self.event_id, self.name)
