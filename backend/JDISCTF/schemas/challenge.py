@@ -1,6 +1,7 @@
 """Challenge marshmallow schemas"""
 
 from marshmallow import fields, Schema
+from JDISCTF.schemas import CategorySchema
 
 
 class ChallengeSchema(Schema):
@@ -10,3 +11,8 @@ class ChallengeSchema(Schema):
     name = fields.String(required=True)
     description = fields.String(required=True)
     points = fields.Integer(required=True)
+
+
+class ChallengeByCategorySchema(CategorySchema):
+    """Response schema for getting challenges grouped by category"""
+    challenges = fields.Nested(ChallengeSchema, many=True)
