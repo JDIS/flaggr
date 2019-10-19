@@ -2,5 +2,5 @@
 
 from JDISCTF.models.user import User
 from JDISCTF.models.challenge import Challenge
-from JDISCTF.models.categories import Category
-from JDISCTF.models.events import Events
+from JDISCTF.models.category import Category
+from JDISCTF.models.event import Event
