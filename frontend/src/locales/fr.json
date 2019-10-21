@@ -3,7 +3,7 @@
 	"title.challenges": "Défis",
 	"title.scoreboard": "Classement",
 	"title.home": "Accueil",
-	"form.usernameOrEmail": "Nom d'utilisateur ou courriel",
+	"form.username": "Nom d'utilisateur",
 	"form.password": "Mot de passe",
 	"form.passwordConfirmation": "Mot de passe (confirmation)",
 	"form.email": "Courriel",

@@ -4,6 +4,9 @@
     <router-view />
     <AppFooter></AppFooter>
     <div class="footer-margin"></div>
+    <div id="request-status"
+         :class="{'requestInProgress': $store.state.network.requestsInProgress.length > 0,
+                  'hasError': $store.state.network.hasError === true}"></div>
   </div>
 </template>
 
@@ -33,6 +36,21 @@ export default Vue.extend({
 
   .footer-margin {
     margin-top: 3rem;
+  }
+}
+
+#request-status {
+  position: fixed;
+  bottom:0;
+  width:100%;
+  height:2px;
+
+  &.requestInProgress {
+    background: yellow;
+  }
+
+  &.hasError {
+    background: red;
   }
 }
 </style>
