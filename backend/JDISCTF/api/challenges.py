@@ -29,7 +29,7 @@ def get_challenge(challenge_id: int):
     challenge = Challenge.query.filter_by(id=challenge_id).first()
 
     if challenge is None:
-        raise errors.NotFound()
+        raise errors.NotFound(f'Challenge with id "{challenge_id}" not found.')
 
     return challenge
 
