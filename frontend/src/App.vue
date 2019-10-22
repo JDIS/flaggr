@@ -3,13 +3,17 @@
     <navigation-bar />
     <router-view />
     <AppFooter></AppFooter>
+    <div class="footer-margin"></div>
+    <div id="request-status"
+         :class="{'requestInProgress': $store.state.network.requestsInProgress.length > 0,
+                  'hasError': $store.state.network.hasError === true}"></div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {NavigationBar} from './components';
-import AppFooter from '@/components/AppFooter.vue';
+import Vue from 'vue'
+import { NavigationBar } from './components'
+import AppFooter from '@/components/AppFooter.vue'
 
 export default Vue.extend({
   name: 'app',
@@ -24,4 +28,29 @@ export default Vue.extend({
 <style lang="scss">
 @import 'style/fonts.scss';
 @import 'plugins/buefy-theme.scss';
+
+#app {
+  position: relative;
+  display: flow-root;
+  min-height: 100vh;
+
+  .footer-margin {
+    margin-top: 3rem;
+  }
+}
+
+#request-status {
+  position: fixed;
+  bottom:0;
+  width:100%;
+  height:2px;
+
+  &.requestInProgress {
+    background: yellow;
+  }
+
+  &.hasError {
+    background: red;
+  }
+}
 </style>

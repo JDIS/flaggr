@@ -8,6 +8,9 @@
 import Vue from 'vue';
 import HelloWorld from '@/components/HelloWorld.vue';
 
+/**
+ * Homepage
+ */
 export default Vue.extend({
   name: 'home',
   components: {

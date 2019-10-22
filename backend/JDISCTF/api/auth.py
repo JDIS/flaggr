@@ -7,6 +7,7 @@ from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
 from JDISCTF.schemas import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
 
+
 @REGISTRY.handles(
     rule="/login",
     method="POST",
@@ -31,6 +32,7 @@ def login():
 
     return user
 
+
 @REGISTRY.handles(
     rule="/logout",
     method="GET",
@@ -40,6 +42,7 @@ def logout():
     """Logouts the user"""
     logout_user()
     return "OK"
+
 
 @REGISTRY.handles(
     rule="/register",

@@ -2,54 +2,83 @@
 
 <template>
   <div class="teamModal">
-    <b-field :label="$t('teamManagement')" custom-class="has-text-centered is-medium">
-    </b-field>
+    <b-field :label="$t('teamManagement')" custom-class="has-text-centered is-medium"></b-field>
     <div id="top" class="columns">
-      <div class="column text is-two-fifths" :class="{active: !isInscription}" id="create"
-           @click="focusCreateTeam()">{{$t('create')}}</div>
-      <b-switch class="column is-flex is-one-fifth" id="switch" v-model="isInscription"
-                :rounded="false"></b-switch>
-      <div class="column text is-two-fifths has-text-right" :class="{active: isInscription}" id="join"
-           @click="focusJoinTeam()">{{$t('join')}}</div>
+      <div
+        class="column text is-two-fifths"
+        :class="{ active: !isInscription }"
+        id="create"
+        @click="focusCreateTeam()"
+      >{{ $t('create') }}</div>
+      <b-switch
+        class="column is-flex is-one-fifth"
+        id="switch"
+        v-model="isInscription"
+        :rounded="false"
+      ></b-switch>
+      <div
+        class="column text is-two-fifths has-text-right"
+        :class="{ active: isInscription }"
+        id="join"
+        @click="focusJoinTeam()"
+      >{{ $t('join') }}</div>
     </div>
     <div id="form">
-      <b-field :label="$t('teamName')" custom-class="is-size-7"
-               v-if="!isInscription" label-for="teamName">
-        <b-input placeholder="TheBestTeam" size="is-medium" expanded v-model="teamName" id="teamName"
-                 icon="account-group">
-        </b-input>
+      <b-field
+        :label="$t('teamName')"
+        custom-class="is-size-7"
+        v-if="!isInscription"
+        label-for="teamName"
+      >
+        <b-input
+          placeholder="TheBestTeam"
+          expanded
+          v-model="teamName"
+          id="teamName"
+          icon="account-group"
+        ></b-input>
       </b-field>
-      <b-field :label="$t('teamToJoin')" custom-class="is-size-7"
-               v-if="isInscription" label-for="teamToJoin">
-        <b-select placeholder="TheBestTeam" size="is-medium" expanded v-model="teamToJoin" id="teamToJoin"
-                 icon="account-group">
-          <option class="has-text-light"
-                  v-for="option in teams"
-                  :value="option"
-                  :key="option">
-            {{ option }}
-          </option>
+      <b-field
+        :label="$t('teamToJoin')"
+        custom-class="is-size-7"
+        v-if="isInscription"
+        label-for="teamToJoin"
+      >
+        <b-select
+          placeholder="TheBestTeam"
+          expanded
+          v-model="teamToJoin"
+          id="teamToJoin"
+          icon="account-group"
+        >
+          <option
+            class="has-text-light"
+            v-for="option in teams"
+            :value="option"
+            :key="option"
+          >{{ option }}</option>
         </b-select>
       </b-field>
-      <b-button @click="" type="is-primary" size="is-medium" :icon-right="isInscription ? 'arrow-right' : 'plus-box'">
-        <span class="is-flex is-uppercase is-size-6">{{$t(isInscription ? 'joinTeam' : 'createTeam')}}</span>
-      </b-button>
+      <b-button
+        type="is-primary"
+        size="is-medium"
+        :icon-right="isInscription ? 'arrow-right' : 'plus-box'"
+      >{{ $t(isInscription ? 'joinTeam' : 'createTeam') }}</b-button>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
+import Vue from 'vue'
 
-  export default Vue.extend({
-  name: 'ConnectionModal',
+export default Vue.extend({
+  name: 'TeamModal',
   data() {
     return {
       isInscription: true,
-        teamName: '',
-        teamToJoin: '',
-        teams: ['mocked', 'teams', 'to', 'join'],
+      teamName: '',
+      teamToJoin: '',
+      teams: ['mocked', 'teams', 'to', 'join'],
     }
   },
   methods: {

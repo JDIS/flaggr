@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_rebar import Rebar
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 # Globally accessible libraries
 DB = SQLAlchemy()
@@ -20,6 +21,7 @@ def create_app(test_config=None) -> Flask:
     """Initialize the core application"""
 
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
 
     if test_config is None:
         app.config.from_object(Config)

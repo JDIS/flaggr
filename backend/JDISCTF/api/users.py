@@ -17,6 +17,7 @@ def get_all_users():
 
     return user
 
+
 @REGISTRY.handles(
     rule="/users/<int:user_id>",
     method="GET",
