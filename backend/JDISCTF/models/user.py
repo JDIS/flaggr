@@ -1,4 +1,4 @@
-"""User model"""
+"""'User' SQLAlchemy model"""
 
 from __future__ import annotations
 from JDISCTF.app import DB, LOGIN_MANAGER
