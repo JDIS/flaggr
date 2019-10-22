@@ -14,6 +14,11 @@ from sqlalchemy.orm import joinedload
 )
 def get_all_challenges_for_event(event_id: int):
     """Get all the challenges for a given event"""
+    event = Event.query.filter_by(id=event_id).first()
+
+    if event is None:
+        raise errors.NotFound(f'Event with id "{event_id}" not found.')
+
     challenges = Challenge.query.join(Category).join(Event).filter(Event.id == event_id).all()
 
     return challenges
@@ -39,7 +44,7 @@ def get_challenge(challenge_id: int):
     method="GET",
     response_body_schema=ChallengeByCategorySchema(many=True)
 )
-def get_challenges_by_category(event_id: int):
+def get_challenges_by_category_for_event(event_id: int):
     """Get all the challenges for an event, grouped by category"""
     categories = Category.query\
         .options(joinedload(Category.challenges, innerjoin=True))\

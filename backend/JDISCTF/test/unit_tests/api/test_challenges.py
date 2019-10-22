@@ -1,20 +1,52 @@
-from pytest import raises
-from unittest.mock import MagicMock
+from pytest import raises, fixture
+from unittest.mock import MagicMock, patch
 from flask_rebar import errors
-from JDISCTF.api import get_challenge
+from JDISCTF.api import get_challenge, get_all_challenges_for_event
 from JDISCTF.models import Challenge
-from JDISCTF.test.fixtures import challenge_mock
+
+
+@fixture
+def challenge_mock():
+    with patch('JDISCTF.api.challenges.Challenge') as mock:
+        yield mock
+
+
+@fixture
+def event_mock():
+    with patch('JDISCTF.api.challenges.Event') as mock:
+        yield mock
+
+
+A_CHALLENGE = Challenge(id=1, category_id=1, name='Challenge', description='Description',
+                        points=100, hidden=False)
+
+
+class TestGetAllChallengesForEvent:
+    def test_given_non_existent_event_id_should_raise_not_found_error(self, event_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = None
+        with raises(errors.NotFound):
+            get_all_challenges_for_event(1)
+
+    def test_should_return_challenges(self, challenge_mock: MagicMock, event_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = 1
+
+        challenge_mock.query\
+            .join.return_value\
+            .join.return_value\
+            .filter.return_value\
+            .all.return_value = [A_CHALLENGE]
+
+        assert get_all_challenges_for_event(1) == [A_CHALLENGE]
 
 
 class TestGetChallenge:
-    def test_given_non_existent_challenge_id_should_raise_not_found_error(self, challenge_mock: MagicMock):
+    def test_given_non_existent_challenge_id_should_raise_not_found_error(self,
+                                                                          challenge_mock: MagicMock):
         challenge_mock.query.filter_by.return_value.first.return_value = None
         with raises(errors.NotFound):
             get_challenge(1)
 
-    def test_given_existent_challenge_id_should_return_challenge(self, challenge_mock: MagicMock):
-        a_challenge = Challenge(id=1, category_id=1, name='Challenge', description='Description',
-                                points=100, hidden=False)
-        challenge_mock.query.filter_by.return_value.first.return_value = a_challenge
+    def test_should_return_challenge(self, challenge_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
 
-        assert get_challenge(a_challenge.id) == a_challenge
+        assert get_challenge(A_CHALLENGE.id) == A_CHALLENGE
