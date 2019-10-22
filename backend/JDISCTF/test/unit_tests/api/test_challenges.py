@@ -70,6 +70,7 @@ class TestGetChallengesByCategoryForEvent:
     def test_should_return_challenges(self, event_mock: MagicMock, category_mock: MagicMock):
         event_mock.query.filter_by.return_value.first.return_value = 1
 
-        category_mock.query.options.return_value.filter_by.return_value.all.return_value = A_CATEGORY
+        category_mock.query.join.return_value.options.return_value.filter.return_value\
+            .all.return_value = A_CATEGORY
 
         assert get_all_challenges_by_category_for_event(1) == A_CATEGORY
