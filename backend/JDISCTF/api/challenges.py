@@ -44,8 +44,13 @@ def get_challenge(challenge_id: int):
     method="GET",
     response_body_schema=ChallengeByCategorySchema(many=True)
 )
-def get_challenges_by_category_for_event(event_id: int):
+def get_all_challenges_by_category_for_event(event_id: int):
     """Get all the challenges for an event, grouped by category"""
+    event = Event.query.filter_by(id=event_id).first()
+
+    if event is None:
+        raise errors.NotFound(f'Event with id "{event_id}" not found.')
+
     categories = Category.query\
         .options(joinedload(Category.challenges, innerjoin=True))\
         .filter_by(event_id=event_id)\
