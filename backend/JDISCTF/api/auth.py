@@ -1,11 +1,12 @@
 """Authentication routes"""
 
 import flask_rebar
-from flask_login import current_user, login_user, logout_user
 from flask_rebar import errors
+from flask_login import current_user, login_user, logout_user
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
 from JDISCTF.schemas import USER_SCHEMA, CREATE_USER_SCHEMA, LOGIN_SCHEMA, LOGOUT_SCHEMA
+
 
 @REGISTRY.handles(
     rule="/login",
@@ -31,6 +32,7 @@ def login():
 
     return user
 
+
 @REGISTRY.handles(
     rule="/logout",
     method="GET",
@@ -40,6 +42,7 @@ def logout():
     """Logouts the user"""
     logout_user()
     return "OK"
+
 
 @REGISTRY.handles(
     rule="/register",
