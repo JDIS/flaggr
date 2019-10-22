@@ -1,8 +1,8 @@
 """Authentication routes"""
 
 import flask_rebar
-from flask_login import current_user, login_user, logout_user
 from flask_rebar import errors
+from flask_login import current_user, login_user, logout_user
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
 from JDISCTF.schemas import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
