@@ -1,11 +1,12 @@
 """'User' SQLAlchemy model"""
 
 from __future__ import annotations
-from JDISCTF.app import DB
+from JDISCTF.app import DB, LOGIN_MANAGER
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 
-class User(DB.Model):
+class User(UserMixin, DB.Model):
     """User model"""
     id = DB.Column(DB.Integer, primary_key=True)
     __tablename__ = 'Users'
@@ -24,3 +25,8 @@ class User(DB.Model):
     def check_password(self, password: str) -> bool:
         """Check whether or not this is the user's password"""
         return check_password_hash(self.password_hash, password)
+
+@LOGIN_MANAGER.user_loader
+def load_user(user_id: str) -> User:
+    """Returns a User class from a user id. Required by flask-login"""
+    return User.query.get(int(user_id))
