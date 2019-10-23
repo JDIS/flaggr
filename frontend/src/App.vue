@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { NavigationBar } from './components'
-import AppFooter from '@/components/AppFooter.vue'
+import Vue from 'vue';
+import NavigationBar from './components/NavigationBar.vue';
+import AppFooter from './components/AppFooter.vue';
 
 export default Vue.extend({
   name: 'app',
@@ -26,7 +26,6 @@ export default Vue.extend({
 
 
 <style lang="scss">
-@import 'style/fonts.scss';
 @import 'plugins/buefy-theme.scss';
 
 #app {

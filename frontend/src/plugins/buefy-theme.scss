@@ -1,4 +1,4 @@
-@import "~bulma/sass/utilities/_all";
+@import '~bulma/sass/utilities/_all';
 @import '../style/theme.scss';
 
 /* COLORS */
@@ -19,9 +19,9 @@ $title-family: $family-secondary;
 $subtitle-family: $family-primary;
 
 /* GENERAL */
-$link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
+$link: $link-color;
+$link-hover: $link-hover-color;
+$link-active: $link-hover-color;
 
 $navbar-height: 4.25rem;
 $navbar-item-img-max-height: 3rem;
@@ -76,8 +76,9 @@ $footer-background-color: $grey-darker;
 
 // https://bulma.io/documentation/form/input/#variables
 $input-background-color: $grey-light;
-$input-border-color: $grey;
+$input-border-color: $grey-light;
 $input-hover-border-color: $grey-lighter;
+$input-focus-border-color: $input-hover-border-color;
 $input-hover-color: $white;
 $input-arrow: $white-ter;
 $input-color: $white;

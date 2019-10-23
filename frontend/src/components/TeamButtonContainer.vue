@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CustomModal from '@/components/CustomModal.vue'
-import TeamModal from '@/components/TeamModal.vue'
-import FadeTransition from '@/components/FadeTransition.vue'
+import Vue from 'vue';
+import CustomModal from './CustomModal.vue';
+import TeamModal from './TeamModal.vue';
+import FadeTransition from './FadeTransition.vue';
 
 export default Vue.extend({
   name: 'TeamButtonContainer',
@@ -32,11 +32,11 @@ export default Vue.extend({
     return {
       isConnected: true, // To change later
       shown: false
-    }
+    };
   },
   methods: {
     toggleVisibility() {
-      this.shown = !this.shown
+      this.shown = !this.shown;
     }
   },
   components: {
