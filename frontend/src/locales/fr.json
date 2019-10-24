@@ -3,7 +3,7 @@
 	"title.challenges": "Défis",
 	"title.scoreboard": "Classement",
 	"title.home": "Accueil",
-	"form.usernameOrEmail": "Nom d'utilisateur ou courriel",
+	"form.username": "Nom d'utilisateur",
 	"form.password": "Mot de passe",
 	"form.passwordConfirmation": "Mot de passe (confirmation)",
 	"form.email": "Courriel",
@@ -25,5 +25,6 @@
 	"scoreboard.affiliation": "Affiliation",
 	"scoreboard.score": "Score",
 	"scoreboard.lastUpdate": "Dernière mise à jour",
-	"scoreboard.team": "Équipe"
+  "scoreboard.team": "Équipe",
+  "all": "Tous"
 }

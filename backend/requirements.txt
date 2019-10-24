@@ -3,6 +3,7 @@ flask_sqlalchemy
 flask_migrate
 flask-login
 flask-rebar
+flask-cors
 psycopg2-binary
 pytest
 pylint

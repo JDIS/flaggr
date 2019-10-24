@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { BasePageTitle } from '@/components'
-import ScoreboardContainer from '@/components/ScoreboardContainer.vue'
+import Vue from 'vue';
+import BasePageTitle from '../components/base/BasePageTitle.vue';
+import ScoreboardContainer from '../components/ScoreboardContainer.vue';
 
 export default Vue.extend({
   name: 'scoreboard',

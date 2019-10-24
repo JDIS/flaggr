@@ -23,16 +23,16 @@
       >{{ $t('signup') }}</div>
     </div>
     <div id="form">
-      <b-field :label="$t('form.usernameOrEmail')" custom-class="is-size-7" label-for="username">
-        <b-input placeholder="XxUserxX" expanded v-model="username" id="username" icon="account"></b-input>
-      </b-field>
       <b-field
-        v-if="isInscription"
         :label="$t('form.email')"
         custom-class="is-size-7"
         label-for="email"
       >
-        <b-input placeholder="user@example.org" expanded v-model="email" id="email" icon="email"></b-input>
+        <b-input type="email" placeholder="user@example.org" expanded v-model="email" id="email" icon="email"></b-input>
+      </b-field>
+      <b-field v-show="isInscription" :label="$t('form.username')"
+               custom-class="is-size-7" label-for="username">
+        <b-input placeholder="XxUserxX" expanded v-model="username" id="username" icon="account"></b-input>
       </b-field>
       <b-field :label="$t('form.password')" custom-class="is-size-7" label-for="password">
         <b-input
@@ -46,7 +46,7 @@
         ></b-input>
       </b-field>
       <b-field
-        v-if="isInscription"
+        v-show="isInscription"
         :label="$t('form.passwordConfirmation')"
         custom-class="is-size-7"
         label-for="password-confirmation"
@@ -63,6 +63,7 @@
       </b-field>
       <b-button
         type="is-primary"
+        :disabled="isSignupDisabled()"
         :icon-right="isInscription ? 'plus-box' : 'arrow-right'"
         @click="isInscription ? signup() : signin()"
       >{{ $t(isInscription ? "signup" : "signin") }}</b-button>
@@ -86,7 +87,11 @@ export default Vue.extend({
   },
   methods: {
     signin() {
-      this.$store.dispatch('user/connectUser', {username: this.username, password: this.password})
+      this.$store.dispatch('user/connectUser', {email: this.email, password: this.password})
+    },
+
+    signup() {
+      this.$store.dispatch('user/registerUser', {email: this.email, password: this.password, username: this.username})
     },
 
     focusCreateTeam() {
@@ -95,6 +100,10 @@ export default Vue.extend({
 
     focusJoinTeam() {
       this.isInscription = true
+    },
+
+    isSignupDisabled() {
+      return this.isInscription && (this.password === '' || this.password !== this.passwordConfirmation)
     }
   },
   components: {

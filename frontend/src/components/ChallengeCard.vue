@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Challenge } from '@/models/challenge'
+import { Challenge } from '../models/challenge'
 import ChallengeCardHeader from './ChallengeCardHeader.vue'
 import ChallengeCardContent from './ChallengeCardContent.vue'
 
