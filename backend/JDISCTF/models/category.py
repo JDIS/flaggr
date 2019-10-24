@@ -24,7 +24,7 @@ class Category(DB.Model):
     """The name of the category. Max 64 characters."""
 
     __table_args__ = (
-        UniqueConstraint('event_id', 'name', name='_event_name_uc'),
+        UniqueConstraint('event_id', 'name', name='categories_event_name_uc'),
     )
 
     challenges = relationship('Challenge', lazy='noload')
