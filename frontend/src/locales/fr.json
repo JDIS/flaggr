@@ -25,5 +25,6 @@
 	"scoreboard.affiliation": "Affiliation",
 	"scoreboard.score": "Score",
 	"scoreboard.lastUpdate": "Dernière mise à jour",
-	"scoreboard.team": "Équipe"
+  "scoreboard.team": "Équipe",
+  "all": "Tous"
 }

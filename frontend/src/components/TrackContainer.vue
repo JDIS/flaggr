@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <h2 class="subtitle">{{name}}</h2>
     <!-- TODO: progress chart -->
     <challenge-card
@@ -7,13 +7,13 @@
       v-bind:key="challenge.name"
       :challenge="challenge"
     />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { ChallengeCard } from '../components'
-import { Challenge } from '@/models/challenge'
+import Vue from 'vue';
+import ChallengeCard from './ChallengeCard.vue';
+import { Challenge } from '../models/challenge';
 
 /**
  * Container for a challenge track
@@ -25,33 +25,16 @@ export default Vue.extend({
   },
   props: {
     name: String,
-  },
-  data() {
-    return {
-      challenges: [
-        new Challenge('On joue à cache cache?',
-          'On a vu ce charmant formulaire dont on ne comprends pas trop ce qu\'il fait. On est vraiment perplexe face au fait qu\'on voit seulement un bouton, mais qu\'il y a de l\'interaction de la part du formulaire.',
-          75,
-          10,
-          [],
-          ['https://cachecache.unitedctf.ca/'],
-          ['something', 'something else', 'another']),
-        new Challenge('The Lost Park',
-          'What is the name of this monument?',
-          100,
-          3,
-          ['statue.jpg'],
-          [],
-          ['something'],
-          true)
-      ],
-
-    }
+    challenges: Array
   }
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+section {
+  margin: 2.5rem 0;
+}
+
 .subtitle {
   text-transform: uppercase;
 }

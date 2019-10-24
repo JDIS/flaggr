@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { NavigationBarLinks } from '../components'
-import TeamButtonContainer from '@/components/TeamButtonContainer.vue'
-import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue'
-import { UserMixin } from '@/mixins/UserMixin'
-import SignoutButton from '@/components/SignoutButton.vue'
+import Vue from 'vue';
+import NavigationBarLinks from '../components/NavigationBarLinks.vue';
+import TeamButtonContainer from '@/components/TeamButtonContainer.vue';
+import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue';
+import { UserMixin } from '@/mixins/UserMixin';
+import SignoutButton from '@/components/SignoutButton.vue';
 
 export default Vue.extend({
   name: 'NavigationBar',
@@ -34,19 +34,19 @@ export default Vue.extend({
       connectionModalShown: false,
       isConnected: true, // To change later
       teamModalShown: false
-    }
+    };
   },
   methods: {
-      toggleConnectionModalVisibility() {
-          this.connectionModalShown = !this.connectionModalShown
-      }
+    toggleConnectionModalVisibility() {
+      this.connectionModalShown = !this.connectionModalShown;
+    }
   },
   components: {
     NavigationBarLinks,
     TeamButtonContainer,
     ConnectionButtonContainer,
     SignoutButton
-  },
+  }
 });
 </script>
 

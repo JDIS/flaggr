@@ -41,3 +41,9 @@ Pour faire une migration
 Pour appliquer la migration
 
     flask db upgrade
+
+### Seeding
+
+Pour seeder la database de développement
+
+    flask seed [-v/--verbose]
