@@ -8,6 +8,7 @@ from JDISCTF.models import User
 from JDISCTF.schemas import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
 
 
+
 @REGISTRY.handles(
     rule="/login",
     method="POST",
