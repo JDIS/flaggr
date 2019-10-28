@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from JDISCTF.app import DB, LOGIN_MANAGER
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from sqlalchemy import ForeignKey
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(UserMixin, DB.Model):
@@ -11,6 +12,7 @@ class User(UserMixin, DB.Model):
     id = DB.Column(DB.Integer, primary_key=True)
     __tablename__ = 'Users'
 
+    event_id = DB.Column(DB.Integer, ForeignKey('Events.id'), nullable=True)
     email = DB.Column(DB.String(255), index=True, unique=True)
     username = DB.Column(DB.String(64), index=True, unique=True)
     password_hash = DB.Column(DB.String(128))
