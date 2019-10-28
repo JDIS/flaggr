@@ -24,5 +24,5 @@ class Flag(DB.Model):
     """The actual value of the flag"""
 
     def __repr__(self):
-        return '<Flag id:{} challenge_id:{} is_regex:{} value:{}'\
+        return '<Flag id:{} challenge_id:{} is_regex:{} value:{}>' \
             .format(self.id, self.challenge_id, self.is_regex, self.value)

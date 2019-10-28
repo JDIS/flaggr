@@ -27,5 +27,13 @@ class Submission(DB.Model):
     """The date and time of the submission."""
 
     def __repr__(self):
-        return '<Submission id:{} team_id:{} challenge_id:{} input:{} is_correct:{}'\
+        return '<Submission id:{} team_id:{} challenge_id:{} input:{} is_correct:{}>'\
             .format(self.id, self.team_id, self.challenge_id, self.input, self.is_correct)
+
+    def __eq__(self, other):
+        return self.id == other.id and \
+            self.team_id == other.team_id and \
+            self.challenge_id == other.challenge_id and \
+            self.input == other.input and \
+            self.is_correct == other.is_correct and \
+            self.time == other.time
