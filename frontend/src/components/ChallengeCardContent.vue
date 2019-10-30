@@ -10,7 +10,7 @@
         </a>
       </div>
       <div class="url">
-        <a v-for="link in challenge.links" v-bind:key="link">
+        <a v-for="link in challenge.links" v-bind:key="link" :href="link" target="_blank">
           <b-icon icon="open-in-new" size="is-small"></b-icon>
           {{link}}
         </a>
@@ -33,8 +33,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Challenge } from '@/models/challenge'
+import Vue from 'vue';
+import { Challenge } from '../models/challenge';
 
 /**
  * Content of the challenge card
@@ -44,8 +44,7 @@ export default Vue.extend({
   props: {
     challenge: Challenge
   },
-  components: {
-  }
+  components: {}
 });
 </script>
 
@@ -62,6 +61,10 @@ export default Vue.extend({
 
 .files, .url, .submission {
     margin: 1rem 0;
+
+    .mdi-light:before {
+      color: inherit;
+    }
 }
 
 .tags {

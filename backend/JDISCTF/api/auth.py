@@ -1,17 +1,19 @@
 """Authentication routes"""
 
 import flask_rebar
-from flask_login import current_user, login_user, logout_user
 from flask_rebar import errors
+from flask_login import current_user, login_user, logout_user
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
-from JDISCTF.schemas import USER_SCHEMA, CREATE_USER_SCHEMA, LOGIN_SCHEMA, LOGOUT_SCHEMA
+from JDISCTF.schemas import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
+
+
 
 @REGISTRY.handles(
     rule="/login",
     method="POST",
-    request_body_schema=LOGIN_SCHEMA,
-    response_body_schema={200: USER_SCHEMA},
+    request_body_schema=LoginSchema(),
+    response_body_schema={200: UserSchema()},
 )
 def login():
     """Login a user"""
@@ -31,21 +33,23 @@ def login():
 
     return user
 
+
 @REGISTRY.handles(
     rule="/logout",
     method="GET",
-    response_body_schema={200: LOGOUT_SCHEMA},
+    response_body_schema={200: LogoutSchema()},
 )
 def logout():
     """Logouts the user"""
     logout_user()
     return "OK"
 
+
 @REGISTRY.handles(
     rule="/register",
     method="POST",
-    request_body_schema=CREATE_USER_SCHEMA,
-    response_body_schema={201: USER_SCHEMA},
+    request_body_schema=CreateUserSchema(),
+    response_body_schema={201: UserSchema()},
 )
 def register():
     """Register a new user"""
@@ -65,7 +69,9 @@ def register():
     if user is not None:
         raise errors.UnprocessableEntity("A user with that username already exists")
 
-    user = User(email=email, username=username)
+    # TODO: event_id should be sourced from the link.
+    event_id = 0
+    user = User(email=email, username=username, event_id=event_id)
     user.set_password(password)
 
     DB.session.add(user)

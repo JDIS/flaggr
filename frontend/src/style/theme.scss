@@ -1,11 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Raleway:400,600');
+
 // Partly Taken From https://material.io/resources/color/#!/?view.left=1&view.right=1&secondary.color=DD272D&primary.color=2ca058&secondary.text.color=ffffff&primary.text.color=000000
 $primary-color: #2ca058;
 $primary-color-light: #04f21c;
 $primary-color-dark: #00702d;
 
-$secondary-color: #AB2227;
+$secondary-color: #ab2227;
 $secondary-color-light: #ff6257;
 $secondary-color-dark: #a30005;
+
+$link-color: #2a7cb7;
+$link-hover-color: lighten($link-color, 20%);
 
 $primary-font: 'Open Sans';
 $secondary-font: 'Raleway';
@@ -15,8 +20,8 @@ $dark-2: #282828;
 $dark-3: #333333;
 $dark-4: #555555;
 
-$light-0: #FFF;
-$light-1: #CCC;
+$light-0: #fff;
+$light-1: #ccc;
 $light-2: #999;
 $light-3: #777;
 

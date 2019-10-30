@@ -4,7 +4,11 @@
       :class="{'points': true, 'is-solved': challenge.isSolved, 'is-unsolved': !challenge.isSolved }"
       size="is-medium"
     >{{ challenge.points }}</b-tag>
-    <p class="card-header-title">{{ challenge.name }}</p>
+    <p class="card-header-title">
+      {{ challenge.name }}
+      <b-icon v-if="challenge.isSolved" icon="check" type="is-solved" size="is-medium"></b-icon>
+    </p>
+
     <a class="card-header-icon">
       <b-icon :icon="open ? 'chevron-down' : 'chevron-up'" size="is-medium"></b-icon>
     </a>
@@ -38,6 +42,14 @@ export default Vue.extend({
     .card-header-title {
         font-weight: 400;
         font-size: 1.1rem;
+
+      .icon {
+        margin-left: 0.5rem;
+
+        .mdi-light:before {
+          color: inherit;
+        }
+      }
     }
 
     .points {
