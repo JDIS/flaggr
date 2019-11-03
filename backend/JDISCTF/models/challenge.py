@@ -1,8 +1,8 @@
 """'Challenges' SQLAlchemy model"""
 
 from sqlalchemy.orm import relationship
-from JDISCTF.app import DB
 from sqlalchemy import ForeignKey
+from JDISCTF.app import DB
 
 
 class Challenge(DB.Model):
