@@ -8,7 +8,7 @@ def get_records(challenges: [Challenge]):
     flags = []
     for challenge in challenges:
         flags.append(Flag(challenge_id=challenge.id, is_regex=False, value='flag-JDIS'))
-        flags.append(Flag(challenge_id=challenge.id, is_regex=True, value='*'))
+        flags.append(Flag(challenge_id=challenge.id, is_regex=True, value='regex-*'))
 
     return flags
 
