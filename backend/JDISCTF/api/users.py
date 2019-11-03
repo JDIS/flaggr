@@ -1,9 +1,10 @@
 """Users routes"""
 
 from flask_rebar import errors
-from JDISCTF.app import LOGIN_MANAGER, REGISTRY
+from JDISCTF.app import REGISTRY
 from JDISCTF.models import User
 from JDISCTF.schemas import UserSchema
+
 
 @REGISTRY.handles(
     rule="/users",

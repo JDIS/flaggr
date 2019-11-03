@@ -6,6 +6,7 @@ from JDISCTF.app import Config, DB, LOGIN_MANAGER
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+
 class User(UserMixin, DB.Model):
     """
     User model
@@ -43,7 +44,11 @@ class User(UserMixin, DB.Model):
 if Config.DEBUG:
     @LOGIN_MANAGER.request_loader
     def load_user_from_request(request):
-        """DEVELOPMENT ONLY. Returns a User class from an authorization header. Required by flask-login"""
+        # pylint: disable=bare-except
+        """
+        DEVELOPMENT ONLY. Returns a User class from an authorization header.
+        Required by flask-login
+        """
 
         email = None
         password = None
@@ -65,6 +70,7 @@ if Config.DEBUG:
             return None
 
         return user
+
 
 @LOGIN_MANAGER.user_loader
 def load_user(user_id: str) -> User:
