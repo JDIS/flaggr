@@ -3,7 +3,7 @@ import re
 import flask_rebar
 from flask_rebar import errors
 from JDISCTF.app import REGISTRY, DB
-from JDISCTF.schemas import ChallengeSchema, ChallengeByCategorySchema, SubmitFlagSchema, \
+from JDISCTF.schemas import UserChallengeSchema, ChallengeByCategorySchema, SubmitFlagSchema, \
     SubmitFlagResponseSchema
 from JDISCTF.models import Challenge, Category, Event, Team, Flag, Submission
 from sqlalchemy.orm import contains_eager
@@ -12,7 +12,7 @@ from sqlalchemy.orm import contains_eager
 @REGISTRY.handles(
     rule="/challenges/event/<int:event_id>",
     method="GET",
-    response_body_schema=ChallengeSchema(many=True)
+    response_body_schema=UserChallengeSchema(many=True)
 )
 def get_all_challenges_for_event(event_id: int):
     # pylint: disable=singleton-comparison
@@ -22,25 +22,42 @@ def get_all_challenges_for_event(event_id: int):
     if event is None:
         raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
-    challenges = Challenge.query.join(Category).join(Event) \
+    completed_stmt = Submission.query\
+        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True)\
+        .exists()\
+        .label('completed')
+
+    challenges = DB.session.query(Challenge, completed_stmt).join(Category).join(Event)\
         .filter(Event.id == event_id, Challenge.hidden == False).all()
 
-    return challenges
+    for challenge in challenges:
+        challenge.Challenge.completed = challenge[1]
+
+    return map(lambda x: x.Challenge, challenges)
 
 
 @REGISTRY.handles(
     rule="/challenges/<int:challenge_id>",
     method="GET",
-    response_body_schema=ChallengeSchema()
+    response_body_schema=UserChallengeSchema()
 )
 def get_challenge(challenge_id: int):
+    # pylint: disable=singleton-comparison
     """Get a single challenge by its id"""
-    challenge = Challenge.query.filter_by(id=challenge_id, hidden=False).first()
+    completed_stmt = Submission.query\
+        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True)\
+        .exists()\
+        .label('completed')
+
+    challenge = DB.session.query(Challenge, completed_stmt)\
+        .filter_by(id=challenge_id, hidden=False).first()
 
     if challenge is None:
         raise errors.NotFound(f'Challenge with id "{challenge_id}" not found.')
 
-    return challenge
+    challenge.Challenge.completed = challenge[1]
+
+    return challenge.Challenge
 
 
 @REGISTRY.handles(

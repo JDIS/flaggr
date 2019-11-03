@@ -46,40 +46,86 @@ def db_mock():
         yield mock
 
 
+@fixture
+def submission_mock():
+    with local_patch('Submission') as mock:
+        yield mock
+
+
 A_CHALLENGE = Challenge(id=1, category_id=1, name='Challenge', description='Description',
                         points=100, hidden=False)
 A_CATEGORY = Category(id=1, event_id=1, name='Category')
 
 
 class TestGetAllChallengesForEvent:
+    @fixture(autouse=True)
+    def _submission_mock(self, submission_mock: MagicMock):
+        submission_mock.query.filter.return_value.exists.return_value.label.return_value = 1
+        yield submission_mock
+
+    @fixture(autouse=True)
+    def _event_mock(self, event_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = 1
+        yield event_mock
+
     def test_given_non_existent_event_id_should_raise_not_found_error(self, event_mock: MagicMock):
         event_mock.query.filter_by.return_value.first.return_value = None
         with raises(errors.NotFound):
             get_all_challenges_for_event(1)
 
-    def test_should_return_challenges(self, challenge_mock: MagicMock, event_mock: MagicMock):
-        event_mock.query.filter_by.return_value.first.return_value = 1
+    def test_should_return_challenges(self, db_mock: MagicMock):
+        return_value = MagicMock()
+        return_value.Challenge = A_CHALLENGE
 
-        challenge_mock.query \
+        db_mock.session.query.return_value \
             .join.return_value \
             .join.return_value \
             .filter.return_value \
-            .all.return_value = [A_CHALLENGE]
+            .all.return_value = [return_value]
 
-        assert get_all_challenges_for_event(1) == [A_CHALLENGE]
+        assert list(get_all_challenges_for_event(1)) == [A_CHALLENGE]
+
+    def test_should_assign_completed(self, db_mock: MagicMock):
+        return_value = MagicMock()
+        return_value.Challenge = A_CHALLENGE
+        return_value.__getitem__.return_value = True
+
+        db_mock.session.query.return_value \
+            .join.return_value \
+            .join.return_value \
+            .filter.return_value \
+            .all.return_value = [return_value]
+
+        assert list(get_all_challenges_for_event(1))[0].completed == True
 
 
 class TestGetChallenge:
-    def test_given_non_existent_challenge_id_should_raise_not_found_error(self,
-                                                                          challenge_mock: MagicMock):
-        challenge_mock.query.filter_by.return_value.first.return_value = None
+    @fixture(autouse=True)
+    def _submission_mock(self, submission_mock: MagicMock):
+        submission_mock.query.filter.return_value.exists.return_value.label.return_value = 1
+        yield submission_mock
+
+    def test_given_non_existent_challenge_id_should_raise_not_found_error(self, db_mock: MagicMock):
+        db_mock.session.query.return_value.filter_by.return_value.first.return_value = None
         with raises(errors.NotFound):
             get_challenge(1)
 
-    def test_should_return_challenge(self, challenge_mock: MagicMock):
-        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
+    def test_should_return_challenge(self, db_mock: MagicMock):
+        return_value = MagicMock()
+        return_value.Challenge = A_CHALLENGE
+
+        db_mock.session.query.return_value.filter_by.return_value.first.return_value = return_value
 
         assert get_challenge(A_CHALLENGE.id) == A_CHALLENGE
+
+    def test_should_assign_completed(self, db_mock):
+        return_value = MagicMock()
+        return_value.Challenge = A_CHALLENGE
+        return_value.__getitem__.return_value = True
+
+        db_mock.session.query.return_value.filter_by.return_value.first.return_value = return_value
+
+        assert get_challenge(A_CHALLENGE.id).completed == True
 
 
 class TestGetChallengesByCategoryForEvent:
