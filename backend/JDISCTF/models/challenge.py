@@ -1,7 +1,8 @@
 """'Challenges' SQLAlchemy model"""
 
-from JDISCTF.app import DB
+from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
+from JDISCTF.app import DB
 
 
 class Challenge(DB.Model):
@@ -31,6 +32,8 @@ class Challenge(DB.Model):
     """The number of points the challenge is worth."""
     hidden = DB.Column(DB.Boolean)
     """Whether or not the challenge should be visible by the event participants."""
+
+    flag = relationship('Flag', lazy='noload')
 
     def __repr__(self):
         return '<Challenge id:{} category_id:{} name:{} description:{} points:{}'\
