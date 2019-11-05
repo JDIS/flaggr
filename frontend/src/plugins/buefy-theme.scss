@@ -50,7 +50,6 @@ $black-bis: $dark-0;
 $white-bis: $light-1;
 $white-ter: $light-1;
 
-$input-placeholder-color: $light-1;
 
 $body-background-color: $grey-dark;
 $text: $white-bis;
@@ -80,8 +79,12 @@ $input-border-color: $grey-light;
 $input-hover-border-color: $grey-lighter;
 $input-focus-border-color: $input-hover-border-color;
 $input-hover-color: $white;
+$input-disabled-background-color: $input-background-color;
+$input-disabled-border-color: $input-border-color;
+$input-disabled-color: $grey-lighter;
 $input-arrow: $white-ter;
 $input-color: $white;
+$input-placeholder-color: $light-1;
 $label-color: $white;
 
 /* CLASSES SETUP */

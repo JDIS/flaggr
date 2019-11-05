@@ -1,33 +1,48 @@
 import { Challenge } from '../models/challenge';
+import { Track } from '../models/track';
+import axios from 'axios'
 
 /**
  * API service for Challenges
  */
 /**
- * Get the challenge list
- * @returns {Challenge[]}
+ * Get all the challenges grouped by track
+ * @returns {Track[]}
  */
-export function getChallenges(): Challenge[] {
-  // TODO: get from API
-  return [
-    new Challenge('On joue à cache cache?',
-      'On a vu ce charmant formulaire dont on ne comprends pas trop ce qu\'il fait. On est vraiment perplexe face au fait qu\'on voit seulement un bouton, mais qu\'il y a de l\'interaction de la part du formulaire.',
-      75,
-      'web',
-      10,
-      [],
-      ['https://cachecache.unitedctf.ca/'],
-      ['something', 'something else', 'another']
-    ),
-    new Challenge('The Lost Park',
-      'What is the name of this monument?',
-      100,
-      'crypto',
-      3,
-      ['statue.jpg'],
-      [],
-      ['something'],
-      true
-    )
-  ];
+export async function getChallengesByTrack(): Promise<Track[]> {
+  const response = await axios.get('challenges/event/1/by-category'); // TODO: get event id from backend
+  const data = response.data as [];
+  return data.map((trackData: any) => createTrackFromData(trackData));
+}
+
+/**
+ * Map a track API response data to a Track model
+ * @param data API data corresponding to a track
+ */
+function createTrackFromData(data: any): Track {
+  const challenges = data.challenges.map((challengeData: any) => createChallengeFromData(challengeData));
+  return new Track(data.id, data.name, challenges);
+}
+
+/**
+ * Map a challenge API response data to a Challenge model
+ * @param data API data corresponding to a challenge
+ */
+function createChallengeFromData(data: any): Challenge {
+  const challenge = new Challenge();
+  challenge.id = data.id;
+  challenge.name = data.name;
+  challenge.description = data.description;
+  challenge.points = data.points;
+  challenge.isSolved = Math.random() >= 0.5; // TODO: remove when real call
+  return challenge;
+}
+
+/**
+ * Submit a flag for a challenge
+ * @param challengeId
+ * @param answer
+ */
+export async function submitFlag(challengeId: number, flag: string): Promise<boolean> {
+  return await Promise.resolve(Math.random() >= 0.5); // TODO: real API call
 }

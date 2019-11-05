@@ -25,7 +25,7 @@ export default Vue.extend({
   },
   props: {
     name: String,
-    challenges: Array
+    challenges: Array as () => Challenge[]
   }
 });
 </script>
