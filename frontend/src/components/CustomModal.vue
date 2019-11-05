@@ -38,7 +38,9 @@ export default Vue.extend({
 @import "../style/theme.scss";
 
 $top-offset: 5rem;
+
 .modalInnerComponent {
+  box-shadow: 0 0 3px black;
   position: absolute;
   top: $top-offset;
   left: -10rem;
@@ -58,7 +60,6 @@ $top-offset: 5rem;
   top: 0;
   left: 0;
   z-index: 100 !important;
-  cursor:pointer;
 }
 
 #modalTip {

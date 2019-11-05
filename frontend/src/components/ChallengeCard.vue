@@ -1,19 +1,19 @@
 <template>
-  <b-collapse class="card">
+  <b-collapse class="card" :open="!challenge.isSolved || newlySolved">
     <div slot="trigger" slot-scope="props" class="card-header" role="button">
       <challenge-card-header :challenge="challenge" :open="props.open" />
     </div>
     <div class="card-content">
-      <challenge-card-content :challenge="challenge" />
+      <challenge-card-content :challenge="challenge" @solved="addSolvedChallenge" />
     </div>
   </b-collapse>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Challenge } from '../models/challenge'
-import ChallengeCardHeader from './ChallengeCardHeader.vue'
-import ChallengeCardContent from './ChallengeCardContent.vue'
+import Vue from 'vue';
+import { Challenge } from '../models/challenge';
+import ChallengeCardHeader from './ChallengeCardHeader.vue';
+import ChallengeCardContent from './ChallengeCardContent.vue';
 
 /**
  * Card that displays a challenge
@@ -22,6 +22,16 @@ export default Vue.extend({
   name: 'ChallengeCard',
   props: {
     challenge: Challenge
+  },
+  data() {
+    return {
+      newlySolved: false
+    };
+  },
+  methods: {
+    addSolvedChallenge() {
+      this.newlySolved = true;
+    }
   },
   components: {
     ChallengeCardHeader,
