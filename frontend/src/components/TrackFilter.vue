@@ -5,16 +5,17 @@
     </b-button>
     <b-button
       v-for="track in tracks"
-      :key="track"
+      :key="track.id"
       size="is-medium"
       @click="toggle(track)"
       :class="{ 'is-selected': !showAll && isSelected(track)}"
-    >{{track}}</b-button>
+    >{{track.name}}</b-button>
   </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import { Track } from '../models/track';
 
 /**
  * Filter which tracks to show in the list
@@ -22,30 +23,31 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'TrackFilter',
   components: {},
-  props: {},
+  props: {
+    tracks: {
+      type: Array as () => Track[]
+    }
+  },
   data() {
     return {
-      tracks: [] as string[],
-      visibleTracks: [] as string[],
+      visibleTracks: [] as Track[],
       showAll: true
     };
   },
-  created() {
-    this.tracks = this.getTracks();
-    this.visibleTracks = this.tracks;
-    this.onChange();
+  watch: {
+    // Select all tracks when list is initialized
+    tracks(tracks) {
+      this.visibleTracks = tracks;
+      this.onChange();
+    }
   },
   methods: {
-    getTracks(): string[] {
-      return ['web', 'crypto']; // TODO: get from API or parent component
-    },
-
     onChange() {
       this.$emit('change', this.visibleTracks);
     },
 
-    toggle(track: string) {
-      // Deselect everything except the track when 'all' was selected before
+    toggle(track: Track) {
+      // Clear visibleTracks when 'all' was selected before and add only this track
       if (this.showAll) {
         this.visibleTracks = [track];
         this.showAll = false;
@@ -65,7 +67,7 @@ export default Vue.extend({
       this.onChange();
     },
 
-    isSelected(track: string): boolean {
+    isSelected(track: Track): boolean {
       return this.visibleTracks.includes(track);
     }
   },

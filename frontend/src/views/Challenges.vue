@@ -1,12 +1,12 @@
 <template>
   <div class="container is-fluid">
     <base-page-title :text="$t('title.challenges')" />
-    <track-filter :tracks="['web', 'crypto']" @change="updateTracks" />
+    <track-filter :tracks="tracks" @change="updateVisibleTracks" />
     <track-container
-      v-for="track in tracks"
-      :key="track"
-      :name="track"
-      :challenges="getTrackChallenges(track)"
+      v-for="track in visibleTracks"
+      :key="track.id"
+      :name="track.name"
+      :challenges="track.challenges"
     />
   </div>
 </template>
@@ -17,7 +17,8 @@ import BasePageTitle from '../components/base/BasePageTitle.vue';
 import TrackFilter from '../components/TrackFilter.vue';
 import TrackContainer from '../components/TrackContainer.vue';
 import { Challenge } from '../models/challenge';
-import { getChallenges } from '../services/challenge.service';
+import { Track } from '../models/track';
+import { getChallengesByTrack } from '../services/challenge.service';
 
 /**
  * Challenges page
@@ -31,19 +32,17 @@ export default Vue.extend({
   },
   data() {
     return {
-      tracks: [] as string[],
+      tracks: [] as Track[],
+      visibleTracks: [] as Track[],
       challenges: [] as Challenge[]
     };
   },
-  created() {
-    this.challenges = getChallenges();
+  async created() {
+    this.tracks = await getChallengesByTrack();
   },
   methods: {
-    updateTracks(tracks: string[]): void {
-      this.tracks = tracks;
-    },
-    getTrackChallenges(track: string): Challenge[] {
-      return this.challenges.filter((challenge) => challenge.track === track);
+    updateVisibleTracks(visibleTracks: Track[]) {
+      this.visibleTracks = visibleTracks;
     }
   }
 });
