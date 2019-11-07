@@ -1,0 +1,84 @@
+@import '~bulma/sass/utilities/_all';
+
+/* COLORS */
+$orange: #f97127;
+$turquoise: #4cb59c;
+$red: #bf2b20;
+$marine: #183060;
+$grey-light: #eeeded;
+$grey-lighter: #fbfbfb;
+
+$first: $red;
+$first-invert: findColorInvert($first);
+$second: $turquoise;
+$second-invert: findColorInvert($second);
+$third: $marine;
+$third-invert: findColorInvert($third);
+
+$primary: $turquoise;
+
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700|Inconsolata:400,700');
+$family-primary: 'Work Sans';
+$family-secondary: 'Inconsolata';
+
+$title-family: $family-primary;
+$subtitle-family: $family-secondary;
+
+/* GENERAL */
+$navbar-breakpoint: $tablet;
+$navbar-box-shadow-color: $grey-dark;
+$navbar-box-shadow-size: 0 0px 4px 0px;
+
+.button span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+$menu-list-link-padding: 0;
+$menu-nested-list-margin: 0;
+$menu-item-active-color: inherit;
+$menu-item-active-background-color: inherit;
+
+/* CLASSES SETUP */
+$colors: (
+  'white': (
+    $white,
+    $black
+  ),
+  'black': (
+    $black,
+    $white
+  ),
+  'light': (
+    $light,
+    $light-invert
+  ),
+  'dark': (
+    $dark,
+    $dark-invert
+  ),
+  'primary': (
+    $primary,
+    $primary-invert
+  ),
+  'info': (
+    $info,
+    $info-invert
+  ),
+  'success': (
+    $success,
+    $success-invert
+  ),
+  'warning': (
+    $warning,
+    $warning-invert
+  ),
+  'danger': (
+    $danger,
+    $danger-invert
+  )
+);
+
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
