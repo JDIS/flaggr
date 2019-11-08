@@ -1,6 +1,7 @@
 """'Teams' SQLAlchemy model"""
 
 from sqlalchemy import ForeignKey, UniqueConstraint
+
 from JDISCTF.app import DB
 
 

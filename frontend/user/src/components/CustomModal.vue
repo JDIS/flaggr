@@ -66,12 +66,13 @@ $top-offset: 5rem;
   width: 3rem;
   height: 1rem;
   position:absolute;
-  top: -1rem;
+  top: -1.27rem;
   right: 5rem;
 
   $rotation: 38deg;
   $background: $dark-2;
   #triangle1 {
+    border-top: 1px solid black;
     width: 2rem;
     height: 1rem;
     background: $background;
@@ -81,6 +82,7 @@ $top-offset: 5rem;
   }
 
   #triangle2 {
+    border-top: 1px solid black;
     width: 2rem;
     height: 1rem;
     background: $background;

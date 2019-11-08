@@ -1,8 +1,9 @@
 """'Categories' SQLAlchemy model"""
 
-from JDISCTF.app import DB
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
+
+from JDISCTF.app import DB
 
 
 class Category(DB.Model):

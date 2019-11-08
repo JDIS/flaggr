@@ -73,6 +73,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import store from '../store'
 
 export default Vue.extend({
   name: 'ConnectionModal',
@@ -87,11 +88,11 @@ export default Vue.extend({
   },
   methods: {
     signin() {
-      this.$store.dispatch('user/connectUser', {email: this.email, password: this.password})
+      store.dispatch('user/connectUser', {email: this.email, password: this.password})
     },
 
     signup() {
-      this.$store.dispatch('user/registerUser', {email: this.email, password: this.password, username: this.username})
+      store.dispatch('user/registerUser', {email: this.email, password: this.password, username: this.username})
     },
 
     focusCreateTeam() {

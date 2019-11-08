@@ -1,16 +1,21 @@
 <template>
   <div class="nav-links">
     <router-link :to="{ name: 'home' }" class="navbar-item">{{ $t('title.home') }}</router-link>
-    <router-link :to="{ name: 'challenges' }" class="navbar-item">{{ $t('title.challenges') }}</router-link>
+    <router-link :to="{ name: 'challenges' }" v-if="isConnected" class="navbar-item">{{ $t('title.challenges') }}</router-link>
     <router-link :to="{ name: 'scoreboard' }" class="navbar-item">{{ $t('title.scoreboard') }}</router-link>
   </div>
 </template>
 
-<script lang="ts">import Vue from 'vue';
+<script lang="ts">
+import Vue from 'vue'
+import { UserMixin } from '@/mixins/UserMixin'
 
 export default Vue.extend({
   name: 'NavigationBarLinks',
+  mixins: [UserMixin],
   components: {
+  },
+  methods: {
   }
 });
 </script>

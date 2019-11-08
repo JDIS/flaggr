@@ -16,6 +16,9 @@ axios.interceptors.request.use((config) => {
   // This appends the backend url after each call, allowing to use it
   // like that: axios.get('status') instead of axios.get(`${process.env.VUE_APP_BACKEND_URL}/status`)
   config.url = `${process.env.VUE_APP_BACKEND_URL}/${config.url}`
+  if (process.env.VUE_APP_DEBUG) {
+    config.headers.Authorization = `Basic ${(store as any).getters['user/creds']}`
+  }
 
   store.dispatch('network/addRequestInProgress')
 

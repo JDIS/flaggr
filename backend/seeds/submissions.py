@@ -1,7 +1,7 @@
 """Submissions seeding data"""
 from datetime import datetime, timezone
 
-from JDISCTF.models import Team, Submission, Challenge
+from JDISCTF.models import Challenge, Submission, Team
 
 
 def get_records(challenges: [Challenge], teams: [Team]):

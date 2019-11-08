@@ -1,9 +1,9 @@
 <template>
-    <h1 class="title">{{text}}</h1>
+    <h1 id="title" class="title">{{text}}</h1>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 
 /**
  * Base title for the top of a page
@@ -16,8 +16,11 @@ export default Vue.extend({
 });
 </script>
 
+
 <style lang="scss">
-.title {
+
+#title {
+    margin-bottom: 0 !important;
     padding: 2rem 0;
 }
 </style>

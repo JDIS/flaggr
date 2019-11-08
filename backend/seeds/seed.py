@@ -1,8 +1,9 @@
 """Database seeding script and utilities"""
 
+from typing import Generic, List, TypeVar
+
 from JDISCTF.app import DB
-from typing import List, Generic, TypeVar
-from seeds import events, categories, challenges, flags, submissions, teams
+from seeds import categories, challenges, events, flags, submissions, teams
 
 ModelType = TypeVar('ModelType', bound=DB.Model)
 ValueType = TypeVar('ValueType', str, int, bool, float)
