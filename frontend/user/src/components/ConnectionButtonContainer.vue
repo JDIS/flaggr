@@ -14,17 +14,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 import ConnectionModal from './ConnectionModal.vue'
-import CustomModal from './CustomModal.vue';
-import FadeTransition from './FadeTransition.vue';
+import CustomModal from './CustomModal.vue'
+import FadeTransition from './FadeTransition.vue'
 
 export default Vue.extend({
   name: 'ConnectionButtonContainer',
   data() {
     return {
       shown: false,
-      isConnected: true // To change later
     };
   },
   methods: {

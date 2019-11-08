@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import ChallengeCard from './ChallengeCard.vue';
-import { Challenge } from '../models/challenge';
+import Vue from 'vue'
+import ChallengeCard from './ChallengeCard.vue'
+import { Challenge } from '@/models/challenge'
 
 /**
  * Container for a challenge track
@@ -32,7 +32,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 section {
-  margin: 2.5rem 0;
+  margin: 1rem 0;
 }
 
 .subtitle {

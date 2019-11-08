@@ -1,18 +1,44 @@
 import { User } from '@/models/user'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
+import { sendAlert, sendAlertWithVariables } from '@/helpers'
 
 /**
  * Store to manage the connected user's information.
  */
 
 const state = {
-    connectedUser: null
+  connectedUser: null,
+  /**
+   * Development only
+   */
+  creds: null
 }
 
 const mutations = {
-    setUser(storeState: any, user: User) {
-      storeState.connectedUser = user;
+  setUser(storeState: any, user: User) {
+    storeState.connectedUser = user;
+  },
+  setCreds(storeState: any, creds: string) {
+    if (process.env.VUE_APP_DEBUG) {
+      storeState.creds = creds;
+      localStorage.setItem('creds', creds)
     }
+  }
+}
+
+const getters = {
+  isConnected: (storeState: any) => {
+    return storeState.connectedUser !== null
+  },
+  creds: (storeState: any) => {
+    if (process.env.VUE_APP_DEBUG) {
+      if (storeState.creds) {
+        return storeState.creds
+      } else {
+        return localStorage.getItem('creds')
+      }
+    }
+  }
 }
 
 const actions = {
@@ -25,13 +51,17 @@ const actions = {
   connectUser(context: any, payload: any) {
     payload.remember = true // To change later
     axios.post('login', payload)
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         console.log('connection success', response)
         context.commit('setUser', response.data as User)
+        context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
       })
-      .catch((error) => {
-        console.log('error during login:', error)
-        // TODO handle errors
+      .catch((error: AxiosError) => {
+        if (error.response!.status === 422) {
+          sendAlert('signin.invalidCreds')
+        } else {
+          console.log('error during login:', error)
+        }
       })
   },
 
@@ -43,24 +73,39 @@ const actions = {
    */
   registerUser(context: any, payload: any) {
     axios.post('register', payload)
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         console.log('user registred', response)
         context.commit('setUser', response.data as User)
+        context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
         // context.commit('setUser', user)
       })
-      .catch((error) => {
-        console.log('error during register:', error.response)
-        // TODO handle errors
+      .catch((error: AxiosError) => {
+        if (error.response!.status === 422) {
+          sendAlertWithVariables('signup.error', {error: error.response!.data.message})
+        } else {
+          console.log('error during register:', error.response)
+        }
       })
   },
 
   disconnectUser(context: any) {
-    axios.post('logout')
-      .then((response) => {
+    axios.get('logout')
+      .then((response: AxiosResponse) => {
         context.commit('setUser', null)
+        context.commit('setCreds', null)
       })
-      .catch((error) => {
+      .catch((error: AxiosError) => {
         console.log('error during logout:', error)
+      })
+  },
+
+  fetchUser(context: any) {
+    axios.get('user')
+      .then((response: AxiosResponse) => {
+        context.commit('setUser', response.data)
+      })
+      .catch((error: AxiosError) => {
+        context.commit('setUser', null)
       })
   }
 }
@@ -69,5 +114,6 @@ export default {
   namespaced: true,
   state,
   actions,
-  mutations
+  mutations,
+  getters
 }

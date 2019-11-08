@@ -12,21 +12,24 @@ if (process.env.VUE_APP_DEBUG) {
   curlirize(axios)
 }
 
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use((config: any) => {
   // This appends the backend url after each call, allowing to use it
   // like that: axios.get('status') instead of axios.get(`${process.env.VUE_APP_BACKEND_URL}/status`)
   config.url = `${process.env.VUE_APP_BACKEND_URL}/${config.url}`
+  if (process.env.VUE_APP_DEBUG) {
+    config.headers.Authorization = `Basic ${(store as any).getters.creds}`
+  }
 
   store.dispatch('network/addRequestInProgress')
 
   return config;
 });
 
-axios.interceptors.response.use((config) => {
+axios.interceptors.response.use((config: any) => {
   store.dispatch('network/removeRequestInProgress')
 
   return config;
-}, (error) => {
+}, (error: any) => {
   // If an HTTP call results in an error, set the state accordingly.
   store.dispatch('network/setError')
   store.dispatch('network/removeRequestInProgress')
@@ -40,5 +43,5 @@ new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App)
+  render: (h: any) => h(App)
 }).$mount('#app');

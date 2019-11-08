@@ -16,6 +16,7 @@
     "ordered-imports": false,
     "quotemark": [true, "single"],
     "no-any": false,
+    "object-literal-shorthand": false,
     "encoding": true,
     "eofline": true,
     "no-eval": true,

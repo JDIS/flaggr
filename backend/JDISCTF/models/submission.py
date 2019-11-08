@@ -1,6 +1,7 @@
 """'Submissions' SQLAlchemy model"""
 
 from sqlalchemy import ForeignKey, func
+
 from JDISCTF.app import DB
 
 

@@ -1,9 +1,11 @@
-from pytest import raises, fixture
 from unittest.mock import MagicMock, patch
+
 from flask_rebar import errors
-from JDISCTF.api import get_challenge, get_all_challenges_for_event, \
-    get_all_challenges_by_category_for_event, submit_flag
-from JDISCTF.models import Challenge, Category, Team, Submission, Flag
+from pytest import fixture, raises
+
+from JDISCTF.api import get_all_challenges_by_category_for_event, get_all_challenges_for_event, get_challenge, \
+    submit_flag
+from JDISCTF.models import Category, Challenge, Flag, Submission, Team
 
 
 def local_patch(module: str):
