@@ -21,16 +21,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import CustomModal from './CustomModal.vue';
-import TeamModal from './TeamModal.vue';
-import FadeTransition from './FadeTransition.vue';
+import Vue from 'vue'
+import CustomModal from './CustomModal.vue'
+import TeamModal from './TeamModal.vue'
+import FadeTransition from './FadeTransition.vue'
+import { UserMixin } from '@/mixins/UserMixin'
 
 export default Vue.extend({
   name: 'TeamButtonContainer',
   data() {
     return {
-      isConnected: true, // To change later
       shown: false
     };
   },
@@ -39,6 +39,7 @@ export default Vue.extend({
       this.shown = !this.shown;
     }
   },
+  mixins: [UserMixin],
   components: {
     TeamModal,
     CustomModal,

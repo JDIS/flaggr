@@ -1,6 +1,6 @@
 """Flags seeding data"""
 
-from JDISCTF.models import Flag, Challenge
+from JDISCTF.models import Challenge, Flag
 
 
 def get_records(challenges: [Challenge]):

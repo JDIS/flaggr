@@ -1,12 +1,14 @@
 """Challenges routes"""
 import re
+
 import flask_rebar
 from flask_rebar import errors
-from JDISCTF.app import REGISTRY, DB
-from JDISCTF.schemas import UserChallengeSchema, ChallengeByCategorySchema, SubmitFlagSchema, \
-    SubmitFlagResponseSchema
-from JDISCTF.models import Challenge, Category, Event, Team, Flag, Submission
 from sqlalchemy.orm import contains_eager
+
+from JDISCTF.app import DB, REGISTRY
+from JDISCTF.models import Category, Challenge, Event, Flag, Submission, Team
+from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema, SubmitFlagSchema, \
+    UserChallengeSchema
 
 
 @REGISTRY.handles(
@@ -22,12 +24,12 @@ def get_all_challenges_for_event(event_id: int):
     if event is None:
         raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
-    completed_stmt = Submission.query\
-        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True)\
-        .exists()\
+    completed_stmt = Submission.query \
+        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True) \
+        .exists() \
         .label('completed')
 
-    challenges = DB.session.query(Challenge, completed_stmt).join(Category).join(Event)\
+    challenges = DB.session.query(Challenge, completed_stmt).join(Category).join(Event) \
         .filter(Event.id == event_id, Challenge.hidden == False).all()
 
     for challenge in challenges:
@@ -44,12 +46,12 @@ def get_all_challenges_for_event(event_id: int):
 def get_challenge(challenge_id: int):
     # pylint: disable=singleton-comparison
     """Get a single challenge by its id"""
-    completed_stmt = Submission.query\
-        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True)\
-        .exists()\
+    completed_stmt = Submission.query \
+        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True) \
+        .exists() \
         .label('completed')
 
-    challenge = DB.session.query(Challenge, completed_stmt)\
+    challenge = DB.session.query(Challenge, completed_stmt) \
         .filter_by(id=challenge_id, hidden=False).first()
 
     if challenge is None:

@@ -1,6 +1,7 @@
 """'Flags' SQLAlchemy model"""
 
 from sqlalchemy import ForeignKey
+
 from JDISCTF.app import DB
 
 

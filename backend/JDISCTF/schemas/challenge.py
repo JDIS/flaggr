@@ -1,6 +1,7 @@
 """Challenge marshmallow schemas"""
 from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
+
 from JDISCTF.schemas.category import CategorySchema
 
 
