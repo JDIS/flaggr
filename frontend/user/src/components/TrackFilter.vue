@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Track } from '../models/track';
+import Vue from 'vue'
+import { Track } from '@/models/track'
 
 /**
  * Filter which tracks to show in the list
@@ -42,7 +42,14 @@ export default Vue.extend({
     }
   },
   methods: {
+    /**
+     * Called when client selects or deselects tracks. If no tracks are selected,
+     * select all tracks.
+     */
     onChange() {
+      if (this.visibleTracks.length === 0) {
+        this.selectAll()
+      }
       this.$emit('change', this.visibleTracks);
     },
 
