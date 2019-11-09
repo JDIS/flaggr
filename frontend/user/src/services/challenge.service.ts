@@ -1,18 +1,22 @@
-import { Challenge } from '../models/challenge';
-import { Track } from '../models/track';
-import axios from 'axios'
-
 /**
  * API service for Challenges
  */
+import { Challenge } from '@/models/challenge'
+import { Track } from '@/models/track'
+import axios from 'axios'
+
 /**
- * Get all the challenges grouped by track
- * @returns {Track[]}
+ * Get all the challenges grouped by track. Places solved challenges last in the
+ * list.
  */
 export async function getChallengesByTrack(): Promise<Track[]> {
   const response = await axios.get('challenges/event/1/by-category'); // TODO: get event id from backend
   const data = response.data as [];
-  return data.map((trackData: any) => createTrackFromData(trackData));
+  const tracks: Track[] = data.map((trackData: any) => createTrackFromData(trackData))
+  tracks.forEach((track) => {
+    track.challenges.sort((challenge1, challenge2) => challenge1.isSolved ? 1 : -1)
+  })
+  return tracks;
 }
 
 /**
