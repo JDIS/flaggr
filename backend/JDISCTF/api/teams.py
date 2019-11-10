@@ -1,22 +1,26 @@
 """Team routes"""
 
 import flask_rebar
+from flask_login import current_user
 from flask_rebar import errors
-from flask_login import current_user, login_user, logout_user
-from flask_login import login_required
-from JDISCTF.app import DB, REGISTRY
-from JDISCTF.models import Team, TeamMember, TeamRequest, User
-from JDISCTF.schemas import CreateTeamSchema, CreateUserSchema, JoinTeamRequestSchema, JoinRequestSchema,\
-    LoginSchema, LogoutSchema, TeamSchema, UserSchema
 
+from JDISCTF.app import DB, REGISTRY
+from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
+from JDISCTF.models import Team, TeamMember, TeamRequest
+from JDISCTF.schemas import CreateTeamSchema, TeamSchema
+from JDISCTF.schemas.team import AcceptTeamRequestRequestSchema, AcceptTeamRequestSchema, \
+    ChangeRoleRequestSchema, ChangeRoleSchema, DeclineTeamRequestRequestSchema, \
+    DeclineTeamRequestSchema, DeleteTeamRequestRequestSchema, DeleteTeamRequestSchema, \
+    KickTeamMemberRequestSchema, KickTeamMemberSchema, SendTeamRequestRequestSchema, \
+    SendTeamRequestSchema
 
 
 @REGISTRY.handles(
     rule="/team",
     method="GET",
     response_body_schema={200: TeamSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def current_team():
     """Current user's team information"""
 
@@ -29,8 +33,8 @@ def current_team():
     method="POST",
     request_body_schema=CreateTeamSchema(),
     response_body_schema={200: TeamSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def create_team():
     """Create a team for a given event."""
     body = flask_rebar.get_validated_body()
@@ -58,8 +62,8 @@ def create_team():
     method="POST",
     request_body_schema=SendTeamRequestRequestSchema(),
     response_body_schema={200: SendTeamRequestSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def send_team_request():
     """Request to join a team."""
     body = flask_rebar.get_validated_body()
@@ -89,7 +93,7 @@ def send_team_request():
 
     DB.session.add(teamRequest)
     DB.session.commit()
-    return None
+    return "team requested"
 
 
 @REGISTRY.handles(
@@ -97,8 +101,8 @@ def send_team_request():
     method="POST",
     request_body_schema=AcceptTeamRequestRequestSchema(),
     response_body_schema={200: AcceptTeamRequestSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def accept_team_request():
     """Accepts a team request. Only captains can accept a request."""
     body = flask_rebar.get_validated_body()
@@ -125,8 +129,8 @@ def accept_team_request():
     method="POST",
     request_body_schema=DeclineTeamRequestRequestSchema(),
     response_body_schema={200: DeclineTeamRequestSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def decline_team_request():
     """Decline a team request. Only captains can decline a request."""
     body = flask_rebar.get_validated_body()
@@ -149,8 +153,8 @@ def decline_team_request():
     method="POST",
     request_body_schema=KickTeamMemberRequestSchema(),
     response_body_schema={200: KickTeamMemberSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def kick_team_member():
     """Kick a member of the team. Only captains can kick a team member"""
     body = flask_rebar.get_validated_body()
@@ -175,8 +179,8 @@ def kick_team_member():
     method="POST",
     request_body_schema=ChangeRoleRequestSchema(),
     response_body_schema={200: ChangeRoleSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def change_role():
     """Change the role of a team member. Only captains can change a team member's role"""
     return None
@@ -187,8 +191,8 @@ def change_role():
     method="DELETE",
     request_body_schema=DeleteTeamRequestRequestSchema(),
     response_body_schema={200: DeleteTeamRequestSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def remove_own_team_request():
     """Remove own request."""
 
@@ -207,8 +211,8 @@ def remove_own_team_request():
     method="POST",
     request_body_schema=DeleteTeamRequestRequestSchema(),
     response_body_schema={200: DeleteTeamRequestSchema()},
+    authenticators=FlaskLoginAuthenticator()
 )
-@login_required
 def leave_team():
     """Leave a team"""
 

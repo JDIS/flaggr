@@ -2,6 +2,7 @@
 
 from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
+
 from JDISCTF.schemas.user import UserSchema
 
 
@@ -40,4 +41,50 @@ class JoinTeamRequestSchema(RequestSchema):
     """Schema to request to join a team"""
     team_id = fields.Integer(required=True)
 
-    
+
+class SendTeamRequestRequestSchema(RequestSchema):
+    team_id = fields.Integer(required=True)
+
+
+class SendTeamRequestSchema(RequestSchema):
+    pass
+
+
+class AcceptTeamRequestRequestSchema(Schema):
+    user_id = fields.Integer(required=True)
+
+
+class AcceptTeamRequestSchema(Schema):
+    pass
+
+
+class DeclineTeamRequestRequestSchema(RequestSchema):
+    user_id = fields.Integer(required=True)
+
+
+class DeclineTeamRequestSchema(Schema):
+    pass
+
+
+class KickTeamMemberRequestSchema(RequestSchema):
+    user_id = fields.Integer(required=True)
+
+
+class KickTeamMemberSchema(Schema):
+    pass
+
+
+class ChangeRoleRequestSchema(RequestSchema):
+    user_id = fields.Integer(required=True)
+
+
+class ChangeRoleSchema(Schema):
+    pass
+
+
+class DeleteTeamRequestRequestSchema(RequestSchema):
+    pass
+
+
+class DeleteTeamRequestSchema(Schema):
+    pass

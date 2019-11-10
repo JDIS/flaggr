@@ -1,9 +1,12 @@
 """Teams' SQLAlchemy model"""
 
 from __future__ import annotations
-from JDISCTF.app import DB
+
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
+
+from JDISCTF.app import DB
+
 
 class Team(DB.Model):
     """
