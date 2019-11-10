@@ -1,37 +1,48 @@
 """Database seeding script and utilities"""
 
+from typing import Generic, List, TypeVar
+
 from JDISCTF.app import DB
-from typing import List, Generic, TypeVar
-from seeds import events, categories, challenges
-
-
-def seed(verbose: bool = False):
-    """Perform seeding for all the tables"""
-    db_events = seed_table(events.get_records(), events.FILTER_ARGS, verbose)
-    db_categories = seed_table(categories.get_records(db_events), categories.FILTER_ARGS, verbose)
-    seed_table(challenges.get_records(db_categories), challenges.FILTER_ARGS, verbose)
-
-    print('Seeding done successfully')
-
+from seeds import categories, challenges, events, flags, submissions, teams
 
 ModelType = TypeVar('ModelType', bound=DB.Model)
 ValueType = TypeVar('ValueType', str, int, bool, float)
 
 
-def seed_table(records: Generic[ModelType], filter_fields: [str], verbose: bool = False) -> \
-        List[ModelType]:
-    """Seed a single table's data"""
-    for record in records:
-        filter_args = {field_name: getattr(record, field_name) for field_name in filter_fields}
-        rec = DB.session.query(record.__class__).filter_by(**filter_args).first()
-        if rec:
-            record.id = rec.id
-            if verbose:
-                print('Record already present: ', record)
-        else:
-            DB.session.add(record)
-            if verbose:
-                print('Added record: ', record)
+class Seeder:
+    """Utility class for seeding the database"""
 
-    DB.session.commit()
-    return records
+    def __init__(self, verbose: bool = False):
+        self.verbose = verbose
+
+    def seed(self):
+        """Perform seeding for all the tables"""
+
+        print(f'Database URL: {DB.engine.url}')
+
+        db_events = self.seed_table(events.get_records(), events.FILTER_ARGS)
+        db_categories = self.seed_table(categories.get_records(db_events), categories.FILTER_ARGS)
+        db_challenges = self.seed_table(challenges.get_records(db_categories),
+                                        challenges.FILTER_ARGS)
+        self.seed_table(flags.get_records(db_challenges), flags.FILTER_ARGS)
+        db_teams = self.seed_table(teams.get_records(db_events), teams.FILTER_ARGS)
+        self.seed_table(submissions.get_records(db_challenges, db_teams), submissions.FILTER_ARGS)
+
+        print('Seeding done successfully')
+
+    def seed_table(self, records: Generic[ModelType], filter_fields: [str]) -> List[ModelType]:
+        """Seed a single table's data"""
+        for record in records:
+            filter_args = {field_name: getattr(record, field_name) for field_name in filter_fields}
+            rec = DB.session.query(record.__class__).filter_by(**filter_args).first()
+            if rec:
+                record.id = rec.id
+                if self.verbose:
+                    print('Record already present: ', record)
+            else:
+                DB.session.add(record)
+                if self.verbose:
+                    print('Added record: ', record)
+
+        DB.session.commit()
+        return records
