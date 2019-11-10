@@ -1,7 +1,16 @@
 <template>
   <div class="columns">
     <div class="column is-three-quarters">
-      <div class="solves">{{$t('challenge.solves', { number: challenge.solves })}}</div>
+      <div class="solves" @click="toggleSolvesDetail()">
+        {{$t('challenge.solves', { number: challenge.solves.length })}}
+        <b-icon class="solvesToggle" :icon="displaySolvesDetails ? 'chevron-up' : 'chevron-down'" size="is-small" type="is-black"></b-icon>
+      </div>
+      <b-collapse :open="displaySolvesDetails">
+        <div v-for="solve in challenge.solves">
+          <span class="is-size-7">{{ solve }}</span>
+        </div>
+        <br>
+      </b-collapse>
       <div class="description">{{ challenge.description }}</div>
       <div class="files">
         <a v-for="file in challenge.files" v-bind:key="file">
@@ -38,9 +47,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Challenge } from '../models/challenge';
-import { submitFlag } from '../services/challenge.service';
+import Vue from 'vue'
+import { Challenge } from '../models/challenge'
+import { submitFlag } from '../services/challenge.service'
 
 /**
  * Content of the challenge card
@@ -50,12 +59,17 @@ export default Vue.extend({
   props: {
     challenge: Challenge
   },
+  mounted() {
+    this.challenge.solves.push('yes la gang') // TODO remove this once plugged with backend
+    this.challenge.solves.push('nope')
+  },
   data() {
     return {
       flag: '',
       isLoading: false,
       isCorrect: false, // A correct flag was submitted
-      isWrong: false // A wrong flag was submitted
+      isWrong: false, // A wrong flag was submitted,
+      displaySolvesDetails: false
     };
   },
   methods: {
@@ -96,6 +110,11 @@ export default Vue.extend({
       } else {
         return '';
       }
+    },
+    toggleSolvesDetail() {
+      if (this.challenge.solves.length > 0) {
+        this.displaySolvesDetails = !this.displaySolvesDetails
+      }
     }
   },
   components: {}
@@ -108,6 +127,7 @@ export default Vue.extend({
 .solves {
     margin-bottom: 0.5rem;
     color: $light-3;
+    cursor: pointer;
 }
 .description {
     font-weight: 300;
