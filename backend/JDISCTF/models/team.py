@@ -5,7 +5,6 @@ from JDISCTF.app import DB
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 
-
 class Team(DB.Model):
     """Team model"""
     id = DB.Column(DB.Integer, primary_key=True)

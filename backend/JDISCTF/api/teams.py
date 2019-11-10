@@ -5,8 +5,9 @@ from flask_rebar import errors
 from flask_login import current_user, login_user, logout_user
 from flask_login import login_required
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.models import Team, TeamMember, User
-from JDISCTF.schemas import CreateTeamSchema, CreateUserSchema, LoginSchema, LogoutSchema, TeamSchema, UserSchema
+from JDISCTF.models import Team, TeamMember, TeamRequest, User
+from JDISCTF.schemas import CreateTeamSchema, CreateUserSchema, JoinTeamRequestSchema, JoinRequestSchema,\
+    LoginSchema, LogoutSchema, TeamSchema, UserSchema
 
 
 
@@ -18,8 +19,8 @@ from JDISCTF.schemas import CreateTeamSchema, CreateUserSchema, LoginSchema, Log
 @login_required
 def current_team():
     """Current user's team information"""
-    """TODO :)"""
-    team = TeamMember.query.filter_by(user_id=current_user.id).first().team
+
+    team = Team.query.join(TeamMember).filter_by(user_id=current_user.id).first()
     return team
 
 
@@ -35,7 +36,11 @@ def create_team():
     body = flask_rebar.get_validated_body()
     name = body["name"]
 
-    # TODO : If current user has no team (team relationship on user?)
+    team = Team.query.join(TeamMember).filter_by(user_id=current_user.id).first()
+
+    if team is not None:
+        raise errors.UnprocessableEntity("You cannot create a team if you already are in a team")
+
     team = Team.query.filter_by(name=name).first()
 
     if team is not None:
@@ -48,20 +53,170 @@ def create_team():
     return team
 
 
+@REGISTRY.handles(
+    rule="/team_request",
+    method="POST",
+    request_body_schema=SendTeamRequestRequestSchema(),
+    response_body_schema={200: SendTeamRequestSchema()},
+)
+@login_required
+def send_team_request():
+    """Request to join a team."""
+    body = flask_rebar.get_validated_body()
+    team_id = body["team_id"]
+
+    # If user has no team
+    teamMember = TeamMember.filter_by(user_id=current_user.id).first()
+
+    if teamMember is not None:
+        raise errors.UnprocessableEntity("You cannot request to join a team if you already are in a team")
+
+    # If team exists
+    team = Team.query.filter_by(id=team_id).first()
+
+    if team is None:
+        raise errors.UnprocessableEntity("The team doesn't exist")
+
+    # FIXME : If team is not already full (on a pas de configuration pour le nombre de membres d'une équipe for now)
+
+    # If user has not already applied (for any team)
+    teamRequest = TeamRequest.filter_by(user_id=current_user.id).first()
+
+    if teamRequest is not None:
+        raise errors.UnprocessableEntity("You already have requested to join a team")
+
+    teamRequest = TeamRequest(team_id=team_id, user_id=current_user.id)
+
+    DB.session.add(teamRequest)
+    DB.session.commit()
+    return None
+
+
+@REGISTRY.handles(
+    rule="/accept_team_request",
+    method="POST",
+    request_body_schema=AcceptTeamRequestRequestSchema(),
+    response_body_schema={200: AcceptTeamRequestSchema()},
+)
+@login_required
 def accept_team_request():
-    """TODO :)"""
+    """Accepts a team request. Only captains can accept a request."""
+    body = flask_rebar.get_validated_body()
+    user_id = body["user_id"]
+
+    currentMember = TeamMember.filter_by(user_id=current_user.user_id).first()
+    
+    if not currentMember and not currentMember.captain:
+        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+
+    # Remove TeamRequest and add the new member
+    teamRequest = TeamRequest.filter_by(user_id=user_id).first()
+    newMember = TeamMember(user_id=user_id, team_id=currentMember.team_id)
+
+    DB.session.delete(teamRequest)
+    DB.session.add(newMember)
+    DB.session.commit()
+    # If user has no team
     return None
 
 
-def leave_team():
-    """TODO :)"""
+@REGISTRY.handles(
+    rule="/decline_team_request",
+    method="POST",
+    request_body_schema=DeclineTeamRequestRequestSchema(),
+    response_body_schema={200: DeclineTeamRequestSchema()},
+)
+@login_required
+def decline_team_request():
+    """Decline a team request. Only captains can decline a request."""
+    body = flask_rebar.get_validated_body()
+    user_id = body["user_id"]
+    currentMember = TeamMember.filter_by(user_id=current_user.user_id).first()
+    
+    if not currentMember and not currentMember.captain:
+        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+
+    # Remove TeamRequest
+    teamRequest = TeamRequest.filter_by(user_id=user_id).first()
+
+    DB.session.delete(teamRequest)
+    DB.session.commit()
     return None
 
 
+@REGISTRY.handles(
+    rule="/kick_team_member",
+    method="POST",
+    request_body_schema=KickTeamMemberRequestSchema(),
+    response_body_schema={200: KickTeamMemberSchema()},
+)
+@login_required
 def kick_team_member():
-    """TODO :)"""
+    """Kick a member of the team. Only captains can kick a team member"""
+    body = flask_rebar.get_validated_body()
+    user_id = body["user_id"]
+    currentMember = TeamMember.filter_by(user_id=current_user.user_id).first()
+
+    if not currentMember and not currentMember.captain:
+        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+
+    if user_id == current_user.user_id:
+        raise errors.UnprocessableEntity("You cannot kick yourself from a team.")
+
+    teamMember = TeamMember.filter_by(user_id=user_id).first()
+
+    DB.session.delete(teamMember)
+    DB.session.commit()
     return None
 
+
+@REGISTRY.handles(
+    rule="/change_role",
+    method="POST",
+    request_body_schema=ChangeRoleRequestSchema(),
+    response_body_schema={200: ChangeRoleSchema()},
+)
+@login_required
 def change_role():
-    """TODO :)"""
+    """Change the role of a team member. Only captains can change a team member's role"""
+    return None
+
+
+@REGISTRY.handles(
+    rule="/team_request",
+    method="DELETE",
+    request_body_schema=DeleteTeamRequestRequestSchema(),
+    response_body_schema={200: DeleteTeamRequestSchema()},
+)
+@login_required
+def remove_own_team_request():
+    """Remove own request."""
+
+    teamRequest = TeamRequest.filter_by(user_id=current_user.id).first()
+
+    if teamRequest is None:
+        raise errors.UnprocessableEntity("A team with that name already exists")
+
+    DB.session.delete(teamRequest)
+    DB.session.commit()
+    return None
+
+
+@REGISTRY.handles(
+    rule="/leave_team",
+    method="POST",
+    request_body_schema=DeleteTeamRequestRequestSchema(),
+    response_body_schema={200: DeleteTeamRequestSchema()},
+)
+@login_required
+def leave_team():
+    """Leave a team"""
+
+    teamMember = TeamMember.filter_by(user_id=current_user.id).first()
+
+    if teamMember is None:
+        raise errors.UnprocessableEntity("You are not in a team.")
+
+    DB.session.delete(teamMember)
+    DB.session.commit()
     return None
