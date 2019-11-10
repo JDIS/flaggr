@@ -10,6 +10,7 @@
 import Vue from 'vue'
 import { UserMixin } from '@/mixins/UserMixin'
 
+
 export default Vue.extend({
   name: 'NavigationBarLinks',
   mixins: [UserMixin],
