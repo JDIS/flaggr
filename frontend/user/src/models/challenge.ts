@@ -6,7 +6,7 @@ export class Challenge {
   public name: string;
   public description: string;
   public points: number;
-  public solves: number;
+  public solves: string[];
   public files: string[];
   public links: string[];
   public tags: string[];
@@ -17,7 +17,7 @@ export class Challenge {
     this.name = '';
     this.description = '';
     this.points = 0;
-    this.solves = 0;
+    this.solves = [];
     this.files = [];
     this.links = [];
     this.tags = [];
