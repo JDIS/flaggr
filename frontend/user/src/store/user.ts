@@ -1,6 +1,7 @@
 import { User } from '@/models/user'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { sendAlert, sendAlertWithVariables } from '@/helpers'
+import route from '../router'
 
 /**
  * Store to manage the connected user's information.
@@ -99,13 +100,23 @@ const actions = {
       })
   },
 
+  /**
+   * Fetches the current user to set in the store.
+   * If not connected, sets the state accordingly.
+   * If the user is in a route that requires authentication,
+   * redirect to home page.
+   * @param context VueX Store context.
+   */
   fetchUser(context: any) {
-    axios.get('user')
-      .then((response: AxiosResponse) => {
+    return axios.get('user')
+      .then((response: AxiosResponse<User>) => {
         context.commit('setUser', response.data)
       })
       .catch((error: AxiosError) => {
         context.commit('setUser', null)
+        if (route.currentRoute.meta.requiresAuth === true) {
+          route.replace('/')
+        }
       })
   }
 }
