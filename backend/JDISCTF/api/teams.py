@@ -29,6 +29,17 @@ def current_team():
 
 
 @REGISTRY.handles(
+    rule="/teams",
+    method="GET",
+    response_body_schema={200: TeamSchema(many=True)},
+    authenticators=FlaskLoginAuthenticator()
+)
+def teams_list():
+    """ Get teams list for the current event """
+    return Team.query.filter_by(event_id=0).join(TeamMember).all()
+
+
+@REGISTRY.handles(
     rule="/team",
     method="POST",
     request_body_schema=CreateTeamSchema(),
