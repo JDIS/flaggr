@@ -119,7 +119,7 @@ def accept_team_request():
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
 
-    currentMember = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    currentMember = TeamMember.query.filter_by(user_id=current_user.id).first()
     
     if not currentMember and not currentMember.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -146,7 +146,7 @@ def decline_team_request():
     """Decline a team request. Only captains can decline a request."""
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
-    currentMember = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    currentMember = TeamMember.query.filter_by(user_id=current_user.id).first()
     
     if not currentMember and not currentMember.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -170,7 +170,7 @@ def kick_team_member():
     """Kick a member of the team. Only captains can kick a team member"""
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
-    currentMember = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    currentMember = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if not currentMember and not currentMember.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
