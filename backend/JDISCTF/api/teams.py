@@ -55,6 +55,19 @@ def create_team():
 
 @REGISTRY.handles(
     rule="/team_request",
+    method="GET",
+    response_body_schema={200: TeamRequestSchema()},
+)
+@login_required
+def get_team_request():
+    """Get the request for the current user (if any)."""
+    teamRequest = TeamRequest.filter_by(user_id=current_user.id).first()
+
+    return teamRequest
+
+
+@REGISTRY.handles(
+    rule="/team_request",
     method="POST",
     request_body_schema=SendTeamRequestRequestSchema(),
     response_body_schema={200: SendTeamRequestSchema()},
