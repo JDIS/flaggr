@@ -81,7 +81,7 @@ def send_team_request():
     team_id = body["team_id"]
 
     # If user has no team
-    teamMember = TeamMember.filter_by(user_id=current_user.id).first()
+    teamMember = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if teamMember is not None:
         raise errors.UnprocessableEntity("You cannot request to join a team if you already are in a team")
@@ -95,7 +95,7 @@ def send_team_request():
     # FIXME : If team is not already full (on a pas de configuration pour le nombre de membres d'une équipe for now)
 
     # If user has not already applied (for any team)
-    teamRequest = TeamRequest.filter_by(user_id=current_user.id).first()
+    teamRequest = TeamRequest.query.filter_by(user_id=current_user.id).first()
 
     if teamRequest is not None:
         raise errors.UnprocessableEntity("You already have requested to join a team")

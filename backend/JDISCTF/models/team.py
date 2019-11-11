@@ -27,7 +27,7 @@ class Team(DB.Model):
     """The name of the team. Two teams competing in the same event cannot have the same name."""
 
     members = relationship('TeamMember', lazy="joined", back_populates="team")
-    requests = relationship('TeamRequest', lazy='noload')
+    requests = relationship('TeamRequest', lazy='joined')
 
     def __repr__(self):
         return '<Team id:{} event_id:{} name:{}>'.format(self.id, self.event_id, self.name)
@@ -45,7 +45,7 @@ class TeamMember(DB.Model):
     captain = DB.Column(DB.Boolean)
 
     team = relationship("Team", back_populates="members")
-    user = relationship("User",)
+    user = relationship("User")
     
     def __repr__(self): 
         return '<TeamMember id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)
@@ -59,6 +59,8 @@ class TeamRequest(DB.Model):
     team_id = DB.Column(DB.Integer, ForeignKey('Teams.id'), nullable=True)
     user_id = DB.Column(DB.Integer, ForeignKey('Users.id'), nullable=True)
     requested_at = DB.Column(DB.DateTime, server_default=DB.func.now())
+
+    user = relationship("User")
 
     def __repr__(self):
         return '<TeamRequests id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)
