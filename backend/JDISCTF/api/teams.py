@@ -119,7 +119,7 @@ def accept_team_request():
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
 
-    currentMember = TeamMember.filter_by(user_id=current_user.user_id).first()
+    currentMember = TeamMember.query.filter_by(user_id=current_user.user_id).first()
     
     if not currentMember and not currentMember.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -146,7 +146,7 @@ def decline_team_request():
     """Decline a team request. Only captains can decline a request."""
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
-    currentMember = TeamMember.filter_by(user_id=current_user.user_id).first()
+    currentMember = TeamMember.query.filter_by(user_id=current_user.user_id).first()
     
     if not currentMember and not currentMember.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -170,7 +170,7 @@ def kick_team_member():
     """Kick a member of the team. Only captains can kick a team member"""
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
-    currentMember = TeamMember.filter_by(user_id=current_user.user_id).first()
+    currentMember = TeamMember.query.filter_by(user_id=current_user.user_id).first()
 
     if not currentMember and not currentMember.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -178,7 +178,7 @@ def kick_team_member():
     if user_id == current_user.user_id:
         raise errors.UnprocessableEntity("You cannot kick yourself from a team.")
 
-    teamMember = TeamMember.filter_by(user_id=user_id).first()
+    teamMember = TeamMember.query.filter_by(user_id=user_id).first()
 
     DB.session.delete(teamMember)
     DB.session.commit()
@@ -227,7 +227,7 @@ def remove_own_team_request():
 def leave_team():
     """Leave a team"""
 
-    teamMember = TeamMember.filter_by(user_id=current_user.id).first()
+    teamMember = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if teamMember is None:
         raise errors.UnprocessableEntity("You are not in a team.")

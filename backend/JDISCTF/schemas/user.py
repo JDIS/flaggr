@@ -27,3 +27,4 @@ class UserSchema(Schema):
     """Schema for getting a user's info"""
     email = fields.Email()
     username = fields.String()
+    id = fields.Integer()
