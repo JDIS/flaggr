@@ -125,7 +125,7 @@ def accept_team_request():
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
 
     # Remove TeamRequest and add the new member
-    teamRequest = TeamRequest.filter_by(user_id=user_id).first()
+    teamRequest = TeamRequest.query.filter_by(user_id=user_id).first()
     newMember = TeamMember(user_id=user_id, team_id=currentMember.team_id)
 
     DB.session.delete(teamRequest)
@@ -152,7 +152,7 @@ def decline_team_request():
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
 
     # Remove TeamRequest
-    teamRequest = TeamRequest.filter_by(user_id=user_id).first()
+    teamRequest = TeamRequest.query.filter_by(user_id=user_id).first()
 
     DB.session.delete(teamRequest)
     DB.session.commit()
@@ -207,7 +207,7 @@ def change_role():
 def remove_own_team_request():
     """Remove own request."""
 
-    teamRequest = TeamRequest.filter_by(user_id=current_user.id).first()
+    teamRequest = TeamRequest.query.filter_by(user_id=current_user.id).first()
 
     if teamRequest is None:
         raise errors.UnprocessableEntity("A team with that name already exists")
