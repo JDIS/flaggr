@@ -1,10 +1,23 @@
 """Users routes"""
 
+from flask_login import current_user
 from flask_rebar import errors
+
 from JDISCTF.app import REGISTRY
+from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import User
 from JDISCTF.schemas import UserSchema
 
+
+@REGISTRY.handles(
+    rule="/user",
+    method="GET",
+    response_body_schema=UserSchema(),
+    authenticators=FlaskLoginAuthenticator()
+)
+def get_connected_user():
+    """Get the connected user."""
+    return current_user
 
 @REGISTRY.handles(
     rule="/users",

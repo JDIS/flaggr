@@ -1,8 +1,9 @@
 """'Categories' SQLAlchemy model"""
 
-from JDISCTF.app import DB
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
+
+from JDISCTF.app import DB
 
 
 class Category(DB.Model):
@@ -24,7 +25,7 @@ class Category(DB.Model):
     """The name of the category. Max 64 characters."""
 
     __table_args__ = (
-        UniqueConstraint('event_id', 'name', name='category_event_name_uc'),
+        UniqueConstraint('event_id', 'name', name='categories_event_name_uc'),
     )
 
     challenges = relationship('Challenge', lazy='noload')

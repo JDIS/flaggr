@@ -1,10 +1,14 @@
 """'User' SQLAlchemy model"""
 
 from __future__ import annotations
-from JDISCTF.app import DB, LOGIN_MANAGER
+
+from base64 import b64decode
+
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from JDISCTF.app import Config, DB, LOGIN_MANAGER
 
 
 class User(UserMixin, DB.Model):
@@ -41,6 +45,34 @@ class User(UserMixin, DB.Model):
     def check_password(self, password: str) -> bool:
         """Check whether or not this is the user's password"""
         return check_password_hash(self.password_hash, password)
+
+
+if Config.DEBUG:
+    @LOGIN_MANAGER.request_loader
+    def load_user_from_request(request):
+        # pylint: disable=bare-except
+        """
+        DEVELOPMENT ONLY. Returns a User class from an authorization header.
+        Required by flask-login
+        """
+
+        try:
+            auth_header = request.headers.get("Authorization")
+            auth_header = auth_header.replace('Basic ', '', 1)
+
+            auth_header = b64decode(auth_header)
+            email, password = auth_header.split(b":", 1)
+            email = email.decode()
+            password = password.decode()
+        except:
+            return None
+
+        user = User.query.filter_by(email=email).first()
+
+        if user is None or not check_password_hash(user.password_hash, password):
+            return None
+
+        return user
 
 
 @LOGIN_MANAGER.user_loader

@@ -1,16 +1,20 @@
 """The flask app"""
 
 import os
+from functools import partial
 
-from config import Config
 from flask import Flask
+from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_rebar import Rebar
 from flask_sqlalchemy import SQLAlchemy
 from functools import partial
 
+from config import Config
 # Globally accessible libraries
+from JDISCTF.flask_login_authenticator import register_authenticators
+
 DB = SQLAlchemy()
 MIGRATE = Migrate()
 REBAR = Rebar()
@@ -20,11 +24,16 @@ REGISTRY = REBAR.create_handler_registry(prefix="/api")
 # make columns non-nullable by default, most of them should be
 DB.Column = partial(DB.Column, nullable=False)
 
+# register authenticator for Swagger
+register_authenticators(REGISTRY)
+
 
 def create_app(test_config=None) -> Flask:
     """Initialize the core application"""
 
     app = Flask(__name__, instance_relative_config=True)
+
+    CORS(app)
 
     if test_config is None:
         app.config.from_object(Config)

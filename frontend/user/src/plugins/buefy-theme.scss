@@ -1,0 +1,139 @@
+@import '~bulma/sass/utilities/_all';
+@import '../style/theme.scss';
+
+/* COLORS */
+$primary: $primary-color;
+$primary-invert: findColorInvert($primary);
+$solved: $primary-color;
+$solved-invert: findColorInvert($solved);
+$unsolved: $secondary-color;
+$unsolved-invert: findColorInvert($unsolved);
+
+$transparent: rgba(0, 0, 0, 0);
+
+/* FONTS */
+$family-primary: $primary-font;
+$family-secondary: $secondary-font;
+
+$title-family: $family-secondary;
+$subtitle-family: $family-primary;
+
+/* GENERAL */
+$link: $link-color;
+$link-hover: $link-hover-color;
+$link-active: $link-hover-color;
+
+$navbar-height: 4.25rem;
+$navbar-item-img-max-height: 3rem;
+$navbar-breakpoint: $tablet;
+
+$title-weight: 400;
+
+$gap: 120px;
+$card-media-margin: 1rem;
+
+$tag-radius: 5px;
+
+.button span {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* DARK THEME */
+$grey-dark: $dark-2;
+$grey-darker: $dark-1;
+$grey: $dark-3;
+$grey-light: $dark-4;
+$grey-lighter: $light-2;
+$black-bis: $dark-0;
+$white-bis: $light-1;
+$white-ter: $light-1;
+
+
+$body-background-color: $grey-dark;
+$text: $white-bis;
+$text-strong: $text;
+$title-color: $text;
+$subtitle-color: $text;
+
+$navbar-background-color: $black-bis;
+$navbar-item-color: $text;
+$navbar-item-hover-color: $text;
+$navbar-item-active-color: $text;
+$navbar-item-hover-background-color: $transparent;
+$navbar-box-shadow-color: rgba(0, 0, 0, 0.5);
+$navbar-box-shadow-size: 1px 1px 5px 0;
+
+$card-background-color: $grey-darker;
+$card-header-background-color: $black-bis;
+
+$tag-background-color: $black-bis;
+$footer-padding: 0.3rem 1.5rem 0.3rem;
+$footer-color: true;
+$footer-background-color: $grey-darker;
+
+// https://bulma.io/documentation/form/input/#variables
+$input-background-color: $grey-light;
+$input-border-color: $grey-light;
+$input-hover-border-color: $grey-lighter;
+$input-focus-border-color: $input-hover-border-color;
+$input-hover-color: $white;
+$input-disabled-background-color: $input-background-color;
+$input-disabled-border-color: $input-border-color;
+$input-disabled-color: $grey-lighter;
+$input-arrow: $white-ter;
+$input-color: $white;
+$input-placeholder-color: $light-1;
+$label-color: $white;
+
+/* CLASSES SETUP */
+$colors: (
+  'white': (
+    $white,
+    $black
+  ),
+  'black': (
+    $black,
+    $white
+  ),
+  'light': (
+    $light,
+    $light-invert
+  ),
+  'dark': (
+    $dark,
+    $dark-invert
+  ),
+  'primary': (
+    $primary,
+    $primary-invert
+  ),
+  'info': (
+    $info,
+    $info-invert
+  ),
+  'success': (
+    $success,
+    $success-invert
+  ),
+  'warning': (
+    $warning,
+    $warning-invert
+  ),
+  'danger': (
+    $danger,
+    $danger-invert
+  ),
+  'solved': (
+    $solved,
+    $solved-invert
+  ),
+  'unsolved': (
+    $unsolved,
+    $unsolved-invert
+  )
+);
+
+@import '~bulma';
+@import '~buefy/src/scss/buefy';

@@ -1,8 +1,10 @@
 stages:
   - backend-lint
   - backend-test
-  - frontend-lint
-  - frontend-build
+  - frontend-user-lint
+  - frontend-user-build
+  - frontend-admin-lint
+  - frontend-admin-build
 
 .job_template: &backend_definition
   image: python:3.7.4-slim
@@ -31,29 +33,58 @@ backend-test:
   script:
     - pytest
 
-.job_template: &frontend_definition
+.job_template: &frontend_user_definition
   image: node:10.16.3-jessie-slim
   before_script:
     - node -v
     - npm -v
-    - cd frontend
+    - cd frontend/user
     - npm install
   cache:
     key: "$CI_COMMIT_REF_SLUG-node_modules"
     paths:
-      - frontend/node_modules
+      - frontend/user/node_modules
 
-frontend-lint:
-  <<: *frontend_definition
-  stage: frontend-lint
+frontend-user-lint:
+  <<: *frontend_user_definition
+  stage: frontend-user-lint
   script:
     - npm run lint -- --no-fix
 
-frontend-build:
-  <<: *frontend_definition
-  stage: frontend-build
+frontend-user-build:
+  <<: *frontend_user_definition
+  stage: frontend-user-build
   script:
     - npm run build
   artifacts:
     paths:
-      - frontend/dist
+      - frontend/user/dist
+
+
+.job_template: &frontend_admin_definition
+  image: node:10.16.3-jessie-slim
+  before_script:
+    - node -v
+    - npm -v
+    - cd frontend/admin
+    - npm install
+  cache:
+    key: "$CI_COMMIT_REF_SLUG-node_modules"
+    paths:
+      - frontend/admin/node_modules
+
+frontend-admin-lint:
+  <<: *frontend_admin_definition
+  stage: frontend-admin-lint
+  script:
+    - npm run lint -- --no-fix
+
+frontend-admin-build:
+  <<: *frontend_admin_definition
+  stage: frontend-admin-build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/admin/dist
+
