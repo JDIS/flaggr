@@ -126,7 +126,7 @@ def accept_team_request():
 
     # Remove TeamRequest and add the new member
     teamRequest = TeamRequest.query.filter_by(user_id=user_id).first()
-    newMember = TeamMember(user_id=user_id, team_id=currentMember.team_id)
+    newMember = TeamMember(user_id=user_id, team_id=currentMember.team_id, captain=False)
 
     DB.session.delete(teamRequest)
     DB.session.add(newMember)
