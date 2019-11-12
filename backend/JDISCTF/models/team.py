@@ -51,7 +51,7 @@ class TeamMember(DB.Model):
     def __repr__(self):
         return '<TeamMember id:{} team_id:{} user_id:{}>'\
             .format(self.id, self.team_id, self.user_id)
-
+    
 
 class TeamRequest(DB.Model):
     """TeamRequest model"""
