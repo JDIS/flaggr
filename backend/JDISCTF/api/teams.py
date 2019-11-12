@@ -7,12 +7,10 @@ from flask_rebar import errors
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import Team, TeamMember, TeamRequest
-from JDISCTF.schemas import CreateTeamRequestSchema, GenericMessageSchema, TeamSchema
-from JDISCTF.schemas.team import AcceptTeamRequestRequestSchema, AcceptTeamRequestSchema, \
-    ChangeRoleRequestSchema, ChangeRoleSchema, DeclineTeamRequestRequestSchema, \
-    DeclineTeamRequestSchema, DeleteTeamRequestRequestSchema, DeleteTeamRequestSchema, \
-    KickTeamMemberRequestSchema, KickTeamMemberSchema, SendTeamRequestRequestSchema, \
-    SendTeamRequestSchema, TeamRequestSchema
+from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
+    ChangeRoleRequestSchema, CreateTeamRequestSchema, DeclineTeamRequestRequestSchema, \
+    GenericMessageSchema, KickTeamMemberRequestSchema, SendTeamRequestRequestSchema, \
+    TeamRequestSchema, TeamSchema
 
 
 @REGISTRY.handles(
@@ -203,18 +201,34 @@ def kick_team_member():
     rule="/change_role",
     method="POST",
     request_body_schema=ChangeRoleRequestSchema(),
-    response_body_schema={200: ChangeRoleSchema()},
+    response_body_schema={200: GenericMessageSchema()},
     authenticators=FlaskLoginAuthenticator()
 )
 def change_role():
     """Change the role of a team member. Only captains can change a team member's role"""
-    return None
+    body = flask_rebar.get_validated_body()
+    user_id = body["user_id"]
+    new_role = body["captain"]
+
+    current_member = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+
+    if not current_member and not current_member.captain:
+        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+
+    if user_id == current_user.user_id:
+        # In order to avoid a team "bricking" itself
+        raise errors.UnprocessableEntity("You cannot remove your own privileges.")
+
+    team_member = TeamMember.query.filter_by(user_id=user_id).first()
+    team_member.captain = new_role
+
+    DB.session.commit()
+    return "OK"
 
 
 @REGISTRY.handles(
     rule="/team_request",
     method="DELETE",
-    request_body_schema=DeleteTeamRequestRequestSchema(),
     response_body_schema={200: GenericMessageSchema()},
     authenticators=FlaskLoginAuthenticator()
 )
@@ -224,7 +238,7 @@ def remove_own_team_request():
     team_request = TeamRequest.query.filter_by(user_id=current_user.id).first()
 
     if team_request is None:
-        raise errors.UnprocessableEntity("A team with that name already exists.")
+        raise errors.UnprocessableEntity("You don't have any pending requests.")
 
     DB.session.delete(team_request)
     DB.session.commit()
@@ -234,7 +248,6 @@ def remove_own_team_request():
 @REGISTRY.handles(
     rule="/leave_team",
     method="POST",
-    request_body_schema=DeleteTeamRequestRequestSchema(),
     response_body_schema={200: GenericMessageSchema()},
     authenticators=FlaskLoginAuthenticator()
 )

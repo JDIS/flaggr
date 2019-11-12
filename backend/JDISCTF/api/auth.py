@@ -69,7 +69,7 @@ def register():
     if user is not None:
         raise errors.UnprocessableEntity("A user with that username already exists")
 
-    # TODO: event_id should be sourced from the link.
+    # FIXME: event_id should be sourced from the link.
     event_id = 0
     user = User(email=email, username=username, event_id=event_id)
     user.set_password(password)

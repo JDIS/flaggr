@@ -49,9 +49,8 @@ class TeamMember(DB.Model):
     user = relationship("User")
 
     def __repr__(self):
-        return '<TeamMember id:{} team_id:{} user_id:{}>'\
-            .format(self.id, self.team_id, self.user_id)
-    
+        return '<TeamMember id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)
+
 
 class TeamRequest(DB.Model):
     """TeamRequest model"""
@@ -66,5 +65,4 @@ class TeamRequest(DB.Model):
     user = relationship("User")
 
     def __repr__(self):
-        return '<TeamRequests id:{} team_id:{} user_id:{}>'\
-            .format(self.id, self.team_id, self.user_id)
+        return '<TeamRequests id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)
