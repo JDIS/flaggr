@@ -44,17 +44,21 @@ class SendTeamRequestRequestSchema(RequestSchema):
 
 
 class AcceptTeamRequestRequestSchema(RequestSchema):
+    """Request schema when accepting a team request"""
     user_id = fields.Integer(required=True)
 
 
 class DeclineTeamRequestRequestSchema(RequestSchema):
+    """Request schema when declining a team request"""
     user_id = fields.Integer(required=True)
 
 
 class KickTeamMemberRequestSchema(RequestSchema):
+    """Request schema when kicking a team member"""
     user_id = fields.Integer(required=True)
 
 
 class ChangeRoleRequestSchema(RequestSchema):
+    """Request schema when changing a team member's role"""
     user_id = fields.Integer(required=True)
     captain = fields.Bool(required=True)
