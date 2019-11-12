@@ -30,5 +30,15 @@
   "scoreboard.score": "Score",
   "scoreboard.lastUpdate": "Dernière mise à jour",
   "scoreboard.team": "Équipe",
-  "all": "Tous"
+  "all": "Tous",
+  "team.creationSuccessful": "L'équipe {team} a été créée",
+  "team.creationError": "Erreur lors de la création d'équipe: {error}",
+  "team.sendJoinRequestError": "Erreur lors de la demande pour rejoindre une équipe: {error}",
+  "team.sendJoinRequestSent": "Requête pour joindre l'équipe envoyée!",
+  "team.requests": "Requêtes pour joindre l'équipe",
+  "team.members": "Membres",
+  "team.userAccepted": "{user} fait maintenant partie de l'équipe.",
+  "team.acceptError": "Erreur lors de l'acceptation de l'invitation: {error}",
+  "team.userRejected": "Requête pour joindre l'équipe de {user} a été refusée.",
+  "team.rejectError": "Erreur lors du rejet de l'invitation: {error}"
 }
