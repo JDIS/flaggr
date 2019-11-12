@@ -1,6 +1,6 @@
 <template>
   <div class="teamManagementModal container">
-    <div class="requests">
+    <div class="requests" v-show="this.team.requests.length > 0">
       <h3>{{ $t('team.requests') }}</h3>
       <hr>
       <div v-for="request in this.team.requests" class="pendingRequest columns is-vcentered">
@@ -54,7 +54,6 @@ export default Vue.extend({
     },
 
     acceptInvitation(request: TeamJoinRequest) {
-      console.log('requesta', request)
       acceptInvitation(request).then((response) => {
         sendAlertWithVariables('team.userAccepted', {user: request.user.username}, {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
