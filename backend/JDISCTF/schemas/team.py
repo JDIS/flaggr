@@ -10,7 +10,7 @@ class TeamMemberSchema(Schema):
     """Schema for getting a team member's information"""
     user = fields.Nested(UserSchema)
     captain = fields.Bool()
-    
+
 
 class JoinRequestSchema(Schema):
     """Schema for getting a user's request to join a team"""
@@ -27,12 +27,13 @@ class TeamSchema(Schema):
     members = fields.Nested(TeamMemberSchema, many=True)
     requests = fields.Nested(JoinRequestSchema, many=True)
 
-class JoinTeamRequest(Schema):
-    """Response schema for requesting to join a team"""
-    message = fields.String()
+class TeamRequestSchema(Schema):
+    """Schema that represents a team request"""
+    user = fields.Nested(UserSchema)
+    name = fields.String(required=True)
 
 
-class CreateTeamSchema(RequestSchema):
+class CreateTeamRequestSchema(RequestSchema):
     """Schema to create a team"""
     name = fields.String(required=True)
 

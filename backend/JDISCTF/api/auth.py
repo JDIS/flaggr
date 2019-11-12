@@ -5,7 +5,7 @@ from flask_rebar import errors
 from flask_login import current_user, login_user, logout_user
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
-from JDISCTF.schemas import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
+from JDISCTF.schemas import CreateUserSchema, GenericMessageSchema, LoginSchema, UserSchema
 
 
 
@@ -37,7 +37,7 @@ def login():
 @REGISTRY.handles(
     rule="/logout",
     method="GET",
-    response_body_schema={200: LogoutSchema()},
+    response_body_schema={200: GenericMessageSchema()},
 )
 def logout():
     """Logouts the user"""
