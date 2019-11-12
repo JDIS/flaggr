@@ -240,6 +240,7 @@ def remove_own_team_request():
 )
 def leave_team():
     """Leave a team"""
+    # FIXME When the last member of a team leaves, cascade delete submissions, and then the team itself.
 
     team_member = TeamMember.query.filter_by(user_id=current_user.id).first()
 

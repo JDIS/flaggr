@@ -5,5 +5,5 @@ from JDISCTF.schemas.challenge import ChallengeByCategorySchema, SubmitFlagRespo
     SubmitFlagSchema, UserChallengeSchema
 from JDISCTF.schemas.team import CreateTeamRequestSchema, JoinRequestSchema, JoinTeamRequestSchema,\
     TeamSchema
-from JDISCTF.schemas.user import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
+from JDISCTF.schemas.user import CreateUserSchema, LoginSchema, UserSchema
 from JDISCTF.schemas.generic import GenericMessageSchema
