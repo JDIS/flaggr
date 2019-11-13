@@ -18,11 +18,6 @@ class LoginSchema(RequestSchema):
     remember = fields.Boolean()
 
 
-class LogoutSchema(Schema):
-    """Schema for logging-out a user"""
-    message = fields.String()
-
-
 class UserSchema(Schema):
     """Schema for getting a user's info"""
     email = fields.Email()
