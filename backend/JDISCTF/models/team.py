@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from sqlalchemy import ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 
 from JDISCTF.app import DB
 
@@ -46,7 +46,7 @@ class TeamMember(DB.Model):
     captain = DB.Column(DB.Boolean, default=False)
 
     team = relationship("Team", back_populates="members")
-    user = relationship("User")
+    user = relationship("User", backref=backref('teamInfo'))
 
     def __repr__(self):
         return '<TeamMember id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)

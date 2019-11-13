@@ -22,8 +22,7 @@ from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
 def current_team():
     """Current user's team information"""
 
-    team = Team.query.join(TeamMember).filter_by(user_id=current_user.id).first()
-    return team
+    return current_user.getTeam()
 
 
 @REGISTRY.handles(

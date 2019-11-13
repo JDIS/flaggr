@@ -6,6 +6,7 @@ from base64 import b64decode
 
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
+from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from JDISCTF.app import Config, DB, LOGIN_MANAGER
@@ -35,6 +36,8 @@ class User(UserMixin, DB.Model):
     128 characters.
     """
 
+    teams = association_proxy('teamInfo', 'team')
+
     def __repr__(self):
         return '<User id:{} email:{} username:{}>'.format(self.id, self.email, self.username)
 
@@ -45,6 +48,12 @@ class User(UserMixin, DB.Model):
     def check_password(self, password: str) -> bool:
         """Check whether or not this is the user's password"""
         return check_password_hash(self.password_hash, password)
+
+    def getTeam(self):
+        """
+        :return: The team of the user, or none if the user has no team.
+        """
+        return None if len(self.teams) == 0 else self.teams[0]
 
 
 if Config.DEBUG:
