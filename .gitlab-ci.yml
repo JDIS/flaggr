@@ -1,11 +1,7 @@
 stages:
-  - backend-lint
-  - backend-test
-  - frontend-user-lint
-  - frontend-user-build
-  - frontend-admin-lint
-  - frontend-admin-build
-
+  - lint
+  - build-and-test
+  
 .job_template: &backend_definition
   image: python:3.7.4-slim
   cache:
@@ -21,18 +17,6 @@ stages:
     - source venv/bin/activate
     - pip install -r requirements.txt
 
-backend-lint:
-  <<: *backend_definition
-  stage: backend-lint
-  script:
-    - pylint JDISCTF seeds
-  
-backend-test:
-  <<: *backend_definition
-  stage: backend-test
-  script:
-    - pytest
-
 .job_template: &frontend_user_definition
   image: node:10.16.3-jessie-slim
   before_script:
@@ -45,20 +29,37 @@ backend-test:
     paths:
       - frontend/user/node_modules
 
-frontend-user-lint:
-  <<: *frontend_user_definition
-  stage: frontend-user-lint
-  script:
-    - npm run lint -- --no-fix
-
-frontend-user-build:
-  <<: *frontend_user_definition
-  stage: frontend-user-build
-  script:
-    - npm run build
-  artifacts:
+# https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+.job_template: &frontend_user_definition_build
+  image: docker:19.03.1
+  variables:
+    # When using dind service we need to instruct docker, to talk with the
+    # daemon started inside of the service. The daemon is available with
+    # a network connection instead of the default /var/run/docker.sock socket.
+    #
+    # The 'docker' hostname is the alias of the service container as described at
+    # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#accessing-the-services
+    #
+    # Note that if you're using the Kubernetes executor, the variable should be set to
+    # tcp://localhost:2375 because of how the Kubernetes executor connects services
+    # to the job container
+    #DOCKER_HOST: tcp://localhost:2375
+    #
+    # For non-Kubernetes executors, we use tcp://docker:2375
+    DOCKER_HOST: tcp://docker:2375
+    #
+    # This will instruct Docker not to start over TLS.
+    DOCKER_TLS_CERTDIR: ""
+  services:
+  - docker:19.03.1-dind
+  before_script:
+    - docker info
+    - cd frontend/user
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  cache:
+    key: "$CI_COMMIT_REF_SLUG-node_modules"
     paths:
-      - frontend/user/dist
+      - frontend/user/node_modules
 
 
 .job_template: &frontend_admin_definition
@@ -73,18 +74,44 @@ frontend-user-build:
     paths:
       - frontend/admin/node_modules
 
+backend-lint:
+  <<: *backend_definition
+  stage: lint
+  script:
+    - pylint JDISCTF seeds
+
+frontend-user-lint:
+  <<: *frontend_user_definition
+  stage: lint
+  script:
+    - npm run lint -- --no-fix
+
+frontend-user-build:
+  <<: *frontend_user_definition_build
+  stage: build-and-test
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+backend-test:
+  <<: *backend_definition
+  stage: build-and-test
+  script:
+    - pytest
+
 frontend-admin-lint:
   <<: *frontend_admin_definition
-  stage: frontend-admin-lint
+  stage: lint
   script:
     - npm run lint -- --no-fix
 
 frontend-admin-build:
   <<: *frontend_admin_definition
-  stage: frontend-admin-build
+  stage: build-and-test
   script:
     - npm run build
   artifacts:
     paths:
       - frontend/admin/dist
-
