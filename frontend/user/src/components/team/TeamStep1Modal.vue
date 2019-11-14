@@ -43,7 +43,6 @@
         label-for="teamToJoin"
       >
         <b-select
-          placeholder="TheBestTeam"
           expanded
           v-model="teamToJoin"
           id="teamToJoin"

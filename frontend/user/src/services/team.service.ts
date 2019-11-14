@@ -49,7 +49,7 @@ export async function fetchTeams(): Promise<Team[]> {
 
 
 /**
- * Reject an invitation to join a team. Only team captains can do it.
+ * Reject an invitation to join a team.
  * Fetches the team again after completion.
  * @param request the team join request to reject
  */
@@ -65,13 +65,12 @@ export async function rejectInvitation(request: TeamJoinRequest): Promise<any> {
 
 
 /**
- * Accept an invitation to join a team. Only team captains can do it.
+ * Accept an invitation to join a team.
  * Fetches the team again after completion.
  * @param request the team join request to accept
  */
 export async function acceptInvitation(request: TeamJoinRequest): Promise<any> {
   try {
-    console.log('request', request.user.id)
     const response = await axios.post('accept_team_request', {user_id: request.user.id});
     store.dispatch('team/fetchTeam')
     return response.data;
@@ -98,7 +97,7 @@ export async function changeRole(member: TeamMember): Promise<any> {
 
 
 /**
- * Kick a team member. Only team captains can do it.
+ * Kick a team member.
  * Fetches the team again after completion.
  * @param member Team member to kick
  */

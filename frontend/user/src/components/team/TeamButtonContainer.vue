@@ -11,7 +11,7 @@
       <div v-if="hasTeam() && isCaptain(user)" v-show="team.requests.length > 0" class="has-text-warning notification">{{ team.requests.length}}</div>
       <div v-if="hasPendingRequest()" class="has-text-warning notification">...</div>
       <b-tooltip :label="$t('nav.manageTeam')" position="is-right" animated class="is-flex">
-        <b-icon pack="mdi-light" size="is-size-3" icon="account-group">ahahha</b-icon>
+        <b-icon pack="mdi-light" size="is-size-3" icon="account-group"></b-icon>
       </b-tooltip>
     </b-navbar-item>
     <FadeTransition>
@@ -52,8 +52,6 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "../../../node_modules/bulma-helpers";
-@import "../../style/theme";
 
 .notification {
   display: block;

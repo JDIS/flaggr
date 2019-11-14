@@ -50,7 +50,6 @@ const actions = {
         context.commit('setTeam', response.data)
       })
       .catch((error: AxiosError) => {
-        // store.dispatch('team/fetchTeamRequest')
         context.commit('setTeam', null)
       })
   },

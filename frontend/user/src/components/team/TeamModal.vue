@@ -2,7 +2,7 @@
 
 <template>
   <div class="teamModal">
-    <TeamRequestStatusModal v-if="hasPendingRequest()" :request="teamRequest">yes</TeamRequestStatusModal>
+    <TeamRequestStatusModal v-if="hasPendingRequest()" :request="teamRequest"></TeamRequestStatusModal>
     <TeamStep1Modal v-else-if="!hasTeam()"></TeamStep1Modal>
     <TeamManagementModal v-else></TeamManagementModal>
   </div>

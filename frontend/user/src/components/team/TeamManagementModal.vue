@@ -134,7 +134,7 @@ hr {
   background: $light-3;
 }
 
-/deep/ .button {
+/deep/ .members .button, /deep/ .requests .button {
   width: auto !important;
 }
 
@@ -154,7 +154,4 @@ hr {
   }
 }
 
-.leave {
-  display: grid;
-}
 </style>
