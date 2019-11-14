@@ -69,12 +69,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import { createTeam, fetchTeams, sendJoinTeamRequest } from "@/services/team.service"
-import { sendAlert, sendAlertWithVariables } from "@/helpers"
-import { AxiosResponse } from "axios"
-import { FlaskRebarError } from "@/models/flask_rebar_error"
-import { Team } from "@/models/team"
+import Vue from 'vue'
+import { createTeam, fetchTeams, sendJoinTeamRequest } from '@/services/team.service'
+import { sendAlert, sendAlertWithVariables } from '@/helpers'
+import { AxiosResponse } from 'axios'
+import { FlaskRebarError } from '@/models/flask_rebar_error'
+import { Team } from '@/models/team'
 
 /**
  * Modal to create or join a team as a user.
@@ -131,7 +131,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "../style/theme.scss";
+@import "../../style/theme";
 
 #top {
   #switch {

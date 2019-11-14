@@ -9,11 +9,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import TeamStep1Modal from "@/components/TeamStep1Modal.vue"
-import TeamManagementModal from "@/components/TeamManagementModal.vue"
-import { TeamMixin } from "@/mixins/TeamMixin"
-import TeamRequestStatusModal from "@/components/TeamRequestStatusModal.vue"
+import Vue from 'vue'
+import TeamStep1Modal from '@/components/team/TeamStep1Modal.vue'
+import TeamManagementModal from '@/components/team/TeamManagementModal.vue'
+import { TeamMixin } from '@/mixins/TeamMixin'
+import TeamRequestStatusModal from '@/components/team/TeamRequestStatusModal.vue'
 
 export default Vue.extend({
   name: 'TeamModal',

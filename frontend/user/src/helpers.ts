@@ -14,6 +14,7 @@ export function sendAlertWithVariables(message: string, variables: object, optio
     message: VueI18n.t(message, variables) as string,
     type: 'is-danger',
     position: 'is-bottom-right',
+    queue: false
   }
   SnackbarProgrammatic.open({...defaults, ...options} as SnackbarConfig)
 }

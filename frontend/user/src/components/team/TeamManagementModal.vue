@@ -44,15 +44,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import { acceptInvitation, changeRole, kick, leaveTeam, rejectInvitation } from "@/services/team.service"
-import { TeamMixin } from "@/mixins/TeamMixin"
-import { TeamJoinRequest } from "@/models/team_join_request"
-import { sendAlert, sendAlertWithVariables } from "@/helpers"
-import { FlaskRebarError } from "@/models/flask_rebar_error"
-import { AxiosResponse } from "axios"
-import { TeamMember } from "@/models/team_member"
-import { UserMixin } from "@/mixins/UserMixin"
+import Vue from 'vue'
+import { acceptInvitation, changeRole, kick, leaveTeam, rejectInvitation } from '@/services/team.service'
+import { TeamMixin } from '@/mixins/TeamMixin'
+import { TeamJoinRequest } from '@/models/team_join_request'
+import { sendAlert, sendAlertWithVariables } from '@/helpers'
+import { FlaskRebarError } from '@/models/flask_rebar_error'
+import { AxiosResponse } from 'axios'
+import { TeamMember } from '@/models/team_member'
+import { UserMixin } from '@/mixins/UserMixin'
 
 /**
  * Component to manage a team (either as a captain or a simple member)
@@ -123,7 +123,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "../style/theme.scss";
+@import "../../style/theme";
 
 h3 {
   font-size: 110%;

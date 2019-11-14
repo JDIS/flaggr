@@ -23,12 +23,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import CustomModal from "./CustomModal.vue"
-import TeamModal from "./TeamModal.vue"
-import FadeTransition from "./FadeTransition.vue"
-import { UserMixin } from "@/mixins/UserMixin"
-import { TeamMixin } from "@/mixins/TeamMixin"
+import Vue from 'vue'
+import CustomModal from '../CustomModal.vue'
+import TeamModal from './TeamModal.vue'
+import FadeTransition from '../FadeTransition.vue'
+import { UserMixin } from '@/mixins/UserMixin'
+import { TeamMixin } from '@/mixins/TeamMixin'
 
 export default Vue.extend({
   name: 'TeamButtonContainer',
@@ -52,8 +52,8 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "~bulma-helpers";
-@import "../style/theme.scss";
+@import "../../../node_modules/bulma-helpers";
+@import "../../style/theme";
 
 .notification {
   display: block;

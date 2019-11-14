@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-import { UserMixin } from "@/mixins/UserMixin"
+import Vue from 'vue'
+import { UserMixin } from '@/mixins/UserMixin'
 
 
 export default Vue.extend({
