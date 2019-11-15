@@ -6,11 +6,9 @@ import { Challenge } from './challenge';
 export class Track {
   public id: number;
   public name: string;
-  public challenges: Challenge[];
 
-  constructor(id: number, name: string, challenges: Challenge[]) {
+  constructor(id: number, name: string) {
       this.id = id;
       this.name = name;
-      this.challenges = challenges;
   }
 }

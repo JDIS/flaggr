@@ -26,6 +26,9 @@
 <script lang="ts">
 import Vue from 'vue';
 
+/**
+ * Application header (at the top of the page)
+ */
 export default Vue.extend({
   name: 'AppHeader',
   data() {

@@ -3,8 +3,11 @@
   "event": "Compétition",
   "event.admins": "Administrateurs",
   "event.general": "Général",
+  "event.name": "Nom de la compétition",
   "event.new": "Nouvelle compétition",
   "event.theme": "Thème",
+  "id": "ID",
   "logout": "Déconnexion",
+  "name": "Nom",
   "participants": "Participants"
 }
