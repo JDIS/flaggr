@@ -19,6 +19,7 @@
     "object-literal-shorthand": false,
     "encoding": true,
     "eofline": true,
+    "variable-name": false,
     "no-eval": true,
     "array-type": [true, "array"],
     "await-promise": true,

@@ -6,8 +6,10 @@
       tag="div"
       @click.native="toggleVisibility()"
       class="has-cursor-pointer"
-      v-if="isConnected"
+      v-if="isConnected()"
     >
+      <div v-if="hasTeam() && isCaptain(user)" v-show="team.requests.length > 0" class="has-text-warning notification">{{ team.requests.length}}</div>
+      <div v-if="hasPendingRequest()" class="has-text-warning notification">...</div>
       <b-tooltip :label="$t('nav.manageTeam')" position="is-right" animated class="is-flex">
         <b-icon pack="mdi-light" size="is-size-3" icon="account-group"></b-icon>
       </b-tooltip>
@@ -22,10 +24,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CustomModal from './CustomModal.vue'
+import CustomModal from '../CustomModal.vue'
 import TeamModal from './TeamModal.vue'
-import FadeTransition from './FadeTransition.vue'
+import FadeTransition from '../FadeTransition.vue'
 import { UserMixin } from '@/mixins/UserMixin'
+import { TeamMixin } from '@/mixins/TeamMixin'
 
 export default Vue.extend({
   name: 'TeamButtonContainer',
@@ -39,7 +42,7 @@ export default Vue.extend({
       this.shown = !this.shown;
     }
   },
-  mixins: [UserMixin],
+  mixins: [UserMixin, TeamMixin],
   components: {
     TeamModal,
     CustomModal,
@@ -49,5 +52,19 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-@import "~bulma-helpers";
+
+.notification {
+  display: block;
+  position: absolute;
+  text-align: center;
+  font-weight: bolder;
+  width: 1rem;
+  height: 1rem;
+  top:0.4rem;
+  right:0;
+  z-index: 10;
+  margin:0;
+  padding: 0;
+  background: transparent;
+}
 </style>

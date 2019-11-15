@@ -8,8 +8,10 @@ export const UserMixin = {
   computed: {
     user(): User {
       return (store.state as any).user.connectedUser as User
-    },
+    }
+  },
 
+  methods: {
     isConnected(): boolean {
       return store.getters['user/isConnected']
     }

@@ -1,6 +1,7 @@
 import { User } from '@/models/user'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { sendAlert, sendAlertWithVariables } from '@/helpers'
+import store from '../store'
 
 /**
  * Store to manage the connected user's information.
@@ -52,9 +53,8 @@ const actions = {
     payload.remember = true // To change later
     axios.post('login', payload)
       .then((response: AxiosResponse) => {
-        console.log('connection success', response)
-        context.commit('setUser', response.data as User)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
+        store.dispatch('user/fetchUser')
       })
       .catch((error: AxiosError) => {
         if (error.response!.status === 422) {
@@ -74,8 +74,7 @@ const actions = {
   registerUser(context: any, payload: any) {
     axios.post('register', payload)
       .then((response: AxiosResponse) => {
-        console.log('user registred', response)
-        context.commit('setUser', response.data as User)
+        store.dispatch('user/fetchUser')
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
         // context.commit('setUser', user)
       })
@@ -103,6 +102,7 @@ const actions = {
     axios.get('user')
       .then((response: AxiosResponse) => {
         context.commit('setUser', response.data)
+        store.dispatch('team/fetchTeam')
       })
       .catch((error: AxiosError) => {
         context.commit('setUser', null)

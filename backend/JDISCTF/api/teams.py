@@ -130,7 +130,7 @@ def accept_team_request():
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
 
-    current_member = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    current_member = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if not current_member and not current_member.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -157,7 +157,7 @@ def decline_team_request():
     """Decline a team request. Only captains can decline a request."""
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
-    current_member = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    current_member = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if not current_member and not current_member.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
@@ -181,12 +181,12 @@ def kick_team_member():
     """Kick a member of the team. Only captains can kick a team member"""
     body = flask_rebar.get_validated_body()
     user_id = body["user_id"]
-    current_member = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    current_member = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if not current_member and not current_member.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
 
-    if user_id == current_user.user_id:
+    if user_id == current_user.id:
         raise errors.UnprocessableEntity("You cannot kick yourself from a team.")
 
     team_member = TeamMember.query.filter_by(user_id=user_id).first()
@@ -209,12 +209,12 @@ def change_role():
     user_id = body["user_id"]
     new_role = body["captain"]
 
-    current_member = TeamMember.query.filter_by(user_id=current_user.user_id).first()
+    current_member = TeamMember.query.filter_by(user_id=current_user.id).first()
 
     if not current_member and not current_member.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
 
-    if user_id == current_user.user_id:
+    if user_id == current_user.id:
         # In order to avoid a team "bricking" itself
         raise errors.UnprocessableEntity("You cannot remove your own privileges.")
 

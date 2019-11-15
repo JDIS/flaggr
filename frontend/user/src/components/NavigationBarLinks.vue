@@ -1,7 +1,7 @@
 <template>
   <div class="nav-links">
     <router-link :to="{ name: 'home' }" class="navbar-item">{{ $t('title.home') }}</router-link>
-    <router-link :to="{ name: 'challenges' }" v-if="isConnected" class="navbar-item">{{ $t('title.challenges') }}</router-link>
+    <router-link :to="{ name: 'challenges' }" v-if="isConnected()" class="navbar-item">{{ $t('title.challenges') }}</router-link>
     <router-link :to="{ name: 'scoreboard' }" class="navbar-item">{{ $t('title.scoreboard') }}</router-link>
   </div>
 </template>

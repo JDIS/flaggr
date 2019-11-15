@@ -2,10 +2,13 @@
  * Model for a user who participates in a competition.
  */
 export class User {
-    public name: string;
+    public username: string;
+    public email: string;
+    public id: number;
 
-    constructor(name: string) {
-        // TODO Complete fields
-        this.name = name;
+    constructor(username: string, email: string, id: number) {
+        this.username = username
+        this.email = email
+        this.id = id
     }
 }

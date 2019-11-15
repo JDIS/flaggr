@@ -30,7 +30,7 @@ class TeamSchema(Schema):
 class TeamRequestSchema(Schema):
     """Schema that represents a team request"""
     user = fields.Nested(UserSchema)
-    name = fields.String(required=True)
+    team = fields.Nested(TeamSchema)
 
 
 class CreateTeamRequestSchema(RequestSchema):
