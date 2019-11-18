@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
-    import AppHeader from "./components/AppHeader.vue";
-    import AppNavigation from "./components/AppNavigation.vue";
+import Vue from 'vue';
+import AppHeader from './components/AppHeader.vue';
+import AppNavigation from './components/AppNavigation.vue';
 
-    export default Vue.extend({
+export default Vue.extend({
   name: 'app',
   components: {
     AppHeader,

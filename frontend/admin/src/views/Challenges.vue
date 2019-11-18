@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
-    import BaseTitle from "../components/BaseTitle.vue";
-    import BaseSubtitle from "../components/BaseSubtitle.vue";
-    import {Challenge} from "../models/challenge";
-    import {getChallenges} from "../services/challenge.service";
+import Vue from 'vue';
+import BaseTitle from '../components/BaseTitle.vue';
+import BaseSubtitle from '../components/BaseSubtitle.vue';
+import {Challenge} from '@/models/challenge';
+import {getChallenges} from '@/services/challenge.service';
 
-    /**
+/**
  * Challenges administration page
  */
 export default Vue.extend({

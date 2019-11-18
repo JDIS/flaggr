@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
+import Vue from 'vue';
 
-    /**
+/**
  * Sidebar navigation
  */
 export default Vue.extend({

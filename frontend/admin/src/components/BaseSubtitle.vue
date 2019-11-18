@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
+import Vue from 'vue';
 
-    /**
+/**
  * Subtitle for page section
  */
 export default Vue.extend({

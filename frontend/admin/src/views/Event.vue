@@ -9,11 +9,11 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
-    import BaseTitle from "../components/BaseTitle.vue";
-    import BaseSubtitle from "../components/BaseSubtitle.vue";
+import Vue from 'vue';
+import BaseTitle from '../components/BaseTitle.vue';
+import BaseSubtitle from '../components/BaseSubtitle.vue';
 
-    /**
+/**
  * Event administration page (choose event name, status, administrators, etc.)
  */
 export default Vue.extend({

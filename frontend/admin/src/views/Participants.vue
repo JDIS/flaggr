@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
-    import BaseTitle from "../components/BaseTitle.vue";
-    import BaseSubtitle from "../components/BaseSubtitle.vue";
+import Vue from 'vue';
+import BaseTitle from '../components/BaseTitle.vue';
+import BaseSubtitle from '../components/BaseSubtitle.vue';
 
-    /**
+/**
  * Participants administration page
  */
 export default Vue.extend({
