@@ -5,8 +5,8 @@
       <hr>
       <div v-for="request in this.team.requests" class="pendingRequest columns is-vcentered is-paddingless">
         <div class="column is-9">
-          <div>{{ request.user.username }}</div>
-          <div class="is-size-7 userEmail"> {{ request.user.email }}</div>
+          <div>{{ request.participant.user.username }}</div>
+          <div class="is-size-7 userEmail"> {{ request.participant.user.email }}</div>
         </div>
         <div v-if="isCaptain(participant)" class="column is-paddingless">
           <b-button @click="rejectInvitation(request)" size="is-small" class="button" type="is-danger" icon-right="delete"></b-button>
@@ -44,17 +44,17 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue"
-    import {acceptInvitation, changeRole, kick, leaveTeam, rejectInvitation} from "@/services/team.service"
-    import {TeamMixin} from "@/mixins/TeamMixin"
-    import {TeamJoinRequest} from "@/models/team_join_request"
-    import {sendAlert, sendAlertWithVariables} from "@/helpers"
-    import {FlaskRebarError} from "@/models/flask_rebar_error"
-    import {AxiosResponse} from "axios"
-    import {TeamMember} from "@/models/team_member"
-    import {ParticipantMixin} from "@/mixins/ParticipantMixin"
+import Vue from 'vue'
+import {acceptInvitation, changeRole, kick, leaveTeam, rejectInvitation} from '@/services/team.service'
+import {TeamMixin} from '@/mixins/TeamMixin'
+import {TeamJoinRequest} from '@/models/team_join_request'
+import {sendAlert, sendAlertWithVariables} from '@/helpers'
+import {FlaskRebarError} from '@/models/flask_rebar_error'
+import {AxiosResponse} from 'axios'
+import {TeamMember} from '@/models/team_member'
+import {ParticipantMixin} from '@/mixins/ParticipantMixin'
 
-    /**
+/**
  * Component to manage a team (either as a captain or a simple member)
  */
 export default Vue.extend({
@@ -68,7 +68,7 @@ export default Vue.extend({
   methods: {
     rejectInvitation(request: TeamJoinRequest) {
       rejectInvitation(request).then((response) => {
-        sendAlertWithVariables('team.userRejected', {participant: request.participant.user.username}, {type: 'is-success'})
+        sendAlertWithVariables('team.participantRejected', {participant: request.participant.user.username}, {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
         sendAlertWithVariables('team.rejectError', {error: error.data.message})
       })
@@ -76,14 +76,14 @@ export default Vue.extend({
 
     acceptInvitation(request: TeamJoinRequest) {
       acceptInvitation(request).then((response) => {
-        sendAlertWithVariables('team.userAccepted', {participant: request.participant.user.username}, {type: 'is-success'})
+        sendAlertWithVariables('team.participantAccepted', {participant: request.participant.user.username}, {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
         sendAlertWithVariables('team.acceptError', {error: error.data.message})
       })
     },
 
     /**
-     * Toggles the captain role for a given user.
+     * Toggles the captain role for a given participant.
      * @param member
      */
     toggleCaptain(member: TeamMember) {

@@ -193,7 +193,7 @@ def kick_team_member(current_participant: Participant):
     if not current_member and not current_member.captain:
         raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
 
-    if participant_id == current_user.participant_id:
+    if participant_id == current_participant.id:
         raise errors.UnprocessableEntity("You cannot kick yourself from a team.")
 
     team_member = TeamMember.query.filter_by(participant_id=participant_id).first()

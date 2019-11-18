@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields
 
-from JDISCTF.schemas import UserSchema
+from JDISCTF.schemas.user import UserSchema
 
 
 class ParticipantSchema(Schema):

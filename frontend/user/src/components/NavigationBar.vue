@@ -12,7 +12,7 @@
 
     <template slot="end">
       <TeamButtonContainer v-if="participant" id="teamButtonContainer"></TeamButtonContainer>
-      <div v-if="this.participant" class="user navbar-item">{{ this.participant.user.username }}</div>
+      <div v-if="this.participant" class="participant navbar-item">{{ this.participant.user.username }}</div>
       <SignoutButton v-if="participant"></SignoutButton>
       <ConnectionButtonContainer v-else></ConnectionButtonContainer>
     </template>
@@ -20,14 +20,14 @@
 </template>
 
 <script lang="ts">
-  import Vue from "vue"
-  import NavigationBarLinks from "../components/NavigationBarLinks.vue"
-  import TeamButtonContainer from "@/components/team/TeamButtonContainer.vue"
-  import ConnectionButtonContainer from "@/components/ConnectionButtonContainer.vue"
-  import {ParticipantMixin} from "@/mixins/ParticipantMixin"
-  import SignoutButton from "@/components/SignoutButton.vue"
+import Vue from 'vue'
+import NavigationBarLinks from '../components/NavigationBarLinks.vue'
+import TeamButtonContainer from '@/components/team/TeamButtonContainer.vue'
+import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue'
+import {ParticipantMixin} from '@/mixins/ParticipantMixin'
+import SignoutButton from '@/components/SignoutButton.vue'
 
-  export default Vue.extend({
+export default Vue.extend({
   name: 'NavigationBar',
   mixins: [ParticipantMixin],
   data() {

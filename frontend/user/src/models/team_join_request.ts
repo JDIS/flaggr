@@ -2,7 +2,7 @@ import {Team} from '@/models/team'
 import {Participant} from '@/models/participant';
 
 /**
- * Model for a request to join a team from a user.
+ * Model for a request to join a team from a participant.
  */
 export class TeamJoinRequest {
     public requested_at: string;

@@ -4,16 +4,16 @@ import {TeamJoinRequest} from '@/models/team_join_request'
 import {Participant} from '@/models/participant';
 
 /**
- * Use this mixin to have access to the user's team.
+ * Use this mixin to have access to the participant's team.
  */
 export const TeamMixin = {
   computed: {
     team(): Team {
-      return (store.state as any).team.userTeam as Team
+      return (store.state as any).team.participantTeam as Team
     },
 
     teamRequest(): TeamJoinRequest {
-      return (store.state as any).team.userTeamRequest as TeamJoinRequest
+      return (store.state as any).team.participantTeamRequest as TeamJoinRequest
     }
   },
 

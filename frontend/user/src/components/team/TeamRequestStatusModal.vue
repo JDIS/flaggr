@@ -22,14 +22,14 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue"
-    import {cancelRequest} from "@/services/team.service"
-    import {TeamJoinRequest} from "@/models/team_join_request"
-    import {sendAlert, sendAlertWithVariables} from "@/helpers"
-    import {FlaskRebarError} from "@/models/flask_rebar_error"
-    import {AxiosResponse} from "axios"
+import Vue from 'vue'
+import {cancelRequest} from '@/services/team.service'
+import {TeamJoinRequest} from '@/models/team_join_request'
+import {sendAlert, sendAlertWithVariables} from '@/helpers'
+import {FlaskRebarError} from '@/models/flask_rebar_error'
+import {AxiosResponse} from 'axios'
 
-    /**
+/**
  * Component to manage a team (either as a captain or a simple member)
  */
 export default Vue.extend({

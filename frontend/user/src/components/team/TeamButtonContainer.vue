@@ -23,14 +23,14 @@
 </template>
 
 <script lang="ts">
-    import Vue from "vue"
-    import CustomModal from "../CustomModal.vue"
-    import TeamModal from "./TeamModal.vue"
-    import FadeTransition from "../FadeTransition.vue"
-    import {ParticipantMixin} from "@/mixins/ParticipantMixin"
-    import {TeamMixin} from "@/mixins/TeamMixin"
+import Vue from 'vue'
+import CustomModal from '../CustomModal.vue'
+import TeamModal from './TeamModal.vue'
+import FadeTransition from '../FadeTransition.vue'
+import {ParticipantMixin} from '@/mixins/ParticipantMixin'
+import {TeamMixin} from '@/mixins/TeamMixin'
 
-    export default Vue.extend({
+export default Vue.extend({
   name: 'TeamButtonContainer',
   data() {
     return {

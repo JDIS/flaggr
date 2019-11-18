@@ -6,6 +6,7 @@ from typing import Optional
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import relationship
 
 from JDISCTF.app import DB
 from JDISCTF.models.team import Team
@@ -28,6 +29,7 @@ class Participant(DB.Model):
     """The ID of the event the participant is associated with. Used as a foreign key."""
 
     teams = association_proxy('teamInfo', 'team')
+    user = relationship('User', backref='participant', lazy='joined')
 
     def __repr__(self):
         return '<Participant id:{} event_id:{} user_id:{}>'.format(self.id, self.event_id, self.user_id)

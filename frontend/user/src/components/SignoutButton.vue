@@ -2,7 +2,7 @@
   <div id="signoutButton">
     <b-navbar-item tag="div">
       <b-button
-        @click="disconnectUser()"
+        @click="disconnectParticipant()"
         type="is-danger"
       >{{ $t("nav.signout") }}</b-button>
     </b-navbar-item>
@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts">
-  import Vue from "vue"
-  import store from "../store"
+import Vue from 'vue'
+import store from '../store'
 
-  /**
- * Button to disconnect the connected user. Should only be displayed if the user is connected.
+/**
+ * Button to disconnect the connected participant. Should only be displayed if the participant is connected.
  */
 export default Vue.extend({
   name: 'SignoutButton',
@@ -23,7 +23,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    disconnectUser() {
+    disconnectParticipant() {
       store.dispatch('participant/disconnectParticipant')
     }
   },

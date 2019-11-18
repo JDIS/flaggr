@@ -1,4 +1,4 @@
-<!-- Modal to create or join a team as a user. -->
+<!-- Modal to create or join a team as a participant. -->
 
 <template>
   <div class="teamModal">

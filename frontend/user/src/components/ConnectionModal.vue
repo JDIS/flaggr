@@ -1,4 +1,4 @@
-<!-- Modal to sign in or sign up to a competition as a user. -->
+<!-- Modal to sign in or sign up to a competition as a participant. -->
 
 <template>
   <div class="connectionModal">
@@ -72,10 +72,10 @@
 </template>
 
 <script lang="ts">
-  import Vue from "vue"
-  import store from "../store"
+import Vue from 'vue'
+import store from '../store'
 
-  export default Vue.extend({
+export default Vue.extend({
   name: 'ConnectionModal',
   data() {
     return {

@@ -8,7 +8,7 @@ import route from '../router'
  */
 
 const state = {
-  participant: null,
+  connectedParticipant: null,
   /**
    * Development only
    */
@@ -44,8 +44,8 @@ const getters = {
 
 const actions = {
   /**
-   * Send a request to connect the user. Upon successful connection,
-   * set the user's information in the app's state.
+   * Send a request to connect the participant. Upon successful connection,
+   * set the participant's information in the app's state.
    * @param context VueX context
    * @param payload Data to connect the user (email, pass)
    */
