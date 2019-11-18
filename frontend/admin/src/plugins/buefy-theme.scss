@@ -1,27 +1,10 @@
 @import '~bulma/sass/utilities/_all';
+@import '../style/theme.scss';
 
 /* COLORS */
-$orange: #f97127;
-$turquoise: #4cb59c;
-$red: #bf2b20;
-$marine: #183060;
-$grey-light: #eeeded;
-$grey-lighter: #fbfbfb;
-
-$first: $red;
-$first-invert: findColorInvert($first);
-$second: $turquoise;
-$second-invert: findColorInvert($second);
-$third: $marine;
-$third-invert: findColorInvert($third);
-
 $primary: $turquoise;
 
 /* FONTS */
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700|Inconsolata:400,700');
-$family-primary: 'Work Sans';
-$family-secondary: 'Inconsolata';
-
 $title-family: $family-primary;
 $subtitle-family: $family-secondary;
 
@@ -39,6 +22,15 @@ $menu-list-link-padding: 0;
 $menu-nested-list-margin: 0;
 $menu-item-active-color: inherit;
 $menu-item-active-background-color: inherit;
+
+$label-weight: 600;
+
+$input-shadow: none;
+$input-border-color: darken($grey-light, 5%);
+
+.input {
+  border-width: 2px !important;
+}
 
 /* CLASSES SETUP */
 $colors: (
@@ -77,6 +69,18 @@ $colors: (
   'danger': (
     $danger,
     $danger-invert
+  ),
+  'first': (
+    $first,
+    $first-invert
+  ),
+  'second': (
+    $second,
+    $second-invert
+  ),
+  'third': (
+    $third,
+    $third-invert
   )
 );
 

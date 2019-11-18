@@ -10,7 +10,7 @@
       >
         <template slot="label">
           <div class="menu-item">
-            <b-icon :icon="link.icon" :class="link.color"></b-icon>
+            <b-icon :icon="link.icon" :class="`is-${link.color}`"></b-icon>
             <span class="name">{{link.name}}</span>
           </div>
         </template>
@@ -26,8 +26,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+    import Vue from "vue";
 
+    /**
+ * Sidebar navigation
+ */
 export default Vue.extend({
   name: 'AppNavigation',
   data() {
@@ -37,22 +40,26 @@ export default Vue.extend({
           name: this.$t('event'),
           url: '/event',
           icon: 'trophy',
-          sections: [this.$t('event.general'), this.$t('event.theme'), this.$t('event.admins')],
-          color: 'is-first'
-        },
-        {
-          name: this.$t('participants'),
-          url: '/participants',
-          icon: 'account-group',
-          sections: [],
-          color: 'is-second'
+          sections: [
+            this.$t('event.general'),
+            this.$t('event.theme'),
+            this.$t('event.admins')
+          ],
+          color: 'first'
         },
         {
           name: this.$t('challenges'),
           url: '/challenges',
           icon: 'flag-variant',
           sections: [],
-          color: 'is-third'
+          color: 'second'
+        },
+        {
+          name: this.$t('participants'),
+          url: '/participants',
+          icon: 'account-group',
+          sections: [],
+          color: 'third'
         }
       ]
     };
@@ -82,16 +89,9 @@ export default Vue.extend({
 
     .icon {
       padding: 1.75rem;
-
-      &.is-first {
-        border-right: 0.2rem solid $first;
-      }
-      &.is-second {
-        border-right: 0.2rem solid $second;
-      }
-      &.is-third {
-        border-right: 0.2rem solid $third;
-      }
+      border-right-width: 0.2rem;
+      border-right-style: solid;
+      @extend .colored-border;
     }
 
     .name {
@@ -120,18 +120,7 @@ export default Vue.extend({
 
   .is-active .menu-item, .menu-item:hover {
     .icon {
-      &.is-first {
-        background-color: $first;
-        color: $first-invert;
-      }
-      &.is-second {
-        background-color: $second;
-        color: $second-invert;
-      }
-      &.is-third {
-        background-color: $third;
-        color: $third-invert;
-      }
+      @extend .colored-background;
     }
   }
 }

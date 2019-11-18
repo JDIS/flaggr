@@ -2,10 +2,10 @@
   <div id="app">
     <app-header />
     <div class="columns">
-      <div class="column is-3 sidebar">
+      <div class="column is-one-fifth sidebar">
         <app-navigation />
       </div>
-      <div class="column is-9 content">
+      <div class="column page-content">
         <router-view />
       </div>
     </div>
@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import AppHeader from './components/AppHeader.vue';
-import AppNavigation from './components/AppNavigation.vue';
+    import Vue from "vue";
+    import AppHeader from "./components/AppHeader.vue";
+    import AppNavigation from "./components/AppNavigation.vue";
 
-export default Vue.extend({
+    export default Vue.extend({
   name: 'app',
   components: {
     AppHeader,
@@ -44,9 +44,9 @@ html, body, #app, .columns {
   background-color: $grey-light;
 }
 
-.content {
+.page-content {
   overflow: auto;
-  padding: 0;
+  padding: 1.5rem 3rem;
   box-shadow: inset 0px 0px 5px 0px $grey-light;
 }
 </style>

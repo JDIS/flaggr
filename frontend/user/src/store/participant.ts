@@ -1,7 +1,7 @@
-import {Participant} from '@/models/participant'
 import axios, {AxiosError, AxiosResponse} from 'axios'
 import {sendAlert, sendAlertWithVariables} from '@/helpers'
-import store from '../store'
+import {Participant} from '@/models/participant';
+import route from '../router'
 
 /**
  * Store to manage the connected participant's information.
@@ -53,8 +53,9 @@ const actions = {
     payload.remember = true // To change later
     axios.post('login', payload)
       .then((response: AxiosResponse) => {
+        console.log('connection success', response)
+        context.commit('setParticipant', response.data as Participant)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
-        store.dispatch('participant/fetchParticipant')
       })
       .catch((error: AxiosError) => {
         if (error.response!.status === 422) {
@@ -74,7 +75,8 @@ const actions = {
   registerParticipant(context: any, payload: any) {
     axios.post('register', payload)
       .then((response: AxiosResponse) => {
-        store.dispatch('participant/fetchParticipant')
+        console.log('user registred', response)
+        context.commit('setParticipant', response.data as Participant)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
         // context.commit('setUser', user)
       })
@@ -98,14 +100,23 @@ const actions = {
       })
   },
 
+  /**
+   * Fetches the current participant to set in the store.
+   * If not connected, sets the state accordingly.
+   * If the participant is in a route that requires authentication,
+   * redirect to home page.
+   * @param context VueX Store context.
+   */
   fetchParticipant(context: any) {
-    axios.get('participant')
-      .then((response: AxiosResponse) => {
+    return axios.get('participant')
+      .then((response: AxiosResponse<Participant>) => {
         context.commit('setParticipant', response.data)
-        store.dispatch('team/fetchTeam')
       })
       .catch((error: AxiosError) => {
         context.commit('setParticipant', null)
+        if (route.currentRoute.meta.requiresAuth === true) {
+          route.replace('/')
+        }
       })
   }
 }

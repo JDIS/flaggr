@@ -13,6 +13,21 @@ const router = new VueRouter({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/event',
+      name: 'event',
+      component: () => import(/* webpackChunkName: "event" */ './views/Event.vue')
+    },
+    {
+      path: '/challenges',
+      name: 'challenges',
+      component: () => import(/* webpackChunkName: "event" */ './views/Challenges.vue')
+    },
+    {
+      path: '/participants',
+      name: 'participants',
+      component: () => import(/* webpackChunkName: "event" */ './views/Participants.vue')
     }
   ],
 });

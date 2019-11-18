@@ -3,8 +3,11 @@
   "event": "Event",
   "event.admins": "Administrators",
   "event.general": "General",
+  "event.name": "Event Name",
   "event.new": "New event",
   "event.theme": "Theme",
+  "id": "ID",
   "logout": "Logout",
+  "name": "Name",
   "participants": "Participants"
 }

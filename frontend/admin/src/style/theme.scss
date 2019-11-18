@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Inconsolata:400,700');
+$family-primary: 'Open Sans';
+$family-secondary: 'Inconsolata';
+
+$orange: #f97127;
+$turquoise: #4cb59c;
+$red: #bf2b20;
+$marine: #183060;
+$grey-light: #eeeded;
+$grey-lighter: #fbfbfb;
+
+$first: $red;
+$first-invert: findColorInvert($first);
+$second: $marine;
+$second-invert: findColorInvert($second);
+$third: $turquoise;
+$third-invert: findColorInvert($third);
+
+/* Dynamic classes */
+.colored-border {
+  &.is-first {
+    border-color: $first;
+  }
+  &.is-second {
+    border-color: $second;
+  }
+  &.is-third {
+    border-color: $third;
+  }
+}
+
+.colored-background {
+  &.is-first {
+    background-color: $first;
+    color: $first-invert;
+  }
+  &.is-second {
+    background-color: $second;
+    color: $second-invert;
+  }
+  &.is-third {
+    background-color: $third;
+    color: $third-invert;
+  }
+}
+
+.colored-text {
+  &.is-first {
+    color: $first;
+  }
+  &.is-second {
+    color: $second;
+  }
+  &.is-third {
+    color: $third;
+  }
+}
