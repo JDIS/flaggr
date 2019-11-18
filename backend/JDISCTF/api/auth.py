@@ -38,8 +38,6 @@ def login():
 
     login_user(user, remember=remember)
 
-    participant.user = user
-
     return participant
 
 
