@@ -1,7 +1,7 @@
 import store from '../store'
-import { Team } from '@/models/team'
-import { User } from '@/models/user'
-import { TeamJoinRequest } from '@/models/team_join_request'
+import {Team} from '@/models/team'
+import {TeamJoinRequest} from '@/models/team_join_request'
+import {Participant} from '@/models/participant';
 
 /**
  * Use this mixin to have access to the user's team.
@@ -22,9 +22,9 @@ export const TeamMixin = {
       return store.getters['team/hasTeam']
     },
 
-    isCaptain(user: User): boolean {
+    isCaptain(participant: Participant): boolean {
       return TeamMixin.methods.hasTeam() && TeamMixin.computed.team().members.find((member) => {
-        return member.user.id === user.id
+        return member.participant.id === participant.id
       })!.captain
     },
 

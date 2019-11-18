@@ -9,11 +9,10 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_rebar import Rebar
 from flask_sqlalchemy import SQLAlchemy
-from functools import partial
 
-from config import Config
 # Globally accessible libraries
 from JDISCTF.flask_login_authenticator import register_authenticators
+from config import Config
 
 DB = SQLAlchemy()
 MIGRATE = Migrate()

@@ -11,15 +11,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NavigationBar from './components/NavigationBar.vue'
-import AppFooter from './components/AppFooter.vue'
-import store from './store'
+  import Vue from "vue"
+  import NavigationBar from "./components/NavigationBar.vue"
+  import AppFooter from "./components/AppFooter.vue"
+  import store from "./store"
 
-export default Vue.extend({
+  export default Vue.extend({
   name: 'app',
   mounted() {
-    store.dispatch('user/fetchUser')
+    store.dispatch('participant/fetchParticipant')
   },
   components: {
     NavigationBar,

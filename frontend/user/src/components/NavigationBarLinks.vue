@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { UserMixin } from '@/mixins/UserMixin'
+  import Vue from "vue"
+  import {ParticipantMixin} from "@/mixins/ParticipantMixin"
 
 
-export default Vue.extend({
+  export default Vue.extend({
   name: 'NavigationBarLinks',
-  mixins: [UserMixin],
+  mixins: [ParticipantMixin],
   components: {
   },
   methods: {

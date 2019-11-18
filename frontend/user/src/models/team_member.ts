@@ -1,15 +1,15 @@
-import { User } from '@/models/user'
+import {Participant} from '@/models/participant';
 
 /**
  * Model for a member of a team.
  */
 export class TeamMember {
     public captain: boolean;
-    public user: User;
+    public participant: Participant;
 
 
-    constructor(captain: boolean, user: User) {
+    constructor(captain: boolean, participant: Participant) {
         this.captain = captain
-        this.user = user
+        this.participant = participant
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Model for a user who participates in a competition.
+ * Model for a user who can authenticate onto the platform
  */
 export class User {
     public username: string;

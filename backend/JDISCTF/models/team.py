@@ -40,16 +40,16 @@ class TeamMember(DB.Model):
     __tablename__ = 'TeamMembers'
 
     team_id = DB.Column(DB.Integer, ForeignKey('Teams.id'), nullable=True)
-    user_id = DB.Column(DB.Integer, ForeignKey('Users.id'), nullable=True)
+    participant_id = DB.Column(DB.Integer, ForeignKey('Participants.id'), nullable=True)
 
     # Let a team have many captain, since a captain can accept members
     captain = DB.Column(DB.Boolean, default=False)
 
     team = relationship("Team", back_populates="members")
-    user = relationship("User", backref=backref('teamInfo'))
+    participant = relationship("Participant", backref=backref('teamInfo'))
 
     def __repr__(self):
-        return '<TeamMember id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)
+        return '<TeamMember id:{} team_id:{} participant_id:{}>'.format(self.id, self.team_id, self.participant_id)
 
 
 class TeamRequest(DB.Model):
@@ -58,11 +58,11 @@ class TeamRequest(DB.Model):
     __tablename__ = 'TeamRequests'
 
     team_id = DB.Column(DB.Integer, ForeignKey('Teams.id'), nullable=True)
-    user_id = DB.Column(DB.Integer, ForeignKey('Users.id'), nullable=True)
+    participant_id = DB.Column(DB.Integer, ForeignKey('Participants.id'), nullable=True)
     requested_at = DB.Column(DB.DateTime, server_default=DB.func.now())
 
     team = relationship("Team", back_populates="requests")
-    user = relationship("User")
+    participant = relationship("Participant")
 
     def __repr__(self):
-        return '<TeamRequests id:{} team_id:{} user_id:{}>'.format(self.id, self.team_id, self.user_id)
+        return '<TeamRequests id:{} team_id:{} participant_id:{}>'.format(self.id, self.team_id, self.participant_id)

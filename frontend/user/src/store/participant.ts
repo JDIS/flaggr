@@ -1,14 +1,14 @@
-import { User } from '@/models/user'
-import axios, { AxiosError, AxiosResponse } from 'axios'
-import { sendAlert, sendAlertWithVariables } from '@/helpers'
+import {Participant} from '@/models/participant'
+import axios, {AxiosError, AxiosResponse} from 'axios'
+import {sendAlert, sendAlertWithVariables} from '@/helpers'
 import store from '../store'
 
 /**
- * Store to manage the connected user's information.
+ * Store to manage the connected participant's information.
  */
 
 const state = {
-  connectedUser: null,
+  participant: null,
   /**
    * Development only
    */
@@ -16,8 +16,8 @@ const state = {
 }
 
 const mutations = {
-  setUser(storeState: any, user: User) {
-    storeState.connectedUser = user;
+  setParticipant(storeState: any, participant: Participant) {
+    storeState.connectedParticipant = participant;
   },
   setCreds(storeState: any, creds: string) {
     if (process.env.VUE_APP_DEBUG) {
@@ -29,7 +29,7 @@ const mutations = {
 
 const getters = {
   isConnected: (storeState: any) => {
-    return storeState.connectedUser !== null
+    return storeState.connectedParticipant !== null
   },
   creds: (storeState: any) => {
     if (process.env.VUE_APP_DEBUG) {
@@ -49,12 +49,12 @@ const actions = {
    * @param context VueX context
    * @param payload Data to connect the user (email, pass)
    */
-  connectUser(context: any, payload: any) {
+  connectParticipant(context: any, payload: any) {
     payload.remember = true // To change later
     axios.post('login', payload)
       .then((response: AxiosResponse) => {
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
-        store.dispatch('user/fetchUser')
+        store.dispatch('participant/fetchParticipant')
       })
       .catch((error: AxiosError) => {
         if (error.response!.status === 422) {
@@ -71,10 +71,10 @@ const actions = {
    * @param context VueX context
    * @param payload Data to register the user (email, pass, username)
    */
-  registerUser(context: any, payload: any) {
+  registerParticipant(context: any, payload: any) {
     axios.post('register', payload)
       .then((response: AxiosResponse) => {
-        store.dispatch('user/fetchUser')
+        store.dispatch('participant/fetchParticipant')
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
         // context.commit('setUser', user)
       })
@@ -87,10 +87,10 @@ const actions = {
       })
   },
 
-  disconnectUser(context: any) {
+  disconnectParticipant(context: any) {
     axios.get('logout')
       .then((response: AxiosResponse) => {
-        context.commit('setUser', null)
+        context.commit('setParticipant', null)
         context.commit('setCreds', null)
       })
       .catch((error: AxiosError) => {
@@ -98,14 +98,14 @@ const actions = {
       })
   },
 
-  fetchUser(context: any) {
-    axios.get('user')
+  fetchParticipant(context: any) {
+    axios.get('participant')
       .then((response: AxiosResponse) => {
-        context.commit('setUser', response.data)
+        context.commit('setParticipant', response.data)
         store.dispatch('team/fetchTeam')
       })
       .catch((error: AxiosError) => {
-        context.commit('setUser', null)
+        context.commit('setParticipant', null)
       })
   }
 }

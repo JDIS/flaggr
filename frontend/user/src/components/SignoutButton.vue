@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import store from '../store'
+  import Vue from "vue"
+  import store from "../store"
 
-/**
+  /**
  * Button to disconnect the connected user. Should only be displayed if the user is connected.
  */
 export default Vue.extend({
@@ -24,7 +24,7 @@ export default Vue.extend({
   },
   methods: {
     disconnectUser() {
-      store.dispatch('user/disconnectUser')
+      store.dispatch('participant/disconnectParticipant')
     }
   },
   components: {

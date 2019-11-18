@@ -2,10 +2,10 @@
  * API service for Team management
  */
 import axios from 'axios'
-import { Team } from '@/models/team'
+import {Team} from '@/models/team'
 import store from '../store'
-import { TeamJoinRequest } from '@/models/team_join_request'
-import { TeamMember } from '@/models/team_member'
+import {TeamJoinRequest} from '@/models/team_join_request'
+import {TeamMember} from '@/models/team_member'
 
 /**
  * Send a request to create a team. If an error occurs, throw it.
@@ -55,7 +55,7 @@ export async function fetchTeams(): Promise<Team[]> {
  */
 export async function rejectInvitation(request: TeamJoinRequest): Promise<any> {
   try {
-    const response = await axios.post('decline_team_request', {user_id: request.user.id});
+    const response = await axios.post('decline_team_request', {participant_id: request.participant.id});
     store.dispatch('team/fetchTeam')
     return response.data;
   } catch (e) {
@@ -71,7 +71,7 @@ export async function rejectInvitation(request: TeamJoinRequest): Promise<any> {
  */
 export async function acceptInvitation(request: TeamJoinRequest): Promise<any> {
   try {
-    const response = await axios.post('accept_team_request', {user_id: request.user.id});
+    const response = await axios.post('accept_team_request', {participant_id: request.participant.id});
     store.dispatch('team/fetchTeam')
     return response.data;
   } catch (e) {
@@ -86,7 +86,7 @@ export async function acceptInvitation(request: TeamJoinRequest): Promise<any> {
  */
 export async function changeRole(member: TeamMember): Promise<any> {
   try {
-    const response = await axios.post('change_role', {user_id: member.user.id,
+    const response = await axios.post('change_role', {participant_id: member.participant.id,
                                                                 captain: !member.captain});
     store.dispatch('team/fetchTeam')
     return response.data;
@@ -103,7 +103,7 @@ export async function changeRole(member: TeamMember): Promise<any> {
  */
 export async function kick(member: TeamMember): Promise<any> {
   try {
-    const response = await axios.post('kick_team_member', {user_id: member.user.id});
+    const response = await axios.post('kick_team_member', {participant_id: member.participant.id});
     store.dispatch('team/fetchTeam')
     return response.data;
   } catch (e) {

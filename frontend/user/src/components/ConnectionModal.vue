@@ -72,10 +72,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import store from '../store'
+  import Vue from "vue"
+  import store from "../store"
 
-export default Vue.extend({
+  export default Vue.extend({
   name: 'ConnectionModal',
   data() {
     return {
@@ -88,11 +88,12 @@ export default Vue.extend({
   },
   methods: {
     signin() {
-      store.dispatch('user/connectUser', {email: this.email, password: this.password})
+      store.dispatch('participant/connectParticipant', {email: this.email, password: this.password})
     },
 
     signup() {
-      store.dispatch('user/registerUser', {email: this.email, password: this.password, username: this.username})
+      store.dispatch('participant/registerParticipant',
+              {email: this.email, password: this.password, username: this.username})
     },
 
     focusCreateTeam() {
