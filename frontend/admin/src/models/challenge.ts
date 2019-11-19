@@ -10,7 +10,7 @@ export class Challenge {
   public points: number;
   public flag: string;
   public track: Track;
-  public hidden: boolean;
+  public visible: boolean;
   public files: string[];
   public links: string[];
   public tags: string[];
@@ -22,7 +22,7 @@ export class Challenge {
     this.points = 0;
     this.flag = '';
     this.track = new Track(-1, '');
-    this.hidden = true;
+    this.visible = false;
     this.files = [];
     this.links = [];
     this.tags = [];

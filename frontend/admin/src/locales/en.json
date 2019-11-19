@@ -1,5 +1,6 @@
 {
   "challenges": "Challenges",
+  "challenges.empty": "No challenge existing for this event",
   "event": "Event",
   "event.admins": "Administrators",
   "event.general": "General",
@@ -9,5 +10,9 @@
   "id": "ID",
   "logout": "Logout",
   "name": "Name",
-  "participants": "Participants"
+  "new": "New",
+  "participants": "Participants",
+  "points": "Points",
+  "track": "Track",
+  "visible": "Visible"
 }

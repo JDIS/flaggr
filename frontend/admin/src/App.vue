@@ -41,12 +41,12 @@ html, body, #app, .columns {
   height: 100%;
   left: 0;
   padding: 0;
-  background-color: $grey-light;
+  background-color: $grey-lighter;
 }
 
 .page-content {
   overflow: auto;
   padding: 1.5rem 3rem;
-  box-shadow: inset 0px 0px 5px 0px $grey-light;
+  box-shadow: inset 0px 0px 5px 0px $grey-lighter;
 }
 </style>
