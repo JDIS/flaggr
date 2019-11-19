@@ -80,7 +80,7 @@ export default Vue.extend({
 }
 .menu-list {
   .menu-item {
-    background-color: $grey-lighter;
+    background-color: $grey-lightest;
     display: flex;
     align-items: center;
     text-transform: uppercase;
@@ -111,10 +111,10 @@ export default Vue.extend({
   .is-active .menu-item {
     background: repeating-linear-gradient(
         135deg,
-        $grey-light,
-        $grey-light 10px,
-        darken($grey-light, 3%) 10px,
-        darken($grey-light, 3%) 20px
+        $grey-lighter,
+        $grey-lighter 10px,
+        darken($grey-lighter, 3%) 10px,
+        darken($grey-lighter, 3%) 20px
       )!important;
   }
 

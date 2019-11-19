@@ -2,7 +2,8 @@
 @import '../style/theme.scss';
 
 /* COLORS */
-$primary: $turquoise;
+$primary: #666666;
+$danger: #bf2b20;
 
 /* FONTS */
 $title-family: $family-primary;
@@ -31,6 +32,9 @@ $input-border-color: darken($grey-light, 5%);
 .input {
   border-width: 2px !important;
 }
+
+$pagination-current-background-color: $primary;
+$pagination-current-border-color: $primary;
 
 /* CLASSES SETUP */
 $colors: (

@@ -1,5 +1,6 @@
 {
   "challenges": "Défis",
+  "challenges.empty": "Aucun défi n'a été créé pour cette compétition",
   "event": "Compétition",
   "event.admins": "Administrateurs",
   "event.general": "Général",
@@ -9,5 +10,9 @@
   "id": "ID",
   "logout": "Déconnexion",
   "name": "Nom",
-  "participants": "Participants"
+  "new": "Nouveau",
+  "participants": "Participants",
+  "points": "Points",
+  "track": "Catégorie",
+  "visible": "Visible"
 }
