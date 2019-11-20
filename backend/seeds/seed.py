@@ -3,7 +3,7 @@
 from typing import Generic, List, TypeVar
 
 from JDISCTF.app import DB
-from seeds import categories, challenges, events, flags, submissions, teams
+from seeds import categories, challenges, events, flags, submissions, teams, users
 
 ModelType = TypeVar('ModelType', bound=DB.Model)
 ValueType = TypeVar('ValueType', str, int, bool, float)
@@ -27,6 +27,8 @@ class Seeder:
         self.seed_table(flags.get_records(db_challenges), flags.FILTER_ARGS)
         db_teams = self.seed_table(teams.get_records(db_events), teams.FILTER_ARGS)
         self.seed_table(submissions.get_records(db_challenges, db_teams), submissions.FILTER_ARGS)
+
+        self.seed_table(users.get_records(db_events), users.FILTER_ARGS)
 
         print('Seeding done successfully')
 
