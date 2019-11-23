@@ -1,4 +1,4 @@
-"""'Events' SQLAlchemy model"""
+"""Events' SQLAlchemy model"""
 
 from JDISCTF.app import DB
 
@@ -22,4 +22,4 @@ class Event(DB.Model):
     """Whether participants have to register as teams or individually."""
 
     def __repr__(self):
-        return '<Event id:{} name:{} teams: {}'.format(self.id, self.name, self.teams)
+        return '<Event id:{} name:{} teams: {}>'.format(self.id, self.name, self.teams)

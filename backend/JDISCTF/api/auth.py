@@ -1,12 +1,12 @@
 """Authentication routes"""
 
 import flask_rebar
-from flask_rebar import errors
 from flask_login import current_user, login_user, logout_user
+from flask_rebar import errors
+
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import User
-from JDISCTF.schemas import CreateUserSchema, LoginSchema, LogoutSchema, UserSchema
-
+from JDISCTF.schemas import CreateUserSchema, GenericMessageSchema, LoginSchema, UserSchema
 
 
 @REGISTRY.handles(
@@ -37,7 +37,7 @@ def login():
 @REGISTRY.handles(
     rule="/logout",
     method="GET",
-    response_body_schema={200: LogoutSchema()},
+    response_body_schema={200: GenericMessageSchema()},
 )
 def logout():
     """Logouts the user"""
@@ -69,7 +69,9 @@ def register():
     if user is not None:
         raise errors.UnprocessableEntity("A user with that username already exists")
 
-    user = User(email=email, username=username)
+    # FIXMEÉTIENNE: event_id should be sourced from the link.
+    event_id = 0
+    user = User(email=email, username=username, event_id=event_id)
     user.set_password(password)
 
     DB.session.add(user)
