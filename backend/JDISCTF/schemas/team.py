@@ -29,13 +29,6 @@ class TeamSchema(Schema):
     requests = fields.Nested(TeamRequestSchema, many=True)
 
 
-class TeamRequestSchema(Schema):
-    """Schema that represents a team request"""
-    participant = fields.Nested(ParticipantSchema)
-    team_name = fields.String(required=True)
-    requested_at = fields.DateTime()
-
-
 class CreateTeamRequestSchema(RequestSchema):
     """Request schema to create a team request"""
     team_name = fields.String(required=True)

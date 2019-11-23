@@ -65,7 +65,7 @@ def register_participant():
     username = body["username"]
     password = body["password"]
 
-    # FIXME: event_id should be sourced from the link.
+    # FIXMEFUTURE: event_id should be sourced from the link.
     event_id = 0
 
     # Validate user uniqueness constraint.
