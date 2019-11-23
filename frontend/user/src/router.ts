@@ -13,11 +13,12 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
+      meta: { title: 'title.home' },
     },
     {
       path: '/challenges',
       name: 'challenges',
-      meta: { requiresAuth: true },
+      meta: { title: 'title.challenges', requiresAuth: true, requiresTeam: true},
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -26,6 +27,7 @@ const router = new Router({
     {
       path: '/scoreboard',
       name: 'scoreboard',
+      meta: { title: 'title.scoreboard'},
       component: () => import(/* webpackChunkName: "about" */ './views/Scoreboard.vue'),
     }
   ],

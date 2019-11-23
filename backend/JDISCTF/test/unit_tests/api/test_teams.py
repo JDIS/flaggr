@@ -4,7 +4,8 @@ from unittest.mock import MagicMock, patch
 from flask_rebar import errors
 from pytest import fixture, raises
 
-from JDISCTF.api import accept_team_request, change_role, create_team, current_team, decline_team_request, \
+from JDISCTF.api import accept_team_request, change_role, create_team, current_team, \
+    decline_team_request, \
     kick_team_member, leave_team, remove_own_team_request, send_team_request, teams_list
 from JDISCTF.models import Event, Team, TeamMember, TeamRequest, User
 

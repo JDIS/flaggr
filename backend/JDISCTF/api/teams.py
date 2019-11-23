@@ -3,6 +3,7 @@
 import flask_rebar
 from flask_login import current_user
 from flask_rebar import errors
+from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
@@ -74,7 +75,11 @@ def create_team():
 )
 def get_team_request():
     """Get the request for the current user (if any)."""
-    team_request = TeamRequest.query.filter_by(user_id=current_user.id).first()
+    team_request = TeamRequest.query \
+        .filter_by(user_id=current_user.id) \
+        .options(contains_eager(TeamRequest.team)) \
+        .join(Team.members) \
+        .first()
 
     return team_request
 
