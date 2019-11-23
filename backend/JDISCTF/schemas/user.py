@@ -23,9 +23,3 @@ class UserSchema(Schema):
     email = fields.Email()
     username = fields.String()
     id = fields.Integer()
-
-
-class ParticipantSchema(Schema):
-    """Schema for getting a participant's info"""
-    id = fields.Integer()
-    user = fields.Nested(UserSchema)

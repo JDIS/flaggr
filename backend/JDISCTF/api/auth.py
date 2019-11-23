@@ -83,12 +83,14 @@ def register_participant():
         if user is not None and participant and participant.event_id == event_id:
             raise errors.UnprocessableEntity("A participant with that username already exists for this event")
 
-    user = User(email=email, username=username)
+    # FIXMEÉTIENNE: event_id should be sourced from the link.
+    event_id = 0
+    user = User(email=email, username=username, event_id=event_id)
     user.set_password(password)
 
     DB.session.add(user)
     DB.session.commit()
-    
+
     participant = Participant(event_id=event_id, user_id=user.id)
     DB.session.add(participant)
     DB.session.commit()

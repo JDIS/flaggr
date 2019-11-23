@@ -33,6 +33,14 @@ class Team(DB.Model):
     def __repr__(self):
         return '<Team id:{} event_id:{} name:{}>'.format(self.id, self.event_id, self.name)
 
+    def __eq__(self, other):
+        return self.id == other.id and \
+               self.event_id == other.event_id and \
+               self.name == other.name
+
+    def __hash__(self):
+        return hash(self.__dict__.values())
+
 
 class TeamMember(DB.Model):
     """TeamMember model"""
@@ -49,7 +57,15 @@ class TeamMember(DB.Model):
     participant = relationship("Participant", backref=backref('teamInfo'))
 
     def __repr__(self):
-        return '<TeamMember id:{} team_id:{} participant_id:{}>'.format(self.id, self.team_id, self.participant_id)
+        return '<Team id:{} event_id:{} name:{}'.format(self.id, self.event_id, self.name)
+
+    def __eq__(self, other):
+        return self.team_id == other.team_id and \
+               self.user_id == other.user_id and \
+               self.captain == other.captain
+
+    def __hash__(self):
+        return hash(self.__dict__.values())
 
 
 class TeamRequest(DB.Model):
@@ -66,3 +82,12 @@ class TeamRequest(DB.Model):
 
     def __repr__(self):
         return '<TeamRequests id:{} team_id:{} participant_id:{}>'.format(self.id, self.team_id, self.participant_id)
+
+    def __eq__(self, other):
+        return self.id == other.id and \
+            self.team_id == other.team_id and \
+            self.user_id == other.user_id and \
+            self.requested_at == other.requested_at
+
+    def __hash__(self):
+        return hash(self.__dict__.values())

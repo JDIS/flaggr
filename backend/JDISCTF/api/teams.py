@@ -48,19 +48,19 @@ def teams_list():
 def create_team(current_participant: Participant):
     """Create a team for a given event."""
     body = flask_rebar.get_validated_body()
-    name = body["name"]
+    team_name = body["team_name"]
 
-    team = Team.query.join(TeamMember).filter_by(participant_id=current_participant.id).first()
+    team = current_participant.get_team()
 
     if team is not None:
         raise errors.UnprocessableEntity("You cannot create a team if you already are in a team.")
 
-    team = Team.query.filter_by(name=name).first()
+    team = Team.query.filter_by(name=team_name).first()
 
     if team is not None:
         raise errors.UnprocessableEntity("A team with that name already exists.")
 
-    team = Team(name=name, event_id=current_participant.event_id,
+    team = Team(name=team_name, event_id=current_participant.event_id,
                 members=[TeamMember(participant_id=current_participant.id, captain=True)])
 
     DB.session.add(team)
@@ -95,21 +95,18 @@ def send_team_request(current_participant: Participant):
     body = flask_rebar.get_validated_body()
     team_id = body["team_id"]
 
-    # If user has no team
-    team_member = TeamMember.query.filter_by(participant_id=current_participant.id).first()
+    team_member = current_participant.get_team()
 
     if team_member is not None:
         raise errors.UnprocessableEntity("You cannot request to join a team if you already are in a team.")
 
-    # If team exists
     team = Team.query.filter_by(id=team_id).first()
 
     if team is None:
         raise errors.UnprocessableEntity("The team doesn't exist.")
 
-    # FIXME : If team is not already full (on a pas de configuration pour le nombre de membres d'une équipe for now)
-
-    # If user has not already applied (for any team)
+    # FIXMEFUTURE: If team is not already full
+    # (on a pas de configuration pour le nombre de membres d'une équipe for now)
     team_request = TeamRequest.query.filter_by(participant_id=current_participant.id).first()
 
     if team_request is not None:
@@ -119,7 +116,7 @@ def send_team_request(current_participant: Participant):
 
     DB.session.add(team_request)
     DB.session.commit()
-    return "OK"
+    return ""
 
 
 @REGISTRY.handles(
@@ -137,18 +134,22 @@ def accept_team_request(current_participant: Participant):
 
     current_member = TeamMember.query.filter_by(participant_id=current_participant.id).first()
 
-    if not current_member and not current_member.captain:
-        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+    if not current_member or not current_member.captain:
+        raise errors.Unauthorized("You don't have the rights to accept this request.")
 
     # Remove TeamRequest and add the new member
-    team_request = TeamRequest.query.filter_by(participant_id=participant_id).first()
-    new_member = TeamMember(participant_id=participant_id, team_id=current_member.team_id)
+    team_request = TeamRequest.query.filter_by(team_id=current_member.team_id, participant_id=participant_id).first()
+
+    if team_request is None:
+        raise errors.UnprocessableEntity("The request doesn't exist.")
+
+    new_member = TeamMember(particpant_id=participant_id, team_id=current_member.team_id)
 
     DB.session.delete(team_request)
     DB.session.add(new_member)
     DB.session.commit()
 
-    return "OK"
+    return ""
 
 
 @REGISTRY.handles(
@@ -165,15 +166,18 @@ def decline_team_request(current_participant: Participant):
     participant_id = body["participant_id"]
     current_member = TeamMember.query.filter_by(participant_id=current_participant.id).first()
 
-    if not current_member and not current_member.captain:
-        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+    if not current_member or not current_member.captain:
+        raise errors.Unauthorized("You don't have the rights to decline this request.")
 
     # Remove TeamRequest
-    team_request = TeamRequest.query.filter_by(participant_id=participant_id).first()
+    team_request = TeamRequest.query.filter_by(team_id=current_member.team_id, participant_id=participant_id).first()
+
+    if team_request is None:
+        raise errors.UnprocessableEntity("The request doesn't exist.")
 
     DB.session.delete(team_request)
     DB.session.commit()
-    return "OK"
+    return ""
 
 
 @REGISTRY.handles(
@@ -190,8 +194,8 @@ def kick_team_member(current_participant: Participant):
     participant_id = body["participant_id"]
     current_member = TeamMember.query.filter_by(participant_id=current_participant.id).first()
 
-    if not current_member and not current_member.captain:
-        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+    if not current_member or not current_member.captain:
+        raise errors.Unauthorized("You don't have the rights to kick a team member.")
 
     if participant_id == current_participant.id:
         raise errors.UnprocessableEntity("You cannot kick yourself from a team.")
@@ -200,7 +204,7 @@ def kick_team_member(current_participant: Participant):
 
     DB.session.delete(team_member)
     DB.session.commit()
-    return "OK"
+    return ""
 
 
 @REGISTRY.handles(
@@ -219,8 +223,8 @@ def change_role(current_participant: Participant):
 
     current_member = TeamMember.query.filter_by(participant_id=current_participant.id).first()
 
-    if not current_member and not current_member.captain:
-        raise errors.UnprocessableEntity("You don't have the rights to accept this request.")
+    if not current_member or not current_member.captain:
+        raise errors.Unauthorized("You don't have the rights to change a team member's role.")
 
     if participant_id == current_participant.id:
         # In order to avoid a team "bricking" itself
@@ -230,7 +234,7 @@ def change_role(current_participant: Participant):
     team_member.captain = new_role
 
     DB.session.commit()
-    return "OK"
+    return ""
 
 
 @REGISTRY.handles(
@@ -250,7 +254,7 @@ def remove_own_team_request(current_participant: Participant):
 
     DB.session.delete(team_request)
     DB.session.commit()
-    return "OK"
+    return ""
 
 
 @REGISTRY.handles(
@@ -262,7 +266,7 @@ def remove_own_team_request(current_participant: Participant):
 @require_participant
 def leave_team(current_participant: Participant):
     """Leave a team"""
-    # FIXME When the last member of a team leaves, cascade delete submissions, and then the team itself.
+    # NOTE: When the last member of a team leaves, what should happen? We do not want to delete a team.
 
     team_member = TeamMember.query.filter_by(participant_id=current_participant.id).first()
 
@@ -271,4 +275,4 @@ def leave_team(current_participant: Participant):
 
     DB.session.delete(team_member)
     DB.session.commit()
-    return "OK"
+    return ""

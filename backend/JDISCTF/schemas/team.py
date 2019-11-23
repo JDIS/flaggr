@@ -12,10 +12,10 @@ class TeamMemberSchema(Schema):
     captain = fields.Bool()
 
 
-# TODO : Voir avec émilio / sarah si une route doit exposer cette information là
-class JoinRequestSchema(Schema):
-    """Schema for getting a user's request to join a team"""
+class TeamRequestSchema(Schema):
+    """Schema that represents a team request"""
     participant = fields.Nested(ParticipantSchema)
+    team_name = fields.String(required=True)
     requested_at = fields.DateTime()
 
 
@@ -26,18 +26,19 @@ class TeamSchema(Schema):
     name = fields.String(required=True)
 
     members = fields.Nested(TeamMemberSchema, many=True)
-    requests = fields.Nested(JoinRequestSchema, many=True)
+    requests = fields.Nested(TeamRequestSchema, many=True)
 
 
 class TeamRequestSchema(Schema):
     """Schema that represents a team request"""
     participant = fields.Nested(ParticipantSchema)
-    team = fields.Nested(TeamSchema)
+    team_name = fields.String(required=True)
+    requested_at = fields.DateTime()
 
 
 class CreateTeamRequestSchema(RequestSchema):
     """Request schema to create a team request"""
-    name = fields.String(required=True)
+    team_name = fields.String(required=True)
 
 
 class SendTeamRequestRequestSchema(RequestSchema):
