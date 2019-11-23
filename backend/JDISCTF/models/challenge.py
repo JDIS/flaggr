@@ -37,5 +37,5 @@ class Challenge(DB.Model):
     flag = relationship('Flag', lazy='noload')
 
     def __repr__(self):
-        return '<Challenge id:{} category_id:{} name:{} description:{} points:{}'\
+        return '<Challenge id:{} category_id:{} name:{} description:{} points:{}>'\
             .format(self.id, self.category_id, self.name, self.description, self.points)

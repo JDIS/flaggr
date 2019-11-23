@@ -31,4 +31,4 @@ class Category(DB.Model):
     challenges = relationship('Challenge', lazy='noload')
 
     def __repr__(self):
-        return '<Category id:{} event_id:{} name:{}'.format(self.id, self.event_id, self.name)
+        return '<Category id:{} event_id:{} name:{}>'.format(self.id, self.event_id, self.name)

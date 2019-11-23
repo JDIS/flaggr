@@ -23,7 +23,7 @@ REGISTRY = REBAR.create_handler_registry(prefix="/api")
 # make columns non-nullable by default, most of them should be
 DB.Column = partial(DB.Column, nullable=False)
 
-#register authenticator for Swagger
+# register authenticator for Swagger
 register_authenticators(REGISTRY)
 
 
