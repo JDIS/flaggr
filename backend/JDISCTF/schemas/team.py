@@ -12,10 +12,19 @@ class TeamMemberSchema(Schema):
     captain = fields.Bool()
 
 
+class TeamWithoutRequestsSchema(Schema):
+    """Schema for a team without the join requests"""
+    id = fields.Integer(required=True)
+    event_id = fields.Integer(required=True)
+    name = fields.String(required=True)
+
+    members = fields.Nested(TeamMemberSchema, many=True)
+
+
 class TeamRequestSchema(Schema):
     """Schema that represents a team request"""
     user = fields.Nested(UserSchema)
-    team_name = fields.String(required=True)
+    team = fields.Nested(TeamWithoutRequestsSchema, required=True)
     requested_at = fields.DateTime()
 
 
@@ -23,7 +32,7 @@ class TeamSchema(Schema):
     """Schema for getting a team's information"""
     id = fields.Integer(required=True)
     event_id = fields.Integer(required=True)
-    team_name = fields.String(required=True)
+    name = fields.String(required=True)
 
     members = fields.Nested(TeamMemberSchema, many=True)
     requests = fields.Nested(TeamRequestSchema, many=True)

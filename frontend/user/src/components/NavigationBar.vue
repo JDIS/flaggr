@@ -12,6 +12,7 @@
 
     <template slot="end">
       <TeamButtonContainer v-if="user" id="teamButtonContainer"></TeamButtonContainer>
+      <div v-if="this.user" class="user navbar-item">{{ this.user.username }}</div>
       <SignoutButton v-if="user"></SignoutButton>
       <ConnectionButtonContainer v-else></ConnectionButtonContainer>
     </template>
@@ -21,7 +22,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import NavigationBarLinks from '../components/NavigationBarLinks.vue'
-import TeamButtonContainer from '@/components/TeamButtonContainer.vue'
+import TeamButtonContainer from '@/components/team/TeamButtonContainer.vue'
 import ConnectionButtonContainer from '@/components/ConnectionButtonContainer.vue'
 import { UserMixin } from '@/mixins/UserMixin'
 import SignoutButton from '@/components/SignoutButton.vue'
