@@ -57,7 +57,8 @@ class TeamMember(DB.Model):
     participant = relationship("Participant", backref=backref('teamInfo'))
 
     def __repr__(self):
-        return '<Team id:{} event_id:{} name:{}'.format(self.id, self.event_id, self.name)
+        return '<Team id:{} team_id:{} participant_id:{} captain:{}'\
+            .format(self.id, self.team_id, self.participant_id, self.captain)
 
     def __eq__(self, other):
         return self.team_id == other.team_id and \
