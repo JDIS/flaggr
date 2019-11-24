@@ -20,10 +20,11 @@ from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
     response_body_schema={200: TeamSchema()},
     authenticators=FlaskLoginAuthenticator()
 )
-def current_team():
+@require_participant
+def current_team(current_participant: Participant):
     """Current user's team information"""
 
-    return current_user.get_team()
+    return current_participant.get_team()
 
 
 @REGISTRY.handles(
@@ -143,7 +144,7 @@ def accept_team_request(current_participant: Participant):
     if team_request is None:
         raise errors.UnprocessableEntity("The request doesn't exist.")
 
-    new_member = TeamMember(particpant_id=participant_id, team_id=current_member.team_id)
+    new_member = TeamMember(participant_id=participant_id, team_id=current_member.team_id)
 
     DB.session.delete(team_request)
     DB.session.add(new_member)

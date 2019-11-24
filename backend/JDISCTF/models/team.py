@@ -61,7 +61,7 @@ class TeamMember(DB.Model):
 
     def __eq__(self, other):
         return self.team_id == other.team_id and \
-               self.user_id == other.user_id and \
+               self.participant_id == other.participant_id and \
                self.captain == other.captain
 
     def __hash__(self):
@@ -86,7 +86,7 @@ class TeamRequest(DB.Model):
     def __eq__(self, other):
         return self.id == other.id and \
             self.team_id == other.team_id and \
-            self.user_id == other.user_id and \
+            self.participant_id == other.participant_id and \
             self.requested_at == other.requested_at
 
     def __hash__(self):
