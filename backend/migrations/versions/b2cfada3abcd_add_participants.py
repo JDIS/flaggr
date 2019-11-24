@@ -1,8 +1,8 @@
-"""Add Participants, Users are now only used for authentication
+"""Add Participants
 
-Revision ID: 22d3417b85d4
-Revises: 0159cc2d8db7
-Create Date: 2019-11-15 11:55:04.479616
+Revision ID: b2cfada3abcd
+Revises: 1e08c4ac0ff8
+Create Date: 2019-11-24 11:38:13.140683
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '22d3417b85d4'
-down_revision = '0159cc2d8db7'
+revision = 'b2cfada3abcd'
+down_revision = '1e08c4ac0ff8'
 branch_labels = None
 depends_on = None
 
@@ -29,11 +29,11 @@ def upgrade():
     op.drop_constraint('category_event_name_uc', 'Categories', type_='unique')
     op.add_column('TeamMembers', sa.Column('participant_id', sa.Integer(), nullable=True))
     op.drop_constraint('TeamMembers_user_id_fkey', 'TeamMembers', type_='foreignkey')
-    op.create_foreign_key(None, 'TeamMembers', 'Participants', ['participant_id'], ['id'])
+    op.create_foreign_key('TeamMembers_participant_id_fkey', 'TeamMembers', 'Participants', ['participant_id'], ['id'])
     op.drop_column('TeamMembers', 'user_id')
     op.add_column('TeamRequests', sa.Column('participant_id', sa.Integer(), nullable=True))
     op.drop_constraint('TeamRequests_user_id_fkey', 'TeamRequests', type_='foreignkey')
-    op.create_foreign_key(None, 'TeamRequests', 'Participants', ['participant_id'], ['id'])
+    op.create_foreign_key('TeamRequests_participant_id_fkey', 'TeamRequests', 'Participants', ['participant_id'], ['id'])
     op.drop_column('TeamRequests', 'user_id')
     op.drop_constraint('Users_event_id_fkey', 'Users', type_='foreignkey')
     op.drop_column('Users', 'event_id')
@@ -45,11 +45,11 @@ def downgrade():
     op.add_column('Users', sa.Column('event_id', sa.INTEGER(), autoincrement=False, nullable=True))
     op.create_foreign_key('Users_event_id_fkey', 'Users', 'Events', ['event_id'], ['id'])
     op.add_column('TeamRequests', sa.Column('user_id', sa.INTEGER(), autoincrement=False, nullable=True))
-    op.drop_constraint(None, 'TeamRequests', type_='foreignkey')
+    op.drop_constraint('TeamRequests_participant_id_fkey', 'TeamRequests', type_='foreignkey')
     op.create_foreign_key('TeamRequests_user_id_fkey', 'TeamRequests', 'Users', ['user_id'], ['id'])
     op.drop_column('TeamRequests', 'participant_id')
     op.add_column('TeamMembers', sa.Column('user_id', sa.INTEGER(), autoincrement=False, nullable=True))
-    op.drop_constraint(None, 'TeamMembers', type_='foreignkey')
+    op.drop_constraint('TeamMembers_participant_id_fkey', 'TeamMembers', type_='foreignkey')
     op.create_foreign_key('TeamMembers_user_id_fkey', 'TeamMembers', 'Users', ['user_id'], ['id'])
     op.drop_column('TeamMembers', 'participant_id')
     op.create_unique_constraint('category_event_name_uc', 'Categories', ['event_id', 'name'])
