@@ -6,13 +6,12 @@ from base64 import b64decode
 from typing import Optional
 
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey
 from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from JDISCTF.app import Config, DB, LOGIN_MANAGER
-from JDISCTF.models.team import Team
 from JDISCTF.models.participant import Participant
+from JDISCTF.models.team import Team
 
 
 class User(UserMixin, DB.Model):

@@ -1,13 +1,12 @@
 """Team routes"""
 
 import flask_rebar
-from flask_login import current_user
 from flask_rebar import errors
 
-from JDISCTF.permission_wrappers import require_participant
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import Team, TeamMember, TeamRequest, Participant
+from JDISCTF.permission_wrappers import require_participant
 from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
     ChangeRoleRequestSchema, CreateTeamRequestSchema, DeclineTeamRequestRequestSchema, \
     GenericMessageSchema, KickTeamMemberRequestSchema, SendTeamRequestRequestSchema, \
