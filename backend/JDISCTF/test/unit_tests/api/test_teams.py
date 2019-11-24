@@ -15,18 +15,6 @@ def local_patch(module: str, **kwargs):
 
 
 @fixture
-def challenge_mock():
-    with local_patch('Challenge') as mock:
-        yield mock
-
-
-@fixture
-def category_mock():
-    with local_patch('Category') as mock:
-        yield mock
-
-
-@fixture
 def team_mock():
     with local_patch('Team') as mock:
         yield mock
@@ -53,12 +41,6 @@ def rebar_mock():
 @fixture
 def db_mock():
     with local_patch('DB') as mock:
-        yield mock
-
-
-@fixture
-def current_user_mock():
-    with local_patch('current_user') as mock:
         yield mock
 
 
@@ -328,10 +310,6 @@ class TestKickTeamMember:
     def _rebar_mock(self, rebar_mock: MagicMock):
         rebar_mock.get_validated_body.return_value = self.REQUEST_BODY
         yield rebar_mock
-
-    @fixture(autouse=True)
-    def _team_member_mock(self, team_member_mock):
-        team_member_mock.side_effect = lambda *args, **kwargs: TeamMember(*args, **kwargs)
 
     def test_given_a_user_without_team_should_raise_unauthorized_error(self, team_member_mock: MagicMock):
         team_member_mock.query.filter_by.return_value.first.return_value = None
