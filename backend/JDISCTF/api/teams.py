@@ -6,7 +6,7 @@ from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
-from JDISCTF.models import Team, TeamMember, TeamRequest, Participant
+from JDISCTF.models import Participant, Team, TeamMember, TeamRequest
 from JDISCTF.permission_wrappers import require_participant
 from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
     ChangeRoleRequestSchema, CreateTeamRequestSchema, DeclineTeamRequestRequestSchema, \
@@ -80,6 +80,7 @@ def get_team_request(current_participant: Participant):
     """Get the request for the current user (if any)."""
     team_request = TeamRequest.query \
         .filter_by(participant_id=current_participant.id) \
+        .join(TeamRequest.team) \
         .options(contains_eager(TeamRequest.team)) \
         .join(Team.members) \
         .first()
