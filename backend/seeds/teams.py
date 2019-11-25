@@ -1,5 +1,5 @@
 """Teams seeding data"""
-
+# disable: cyclic-import
 from JDISCTF.models import Event, Team
 
 

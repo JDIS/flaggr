@@ -16,8 +16,8 @@ const mutations = {
       storeState.requestsInProgress.pop();
     },
 
-    setError(storeState: any) {
-      storeState.hasError = true;
+    setError(storeState: any, error: boolean) {
+      storeState.hasError = error;
     }
 }
 
@@ -30,8 +30,8 @@ const actions = {
     context.commit('removeRequest')
   },
 
-  setError(context: any) {
-    context.commit('setError')
+  setError(context: any, error: boolean) {
+    context.commit('setError', error)
   }
 }
 

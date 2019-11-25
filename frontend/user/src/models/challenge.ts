@@ -1,3 +1,5 @@
+import { Submission } from '@/models/submission'
+
 /**
  * Challenge model
  */
@@ -6,21 +8,21 @@ export class Challenge {
   public name: string;
   public description: string;
   public points: number;
-  public solves: string[];
   public files: string[];
   public links: string[];
   public tags: string[];
-  public isSolved: boolean;
+  public is_solved: boolean;
+  public solves: Submission[];
 
   constructor() {
     this.id = -1;
     this.name = '';
     this.description = '';
     this.points = 0;
-    this.solves = [];
     this.files = [];
     this.links = [];
     this.tags = [];
-    this.isSolved = false;
+    this.is_solved = false;
+    this.solves = [];
   }
 }

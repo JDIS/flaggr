@@ -1,12 +1,12 @@
 <template>
   <div class="header-container">
     <b-tag
-      :class="{'points': true, 'is-solved': challenge.isSolved, 'is-unsolved': !challenge.isSolved }"
+      :class="{'points': true, 'is-solved': challenge.is_solved, 'is-unsolved': !challenge.is_solved }"
       size="is-medium"
     >{{ challenge.points }}</b-tag>
     <p class="card-header-title">
       {{ challenge.name }}
-      <b-icon v-if="challenge.isSolved" icon="check" type="is-solved" size="is-medium"></b-icon>
+      <b-icon v-if="challenge.is_solved" icon="check" type="is-solved" size="is-medium"></b-icon>
     </p>
 
     <a class="card-header-icon">
@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Challenge } from '../models/challenge';
+import Vue from 'vue'
+import { Challenge } from '@/models/challenge'
 
 /**
  * Header of the challenge card
@@ -32,7 +32,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-@import "@/style/theme.scss";
+@import "../style/theme.scss";
 
 .header-container {
     width: 100%;

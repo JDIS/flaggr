@@ -43,6 +43,11 @@ const getters = {
   }
 }
 
+/**
+ * Check to see if the current route requires auth.
+ * This function should only be called if we know the client
+ * is not connected.
+ */
 function checkPermissions() {
   if (route.currentRoute.meta.requiresAuth === true) {
     route.replace('/')

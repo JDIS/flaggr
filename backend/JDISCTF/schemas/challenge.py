@@ -3,6 +3,7 @@ from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
 
 from JDISCTF.schemas.category import CategorySchema
+from JDISCTF.schemas.submission import TeamSubmissionSchema
 
 
 class UserChallengeSchema(Schema):
@@ -12,7 +13,8 @@ class UserChallengeSchema(Schema):
     name = fields.String(required=True)
     description = fields.String(required=True)
     points = fields.Integer(required=True)
-    completed = fields.Boolean(required=True)
+    solves = fields.Nested(TeamSubmissionSchema, required=True, many=True)
+    is_solved = fields.Boolean()
 
 
 class ChallengeByCategorySchema(CategorySchema):
@@ -22,7 +24,6 @@ class ChallengeByCategorySchema(CategorySchema):
 
 class SubmitFlagSchema(RequestSchema):
     """Schema for submitting a flag for a given challenge"""
-    team_id = fields.Integer(required=True)
     flag = fields.String(required=True)
 
 

@@ -28,6 +28,7 @@ class Team(DB.Model):
     """The name of the team. Two teams competing in the same event cannot have the same name."""
 
     members = relationship('TeamMember', lazy="joined", back_populates="team")
+    submissions = relationship('Submission', lazy="joined", back_populates="team")
     requests = relationship('TeamRequest', lazy='joined')
 
     def __repr__(self):

@@ -2,11 +2,13 @@
 import re
 
 import flask_rebar
+from flask_login import current_user
 from flask_rebar import errors
 from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.models import Category, Challenge, Event, Flag, Submission, Team
+from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
+from JDISCTF.models import Category, Challenge, Event, Flag, Submission
 from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema, SubmitFlagSchema, \
     UserChallengeSchema
 
@@ -14,7 +16,8 @@ from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema,
 @REGISTRY.handles(
     rule="/challenges/event/<int:event_id>",
     method="GET",
-    response_body_schema=UserChallengeSchema(many=True)
+    response_body_schema=UserChallengeSchema(many=True),
+    authenticators=FlaskLoginAuthenticator()
 )
 def get_all_challenges_for_event(event_id: int):
     # pylint: disable=singleton-comparison
@@ -41,7 +44,8 @@ def get_all_challenges_for_event(event_id: int):
 @REGISTRY.handles(
     rule="/challenges/<int:challenge_id>",
     method="GET",
-    response_body_schema=UserChallengeSchema()
+    response_body_schema=UserChallengeSchema(),
+    authenticators=FlaskLoginAuthenticator()
 )
 def get_challenge(challenge_id: int):
     # pylint: disable=singleton-comparison
@@ -65,7 +69,8 @@ def get_challenge(challenge_id: int):
 @REGISTRY.handles(
     rule="/challenges/event/<int:event_id>/by-category",
     method="GET",
-    response_body_schema=ChallengeByCategorySchema(many=True)
+    response_body_schema=ChallengeByCategorySchema(many=True),
+    authenticators=FlaskLoginAuthenticator()
 )
 def get_all_challenges_by_category_for_event(event_id: int):
     # pylint: disable=singleton-comparison
@@ -80,6 +85,9 @@ def get_all_challenges_by_category_for_event(event_id: int):
         .options(contains_eager(Category.challenges)) \
         .filter(Category.event_id == event_id, Challenge.hidden == False) \
         .all()
+    for category in categories:
+        for challenge in category.challenges:
+            challenge.is_solved = any(solve.team_id == current_user.get_team().id for solve in challenge.solves)
     return categories
 
 
@@ -87,7 +95,8 @@ def get_all_challenges_by_category_for_event(event_id: int):
     rule="/challenges/<int:challenge_id>/submit",
     method="POST",
     request_body_schema=SubmitFlagSchema(),
-    response_body_schema=SubmitFlagResponseSchema()
+    response_body_schema=SubmitFlagResponseSchema(),
+    authenticators=FlaskLoginAuthenticator()
 )
 def submit_flag(challenge_id: int):
     """Submit a flag for a given challenge"""
@@ -97,13 +106,12 @@ def submit_flag(challenge_id: int):
         raise errors.NotFound(f'Challenge with id "{challenge_id}" not found.')
 
     body = flask_rebar.get_validated_body()
-    team_id = body["team_id"]
     submitted_flag = body["flag"]
 
-    team = Team.query.get(team_id)
+    team = current_user.get_team()
 
     if team is None:
-        raise errors.NotFound(f'Team with id "{team_id}" not found.')
+        raise errors.NotFound(f'Current user has no team.')
 
     challenge_event_id = DB.session.query(Category.event_id) \
         .join(Category.challenges) \
@@ -112,9 +120,9 @@ def submit_flag(challenge_id: int):
 
     if challenge_event_id != team.event_id:
         raise errors.UnprocessableEntity(
-            f'Team "{team_id}" and challenge "{challenge_id}" are not part of the same event')
+            f'Team "{team.name}" and challenge "{challenge_id}" are not part of the same event')
 
-    submission = Submission(team_id=team_id, challenge_id=challenge_id, input=submitted_flag)
+    submission = Submission(team_id=team.id, challenge_id=challenge_id, input=submitted_flag)
 
     flags = Flag.query.filter_by(challenge_id=challenge_id).all()
 
