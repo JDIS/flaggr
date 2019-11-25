@@ -5,7 +5,7 @@
       <div class="column is-one-fifth sidebar">
         <app-navigation />
       </div>
-      <div class="column page-content">
+      <div class="column app-content">
         <router-view />
       </div>
     </div>
@@ -44,9 +44,9 @@ html, body, #app, .columns {
   background-color: $grey-lighter;
 }
 
-.page-content {
+.app-content {
   overflow: auto;
-  padding: 1.5rem 3rem;
+  padding: 0;
   box-shadow: inset 0px 0px 5px 0px $grey-lighter;
 }
 </style>

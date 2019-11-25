@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-content">
     <base-title :text="$t('participants')" :color="color" />
   </div>
 </template>
