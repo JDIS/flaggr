@@ -1,7 +1,6 @@
 <template>
   <div class="nav-links">
     <router-link :to="{ name: 'home' }" class="navbar-item">{{ $t('title.home') }}</router-link>
-    <router-link :to="{ name: 'challenges' }" v-if="isConnected" class="navbar-item">{{ $t('title.challenges') }}</router-link>
     <router-link :to="{ name: 'challenges' }" v-if="isConnected && hasTeam" class="navbar-item">{{ $t('title.challenges') }}</router-link>
     <router-link :to="{ name: 'scoreboard' }" class="navbar-item">{{ $t('title.scoreboard') }}</router-link>
   </div>
@@ -9,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {ParticipantMixin} from '@/mixins/ParticipantMixin'
+import { ParticipantMixin } from '@/mixins/ParticipantMixin'
 import Router from 'vue-router'
 import router from '@/router'
 import { TeamMixin } from '@/mixins/TeamMixin'
