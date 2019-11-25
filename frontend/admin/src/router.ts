@@ -22,12 +22,24 @@ const router = new VueRouter({
     {
       path: '/challenges',
       name: 'challenges',
-      component: () => import(/* webpackChunkName: "event" */ './views/Challenges.vue')
+      component: () => import(/* webpackChunkName: "challenges" */ './views/Challenges.vue')
+    },
+    {
+      path: '/challenges/edit/:id',
+      name: 'edit-challenge',
+      props: true,
+      component: () => import(/* webpackChunkName: "challenges" */ './views/Challenge.vue')
+    },
+    {
+      path: '/challenges/new',
+      name: 'new-challenge',
+      props: true,
+      component: () => import(/* webpackChunkName: "challenges" */ './views/Challenge.vue')
     },
     {
       path: '/participants',
       name: 'participants',
-      component: () => import(/* webpackChunkName: "event" */ './views/Participants.vue')
+      component: () => import(/* webpackChunkName: "participants" */ './views/Participants.vue')
     }
   ],
 });

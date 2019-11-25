@@ -27,11 +27,12 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use((config) => {
   store.dispatch('network/removeRequestInProgress')
+  store.dispatch('network/setError', false)
 
   return config;
 }, (error) => {
   // If an HTTP call results in an error, set the state accordingly.
-  store.dispatch('network/setError')
+  store.dispatch('network/setError', true)
   store.dispatch('network/removeRequestInProgress')
   console.log('Request error:', error)
   return Promise.reject(error)

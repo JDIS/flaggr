@@ -28,8 +28,11 @@
   "scoreboard.rank": "Position",
   "scoreboard.affiliation": "Affiliation",
   "scoreboard.score": "Score",
-  "scoreboard.lastUpdate": "Dernière mise à jour",
+  "scoreboard.lastUpdate": "Dernière soumission valide",
   "scoreboard.team": "Équipe",
+  "scoreboard.solvedChallenges": "# de défis résolus",
+  "scoreboard.errorWhileFetching": "Erreur lors de la récupération du classement: {error}",
+  "scoreboard.autoreload": "Recharger automatiquement",
   "all": "Tous",
   "team.creationSuccessful": "L'équipe {team} a été créée",
   "team.creationError": "Erreur lors de la création d'équipe: {error}",
@@ -53,5 +56,7 @@
   "team.requestStatus": "Statut de la demande d'adhésion",
   "team.requestCancelError": "Erreur lors de l'annulation de la demande: {error}",
   "team.requestCancelled": "Requête annulée",
+  "challenge.submissionError": "Erreur lors de la soumission du flag: {error}",
+  "challenge.oldSubmissions": "Anciennes soumissions",
   "team.cancelRequest": "Annuler la demande"
 }

@@ -1,5 +1,5 @@
 <template>
-  <b-collapse class="card" :open="!challenge.isSolved || newlySolved">
+  <b-collapse class="card" :open="!challenge.is_solved || newlySolved">
     <div slot="trigger" slot-scope="props" class="card-header" role="button">
       <challenge-card-header :challenge="challenge" :open="props.open" />
     </div>
@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { Challenge } from '../models/challenge';
-import ChallengeCardHeader from './ChallengeCardHeader.vue';
-import ChallengeCardContent from './ChallengeCardContent.vue';
+import Vue from 'vue'
+import { Challenge } from '@/models/challenge'
+import ChallengeCardHeader from './ChallengeCardHeader.vue'
+import ChallengeCardContent from './ChallengeCardContent.vue'
 
 /**
  * Card that displays a challenge

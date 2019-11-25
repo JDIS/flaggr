@@ -1,8 +1,11 @@
 """'Submissions' SQLAlchemy model"""
 
 from sqlalchemy import ForeignKey, func
+from sqlalchemy.orm import relationship
 
 from JDISCTF.app import DB
+from JDISCTF.models import Challenge
+from JDISCTF.models.team import Team
 
 
 class Submission(DB.Model):
@@ -26,6 +29,11 @@ class Submission(DB.Model):
     """Whether or not the submission is correct."""
     time = DB.Column(DB.DateTime, server_default=func.now())
     """The date and time of the submission."""
+
+    team = relationship(Team, back_populates='submissions')
+    """The team that did the submission"""
+    challenge = relationship(Challenge, lazy='noload')
+    """The challenge that the submission belongs to"""
 
     def __repr__(self):
         return '<Submission id:{} team_id:{} challenge_id:{} input:{} is_correct:{}>'\

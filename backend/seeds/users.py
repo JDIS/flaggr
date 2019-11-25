@@ -1,12 +1,11 @@
 """Users seeding data"""
-
 from JDISCTF.models import Event, User
 
 
 def get_records(events: [Event]):
     """Get the records to add to the database"""
     users = []
-    for i, event in enumerate(events):
+    for i in range(len(events)):
         if i == 0:
             user1 = User(email='test@test.com', username='test')
             user1.set_password('test')

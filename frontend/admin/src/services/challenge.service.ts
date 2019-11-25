@@ -33,3 +33,30 @@ function createChallengeFromData(data: any): Challenge {
   // TODO: set track from id (from store?)
   return challenge;
 }
+
+/**
+ * Delete a challenge
+ * @param id Id of the challenge to delete
+ * @return if the challenge was successfully deleted
+ */
+export async function deleteChallenge(id: number): Promise<void> {
+  console.log(`deleting challenge ${id}`) // TODO: api call
+}
+
+/**
+ * Create a challenge
+ * @param id Id of the challenge to create
+ * @return if the challenge was successfully created
+ */
+export async function createChallenge(challenge: Challenge): Promise<void> {
+  console.log(`creating challenge`); // TODO: api call
+}
+
+/**
+ * Update a challenge
+ * @param id Id of the challenge to update
+ * @return if the challenge was successfully updated
+ */
+export async function updateChallenge(challenge: Challenge): Promise<void> {
+  console.log(`updating challenge ${challenge.id}`); // TODO: api call
+}

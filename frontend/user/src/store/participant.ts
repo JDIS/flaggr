@@ -1,7 +1,8 @@
-import axios, {AxiosError, AxiosResponse} from 'axios'
-import {sendAlert, sendAlertWithVariables} from '@/helpers'
-import {Participant} from '@/models/participant';
+import axios, { AxiosError, AxiosResponse } from 'axios'
+import { sendAlert, sendAlertWithVariables } from '@/helpers'
+import store from '../store'
 import route from '../router'
+import {Participant} from '@/models/participant';
 
 /**
  * Store to manage the connected participant's information.
@@ -42,6 +43,17 @@ const getters = {
   }
 }
 
+/**
+ * Check to see if the current route requires auth.
+ * This function should only be called if we know the client
+ * is not connected.
+ */
+function checkPermissions() {
+  if (route.currentRoute.meta.requiresAuth === true) {
+    route.replace('/')
+  }
+}
+
 const actions = {
   /**
    * Send a request to connect the participant. Upon successful connection,
@@ -53,9 +65,9 @@ const actions = {
     payload.remember = true // To change later
     axios.post('login', payload)
       .then((response: AxiosResponse) => {
-        console.log('connection success', response)
         context.commit('setParticipant', response.data as Participant)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
+        store.dispatch('user/fetchUser')
       })
       .catch((error: AxiosError) => {
         if (error.response!.status === 422) {
@@ -75,8 +87,7 @@ const actions = {
   registerParticipant(context: any, payload: any) {
     axios.post('register', payload)
       .then((response: AxiosResponse) => {
-        console.log('user registred', response)
-        context.commit('setParticipant', response.data as Participant)
+        store.dispatch('participant/fetchParticipant')
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
         // context.commit('setUser', user)
       })
@@ -94,6 +105,7 @@ const actions = {
       .then((response: AxiosResponse) => {
         context.commit('setParticipant', null)
         context.commit('setCreds', null)
+        checkPermissions()
       })
       .catch((error: AxiosError) => {
         console.log('error during logout:', error)
@@ -111,12 +123,11 @@ const actions = {
     return axios.get('participant')
       .then((response: AxiosResponse<Participant>) => {
         context.commit('setParticipant', response.data)
+        store.dispatch('team/fetchTeam')
       })
       .catch((error: AxiosError) => {
         context.commit('setParticipant', null)
-        if (route.currentRoute.meta.requiresAuth === true) {
-          route.replace('/')
-        }
+        checkPermissions()
       })
   }
 }

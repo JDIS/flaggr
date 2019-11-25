@@ -6,6 +6,7 @@ $orange: #f97127;
 $turquoise: #4cb59c;
 $red: #ba4040;
 $marine: #183060;
+$grey-light: #e4e4e4;
 $grey-lighter: #eeeded;
 $grey-lightest: #fbfbfb;
 
@@ -54,4 +55,13 @@ $third-invert: findColorInvert($third);
   &.is-third {
     color: $third;
   }
+}
+
+.is-full-height {
+  height: 100%;
+}
+
+.page-content {
+  @extend .is-full-height;
+  padding: 1.5rem 3rem;
 }

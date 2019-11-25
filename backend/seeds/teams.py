@@ -1,6 +1,6 @@
 """Teams seeding data"""
-
-from JDISCTF.models import Event, Team
+from JDISCTF.models.event import Event
+from JDISCTF.models.team import Team
 
 
 def get_records(events: [Event]):

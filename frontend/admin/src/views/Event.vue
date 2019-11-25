@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-content">
     <base-title :text="$t('event')" :color="color" />
     <base-subtitle :text="$t('event.general')" />
     <b-field :label="$t('event.name')">

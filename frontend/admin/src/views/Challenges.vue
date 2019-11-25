@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-content">
     <base-title :text="$t('challenges')" :color="color" />
     <b-table
       :data="challenges"
@@ -12,8 +12,14 @@
       :loading="isLoading"
     >
       <template slot-scope="props">
-        <b-table-column field="name" :label="$t('name')" sortable>{{ props.row.name }}</b-table-column>
-        <b-table-column field="track" :label="$t('track')" sortable>{{ props.row.track.name }}</b-table-column>
+        <b-table-column field="name" :label="$t('name')" sortable>
+          <router-link
+            :to="{ name: 'edit-challenge', params: {id: props.row.id } }"
+          >{{ props.row.name }}</router-link>
+        </b-table-column>
+        <b-table-column field="track" :label="$t('track')" sortable>
+          <span v-if="props.row.track">{{ props.row.track.name }}</span>
+        </b-table-column>
         <b-table-column field="points" :label="$t('points')" numeric sortable>{{ props.row.points }}</b-table-column>
 
         <b-table-column field="visible" :label="$t('visible')" centered sortable>
@@ -47,7 +53,9 @@
       </template>
 
       <template slot="bottom-left">
-        <b-button :class="`is-${color}`" icon-left="plus">{{ $t('new') }}</b-button>
+        <router-link :to="{ name: 'new-challenge' }">
+          <b-button :class="`is-${color}`" icon-left="plus">{{ $t('new') }}</b-button>
+        </router-link>
       </template>
     </b-table>
   </div>
@@ -57,8 +65,17 @@
 import Vue from 'vue';
 import BaseTitle from '../components/BaseTitle.vue';
 import BaseSubtitle from '../components/BaseSubtitle.vue';
-import {Challenge} from '@/models/challenge';
-import {getChallenges} from '@/services/challenge.service';
+import { Challenge } from '../models/challenge';
+import {
+  getChallenges,
+  deleteChallenge,
+  updateChallenge
+} from '../services/challenge.service';
+import {
+  sendAlert,
+  sendAlertWithVariables,
+  sendErrorAlert
+} from '../helpers/alerts.helper';
 
 /**
  * Challenges administration page
@@ -74,18 +91,41 @@ export default Vue.extend({
     };
   },
   async created() {
-    this.challenges = await getChallenges();
-    this.isLoading = false;
+    try {
+      this.challenges = await getChallenges();
+    } catch (error) {
+      sendErrorAlert('challenges.get.error', error);
+    } finally {
+      this.isLoading = false;
+    }
   },
   methods: {
-    deleteChallenge(challenge: Challenge) {
-      console.log(`delete ${challenge.name}`);
-      // TODO : api call
+    /**
+     * Delete the challenge and display success or error on completion
+     */
+    async deleteChallenge(challenge: Challenge) {
+      try {
+        await deleteChallenge(challenge.id);
+        this.challenges = this.challenges.filter((x) => x !== challenge);
+        sendAlert('challenges.delete.success', { type: 'is-success'});
+      } catch (error) {
+        sendErrorAlert('challenges.delete.error', error);
+      }
     },
-    toggleVisibility(challenge: Challenge) {
-      console.log(`update visibility ${challenge.name}`);
-      challenge.visible = !challenge.visible;
-      // TODO : api call
+    /**
+     * Toggle the challenge visibility and display success or error on completion
+     */
+    async toggleVisibility(challenge: Challenge) {
+      try {
+        challenge.visible = !challenge.visible;
+        await updateChallenge(challenge);
+        const text = challenge.visible
+          ? 'challenges.visible.success'
+          : 'challenges.hidden.success';
+        sendAlertWithVariables(text, { name: challenge.name }, { type: 'is-success'});
+      } catch (error) {
+        sendErrorAlert('challenges.update.error', error);
+      }
     }
   },
   components: {

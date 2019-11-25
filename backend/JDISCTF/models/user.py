@@ -38,6 +38,7 @@ class User(UserMixin, DB.Model):
 
     teams = association_proxy('teamInfo', 'team')
 
+
     def set_password(self, password: str):
         """Hash and set the user's password"""
         self.password_hash = generate_password_hash(password)

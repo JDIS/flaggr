@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { Team } from '@/models/team'
 import { TeamJoinRequest } from '@/models/team_join_request'
 import store from '../store'
+import route from '@/router'
 
 
 /**
@@ -33,10 +34,21 @@ const getters = {
   },
 }
 
+/**
+ * If the current route requires a team, redirect to home.
+ * This function should only be called if we know the client
+ * is connected.
+ */
+function checkPermissions() {
+  if (route.currentRoute.meta.requiresTeam === true) {
+    route.replace('/')
+  }
+}
+
 const actions = {
   /**
    * Fetch the team from the server and set the state accordingly.
-   * If participant has no team, fetch team request.
+   * If user has no team, fetch team request.
    * @param context vuex context
    */
   fetchTeam(context: any) {
@@ -44,6 +56,7 @@ const actions = {
       .then((response: AxiosResponse<Team>) => {
         if (JSON.stringify(response.data) === '{}') {
           store.dispatch('team/fetchTeamRequest')
+          checkPermissions()
         } else {
           context.commit('setTeamRequest', null)
         }
@@ -51,6 +64,7 @@ const actions = {
       })
       .catch((error: AxiosError) => {
         context.commit('setTeam', null)
+        checkPermissions()
       })
   },
 
