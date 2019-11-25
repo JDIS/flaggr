@@ -8,20 +8,20 @@ def get_records(events: [Event]):
     users = []
     for i, event in enumerate(events):
         if i == 0:
-            user1 = User(event_id=event.id, email='test@test.com', username='test')
+            user1 = User(email='test@test.com', username='test')
             user1.set_password('test')
             users.append(user1)
-            user2 = User(event_id=event.id, email='test2@test.com', username='test2')
+            user2 = User(email='test2@test.com', username='test2')
             user2.set_password('test')
             users.append(user2)
-            user3 = User(event_id=event.id, email='test3@test.com', username='test3')
+            user3 = User(email='test3@test.com', username='test3')
             user3.set_password('test')
             users.append(user3)
-            user4 = User(event_id=event.id, email='test4@test.com', username='test4')
+            user4 = User(email='test4@test.com', username='test4')
             user4.set_password('test')
             users.append(user4)
 
     return users
 
 
-FILTER_ARGS = {'event_id', 'username', 'email', 'password_hash'}
+FILTER_ARGS = {'username', 'email', 'password_hash'}
