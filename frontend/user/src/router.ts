@@ -22,13 +22,13 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Challenges.vue'),
+      component: () => import(/* webpackChunkName: "challenges" */ './views/Challenges.vue'),
     },
     {
       path: '/scoreboard',
       name: 'scoreboard',
       meta: { title: 'title.scoreboard'},
-      component: () => import(/* webpackChunkName: "about" */ './views/Scoreboard.vue'),
+      component: () => import(/* webpackChunkName: "scoreboard" */ './views/Scoreboard.vue'),
     }
   ],
 });

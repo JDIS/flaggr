@@ -36,6 +36,8 @@ const getters = {
 
 /**
  * If the current route requires a team, redirect to home.
+ * This function should only be called if we know the client
+ * is connected.
  */
 function checkPermissions() {
   if (route.currentRoute.meta.requiresTeam === true) {

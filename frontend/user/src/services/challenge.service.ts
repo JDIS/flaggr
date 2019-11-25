@@ -10,11 +10,11 @@ import axios from 'axios'
  * list.
  */
 export async function getChallengesByTrack(): Promise<Track[]> {
-  const response = await axios.get('challenges/event/1/by-category'); // TODO: get event id from backend
+  const response = await axios.get('challenges/event/0/by-category'); // TODO: get event id from backend
   const data = response.data as [];
   const tracks: Track[] = data.map((trackData: any) => createTrackFromData(trackData))
   tracks.forEach((track) => {
-    track.challenges.sort((challenge1, challenge2) => challenge1.isSolved ? 1 : -1)
+    track.challenges.sort((challenge1, challenge2) => challenge1.is_solved ? 1 : -1)
   })
   return tracks;
 }
@@ -38,15 +38,22 @@ function createChallengeFromData(data: any): Challenge {
   challenge.name = data.name;
   challenge.description = data.description;
   challenge.points = data.points;
-  challenge.isSolved = Math.random() >= 0.5; // TODO: remove when real call
+  challenge.is_solved = data.is_solved;
+  challenge.solves = data.solves;
   return challenge;
 }
 
 /**
- * Submit a flag for a challenge
- * @param challengeId
- * @param answer
+ * Submit a flag for a challenge.
+ * @param challengeId Id of the challenge we're submitting an answer for
+ * @param flag The answer to the challenge
  */
 export async function submitFlag(challengeId: number, flag: string): Promise<boolean> {
-  return await Promise.resolve(Math.random() >= 0.5); // TODO: real API call
+  try {
+    const response = await axios.post(`challenges/${challengeId}/submit`,
+      {flag: flag})
+    return response.data.correct
+  } catch (e) {
+    throw e.response
+  }
 }

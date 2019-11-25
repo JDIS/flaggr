@@ -36,6 +36,14 @@ class Challenge(DB.Model):
 
     flag = relationship('Flag', lazy='noload')
 
+    submissions = relationship('Submission', lazy='noload')
+
+    solves = relationship('Submission',
+                          primaryjoin="and_(Challenge.id==Submission.challenge_id,"
+                                      "     Submission.is_correct == True)")
+
+    is_solved: bool
+
     def __repr__(self):
         return '<Challenge id:{} category_id:{} name:{} description:{} points:{}>'\
             .format(self.id, self.category_id, self.name, self.description, self.points)

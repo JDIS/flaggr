@@ -38,6 +38,11 @@ class TeamSchema(Schema):
     requests = fields.Nested(TeamRequestSchema, many=True)
 
 
+class TeamBasicInfoSchema(Schema):
+    """Schema for getting a team's basic information"""
+    name = fields.String(required=True)
+
+
 class CreateTeamRequestSchema(RequestSchema):
     """Request schema to create a team request"""
     team_name = fields.String(required=True)

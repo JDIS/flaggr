@@ -53,5 +53,7 @@
   "team.requestStatus": "Statut de la demande d'adhésion",
   "team.requestCancelError": "Erreur lors de l'annulation de la demande: {error}",
   "team.requestCancelled": "Requête annulée",
+  "challenge.submissionError": "Erreur lors de la soumission du flag: {error}",
+  "challenge.oldSubmissions": "Anciennes soumissions",
   "team.cancelRequest": "Annuler la demande"
 }
