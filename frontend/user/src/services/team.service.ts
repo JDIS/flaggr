@@ -12,7 +12,7 @@ import {TeamMember} from '@/models/team_member'
  */
 export async function createTeam(name: string): Promise<Team> {
   try {
-    const response = await axios.post('team', {name: name});
+    const response = await axios.post('team', {team_name: name});
     store.dispatch('team/fetchTeam')
     return response.data;
   } catch (e) {
