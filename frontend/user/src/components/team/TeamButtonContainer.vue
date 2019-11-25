@@ -11,7 +11,7 @@
       <div v-if="hasTeam && isCaptain(participant)" v-show="team.requests.length > 0" class="has-text-warning notification">{{ team.requests.length}}</div>
       <div v-if="hasPendingRequest" class="has-text-warning notification">...</div>
       <b-tooltip :label="$t('nav.manageTeam')" position="is-right" animated class="is-flex">
-        <b-icon pack="mdi-light" size="is-size-3" icon="account-group"></b-icon>
+        <b-icon pack="mdi-light" size="is-size-3" class="team-button" icon="account-group"></b-icon>
       </b-tooltip>
     </b-navbar-item>
     <FadeTransition>
@@ -27,8 +27,8 @@ import Vue from 'vue'
 import CustomModal from '../CustomModal.vue'
 import TeamModal from './TeamModal.vue'
 import FadeTransition from '../FadeTransition.vue'
-import {ParticipantMixin} from '@/mixins/ParticipantMixin'
-import {TeamMixin} from '@/mixins/TeamMixin'
+import { ParticipantMixin } from '@/mixins/ParticipantMixin'
+import { TeamMixin } from '@/mixins/TeamMixin'
 
 export default Vue.extend({
   name: 'TeamButtonContainer',
@@ -66,5 +66,9 @@ export default Vue.extend({
   margin:0;
   padding: 0;
   background: transparent;
+}
+
+.team-button {
+  cursor:pointer;
 }
 </style>
