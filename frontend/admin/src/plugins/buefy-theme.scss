@@ -27,7 +27,7 @@ $menu-item-active-background-color: inherit;
 $label-weight: 600;
 
 $input-shadow: none;
-$input-border-color: darken($grey-light, 5%);
+$input-border-color: $grey-light;
 
 .input {
   border-width: 2px !important;
