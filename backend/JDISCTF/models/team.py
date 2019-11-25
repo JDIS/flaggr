@@ -6,6 +6,7 @@ from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import backref, relationship
 
 from JDISCTF.app import DB
+from JDISCTF.models import Event
 
 
 class Team(DB.Model):
@@ -30,6 +31,7 @@ class Team(DB.Model):
     members = relationship('TeamMember', lazy="joined", back_populates="team")
     submissions = relationship('Submission', lazy="joined", back_populates="team")
     requests = relationship('TeamRequest', lazy='joined')
+    event = relationship(Event, lazy='noload')
 
     def __repr__(self):
         return '<Team id:{} event_id:{} name:{}>'.format(self.id, self.event_id, self.name)

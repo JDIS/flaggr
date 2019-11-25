@@ -1,5 +1,4 @@
 """Users seeding data"""
-
 from JDISCTF.models import Event, User
 
 

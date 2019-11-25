@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey, func
 from sqlalchemy.orm import relationship
 
 from JDISCTF.app import DB
+from JDISCTF.models import Challenge
 from JDISCTF.models.team import Team
 
 
@@ -31,7 +32,7 @@ class Submission(DB.Model):
 
     team = relationship(Team, back_populates='submissions')
     """The team that did the submission"""
-    challenge = relationship("Challenge", lazy='noload')
+    challenge = relationship(Challenge, lazy='noload')
     """The challenge that the submission belongs to"""
 
     def __repr__(self):
