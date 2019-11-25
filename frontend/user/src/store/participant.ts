@@ -67,7 +67,7 @@ const actions = {
       .then((response: AxiosResponse) => {
         context.commit('setParticipant', response.data as Participant)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
-        store.dispatch('user/fetchUser')
+        store.dispatch('participant/fetchParticipant')
       })
       .catch((error: AxiosError) => {
         if (error.response!.status === 422) {
