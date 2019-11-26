@@ -12,7 +12,7 @@ EVENT_ID = 1
 A_TEAM = Team(id=1, event_id=EVENT_ID, name='Team 1')
 REQUEST_BODY = {"team_id": 1, "flag": "JDIS"}
 A_EVENT = Event(id=0, name="Test Event", teams=True)
-A_USER = User(id=0, username="test", email="test@gmail.com", event_id=A_EVENT.id)
+A_USER = User(id=0, username="test", email="test@gmail.com")
 
 
 def local_patch(module: str):

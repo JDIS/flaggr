@@ -76,7 +76,7 @@ import { FlaskRebarError } from '@/models/flask_rebar_error'
 import { Team } from '@/models/team'
 
 /**
- * Modal to create or join a team as a user.
+ * Modal to create or join a team as a participant.
  */
 export default Vue.extend({
   name: 'TeamStep1Modal',

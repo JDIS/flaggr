@@ -19,6 +19,7 @@ def get_connected_user():
     """Get the connected user."""
     return current_user
 
+
 @REGISTRY.handles(
     rule="/users",
     method="GET",

@@ -23,8 +23,6 @@ class FlaskLoginAuthenticator(Authenticator):
             raise errors.Unauthorized()
 
 
-
-
 def register_authenticators(registry: HandlerRegistry):
     """
     Registers the authenticator so it works with Swagger (the "authorize" section)

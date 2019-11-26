@@ -7,3 +7,4 @@ from JDISCTF.models.team import Team, TeamMember, TeamRequest
 from JDISCTF.models.flag import Flag
 from JDISCTF.models.submission import Submission
 from JDISCTF.models.user import User
+from JDISCTF.models.participant import Participant

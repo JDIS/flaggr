@@ -1,4 +1,4 @@
-<!-- Modal to sign in or sign up to a competition as a user. -->
+<!-- Modal to sign in or sign up to a competition as a participant. -->
 
 <template>
   <div class="connectionModal">
@@ -88,11 +88,12 @@ export default Vue.extend({
   },
   methods: {
     signin() {
-      store.dispatch('user/connectUser', {email: this.email, password: this.password})
+      store.dispatch('participant/connectParticipant', {email: this.email, password: this.password})
     },
 
     signup() {
-      store.dispatch('user/registerUser', {email: this.email, password: this.password, username: this.username})
+      store.dispatch('participant/registerParticipant',
+              {email: this.email, password: this.password, username: this.username})
     },
 
     focusCreateTeam() {

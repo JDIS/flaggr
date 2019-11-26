@@ -1,15 +1,15 @@
-import { User } from '@/models/user'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { sendAlert, sendAlertWithVariables } from '@/helpers'
 import store from '../store'
 import route from '../router'
+import {Participant} from '@/models/participant';
 
 /**
- * Store to manage the connected user's information.
+ * Store to manage the connected participant's information.
  */
 
 const state = {
-  connectedUser: null,
+  connectedParticipant: null,
   /**
    * Development only
    */
@@ -17,8 +17,8 @@ const state = {
 }
 
 const mutations = {
-  setUser(storeState: any, user: User) {
-    storeState.connectedUser = user;
+  setParticipant(storeState: any, participant: Participant) {
+    storeState.connectedParticipant = participant;
   },
   setCreds(storeState: any, creds: string) {
     if (process.env.VUE_APP_DEBUG) {
@@ -30,7 +30,7 @@ const mutations = {
 
 const getters = {
   isConnected: (storeState: any) => {
-    return storeState.connectedUser !== null
+    return storeState.connectedParticipant !== null
   },
   creds: (storeState: any) => {
     if (process.env.VUE_APP_DEBUG) {
@@ -56,17 +56,18 @@ function checkPermissions() {
 
 const actions = {
   /**
-   * Send a request to connect the user. Upon successful connection,
-   * set the user's information in the app's state.
+   * Send a request to connect the participant. Upon successful connection,
+   * set the participant's information in the app's state.
    * @param context VueX context
    * @param payload Data to connect the user (email, pass)
    */
-  connectUser(context: any, payload: any) {
+  connectParticipant(context: any, payload: any) {
     payload.remember = true // To change later
     axios.post('login', payload)
       .then((response: AxiosResponse) => {
+        context.commit('setParticipant', response.data as Participant)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
-        store.dispatch('user/fetchUser')
+        store.dispatch('participant/fetchParticipant')
       })
       .catch((error: AxiosError) => {
         if (error.response!.status === 422) {
@@ -83,10 +84,10 @@ const actions = {
    * @param context VueX context
    * @param payload Data to register the user (email, pass, username)
    */
-  registerUser(context: any, payload: any) {
+  registerParticipant(context: any, payload: any) {
     axios.post('register', payload)
       .then((response: AxiosResponse) => {
-        store.dispatch('user/fetchUser')
+        store.dispatch('participant/fetchParticipant')
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
         // context.commit('setUser', user)
       })
@@ -99,10 +100,10 @@ const actions = {
       })
   },
 
-  disconnectUser(context: any) {
+  disconnectParticipant(context: any) {
     axios.get('logout')
       .then((response: AxiosResponse) => {
-        context.commit('setUser', null)
+        context.commit('setParticipant', null)
         context.commit('setCreds', null)
         checkPermissions()
       })
@@ -112,20 +113,20 @@ const actions = {
   },
 
   /**
-   * Fetches the current user to set in the store.
+   * Fetches the current participant to set in the store.
    * If not connected, sets the state accordingly.
-   * If the user is in a route that requires authentication,
+   * If the participant is in a route that requires authentication,
    * redirect to home page.
    * @param context VueX Store context.
    */
-  fetchUser(context: any) {
-    return axios.get('user')
-      .then((response: AxiosResponse<User>) => {
-        context.commit('setUser', response.data)
+  fetchParticipant(context: any) {
+    return axios.get('participant')
+      .then((response: AxiosResponse<Participant>) => {
+        context.commit('setParticipant', response.data)
         store.dispatch('team/fetchTeam')
       })
       .catch((error: AxiosError) => {
-        context.commit('setUser', null)
+        context.commit('setParticipant', null)
         checkPermissions()
       })
   }
