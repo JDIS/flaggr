@@ -14,11 +14,6 @@ from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema,
 from JDISCTF.schemas.admin import AdminChallengeListSchema
 
 ## Missing from API
-### Liste de défis
-#`GET /challenges`
-#-> nom de catégorie
-#-> visible?
-#-> *enlever completed*
 #
 ### Édition/Modification de défi
 #`GET /challenges/:id`
@@ -41,6 +36,7 @@ from JDISCTF.schemas.admin import AdminChallengeListSchema
     method="GET",
     response_body_schema=AdminChallengeListSchema(many=True)
     # Commented for dev
+    # TOOD : Admin-only decorators
     #authenticators=FlaskLoginAuthenticator() 
 )
 def get_admin_challenges(event_id: int):
@@ -51,10 +47,6 @@ def get_admin_challenges(event_id: int):
     if event is None:
         raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
-#    challenges = DB.session.query(Challenge).filter_by(Challenge.category.event_id == event_id).all()
-
     challenges = Challenge.query.join(Category).filter_by(event_id=event_id).all()
 
-    print(challenges[0])
-    print(challenges[0].category)
     return challenges
