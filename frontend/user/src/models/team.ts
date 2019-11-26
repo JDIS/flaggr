@@ -1,7 +1,7 @@
 import { TeamMember } from '@/models/team_member'
 
 /**
- * Model for a team. Team contains users and a captain, and requests to join.
+ * Model for a team. Team contains participants and a captain, and requests to join.
  */
 export class Team {
     public name: string;

@@ -39,13 +39,13 @@ const router = new Router({
  * (ex: /scoreboard) and upon page change (ex: client clicks on the challenges page)
  */
 router.beforeEach((to, from, next) => {
-  if (store.getters['user/isConnected']) {
+  if (store.getters['participant/isConnected']) {
     next()
   } else {
-    store.dispatch('user/fetchUser').then((user) => {
+    store.dispatch('participant/fetchParticipant').then((partcipant) => {
       if (to.meta.requiresAuth) {
-        console.log(store.getters['user/isConnected'])
-        if (store.getters['user/isConnected']) {
+        console.log(store.getters['participant/isConnected'])
+        if (store.getters['participant/isConnected']) {
           next()
         } else {
           next('/')

@@ -1,4 +1,4 @@
-import { Challenge } from '../models/challenge';
+import {Challenge} from '../models/challenge';
 import axios from 'axios'
 
 /* API service for Challenges */

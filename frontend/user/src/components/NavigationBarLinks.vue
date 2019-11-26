@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { UserMixin } from '@/mixins/UserMixin'
+import { ParticipantMixin } from '@/mixins/ParticipantMixin'
 import Router from 'vue-router'
 import router from '@/router'
 import { TeamMixin } from '@/mixins/TeamMixin'
@@ -16,7 +16,7 @@ import { TeamMixin } from '@/mixins/TeamMixin'
 
 export default Vue.extend({
   name: 'NavigationBarLinks',
-  mixins: [UserMixin, TeamMixin],
+  mixins: [ParticipantMixin, TeamMixin],
   data() {
     return {
       routes: null as unknown as Router

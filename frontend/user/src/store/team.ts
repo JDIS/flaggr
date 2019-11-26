@@ -6,31 +6,31 @@ import route from '@/router'
 
 
 /**
- * Store to manage the connected user's team.
+ * Store to manage the connected participant's team.
  */
 
 const state = {
-  userTeam: null,
-  userTeamRequest: null,
+  participantTeam: null,
+  participantTeamRequest: null,
 }
 
 const mutations = {
   setTeam(storeState: any, team: Team) {
-    storeState.userTeam = team;
+    storeState.participantTeam = team;
   },
 
   setTeamRequest(storeState: any, request: TeamJoinRequest) {
-    storeState.userTeamRequest = request;
+    storeState.participantTeamRequest = request;
   },
 }
 
 const getters = {
   hasTeam: (storeState: any) => {
-    return storeState.userTeam !== null && JSON.stringify(storeState.userTeam) !== '{}'
+    return storeState.participantTeam !== null && JSON.stringify(storeState.participantTeam) !== '{}'
   },
 
   hasTeamRequest: (storeState: any) => {
-    return storeState.userTeamRequest !== null && JSON.stringify(storeState.userTeamRequest) !== '{}'
+    return storeState.participantTeamRequest !== null && JSON.stringify(storeState.participantTeamRequest) !== '{}'
   },
 }
 
@@ -69,7 +69,7 @@ const actions = {
   },
 
   /**
-   * Fetch to know if the user has a pending request to join a team.
+   * Fetch to know if the participant has a pending request to join a team.
    * @param context vuex context
    */
   fetchTeamRequest(context: any) {

@@ -94,6 +94,7 @@ export default Vue.extend({
       if (res) {
         this.isCorrect = true;
         this.$emit('solved');
+        this.challenge.is_solved = true;
       } else {
         this.isWrong = true;
       }

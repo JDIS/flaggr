@@ -1,5 +1,3 @@
-import { Challenge } from './challenge';
-
 /**
  * Model for a challenge track (category)
  */

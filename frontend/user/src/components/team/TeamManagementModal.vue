@@ -5,13 +5,13 @@
       <hr>
       <div v-for="request in this.team.requests" class="pendingRequest columns is-vcentered is-paddingless">
         <div class="column is-9">
-          <div>{{ request.user.username }}</div>
-          <div class="is-size-7 userEmail"> {{ request.user.email }}</div>
+          <div>{{ request.participant.user.username }}</div>
+          <div class="is-size-7 userEmail"> {{ request.participant.user.email }}</div>
         </div>
-        <div v-if="isCaptain(user)" class="column is-paddingless">
+        <div v-if="isCaptain(participant)" class="column is-paddingless">
           <b-button @click="rejectInvitation(request)" size="is-small" class="button" type="is-danger" icon-right="delete"></b-button>
         </div>
-        <div v-if="isCaptain(user)" class="column is-paddingless">
+        <div v-if="isCaptain(participant)" class="column is-paddingless">
           <b-button @click="acceptInvitation(request)" size="is-small" class="button" type="is-success" icon-right="check"></b-button>
         </div>
       </div>
@@ -22,17 +22,17 @@
       <div v-for="member in this.team.members" class="member columns is-vcentered is-paddingless">
         <div class="column is-9">
           <div>
-            {{ member.user.username }}
+            {{ member.participant.user.username }}
             <b-icon v-if="member.captain" icon="crown" icon-pack="mdi-light" size="is-small"></b-icon>
           </div>
-          <div class="is-size-7 userEmail"> {{ member.user.email }}</div>
+          <div class="is-size-7 userEmail"> {{ member.participant.email }}</div>
         </div>
-        <div v-if="isCaptain(user)" class="column is-paddingless">
+        <div v-if="isCaptain(participant)" class="column is-paddingless">
           <b-button @click="kick(member)" icon-right="delete" type="is-danger" size="is-small"></b-button>
         </div>
-        <div v-if="isCaptain(user)" class="column is-paddingless">
-          <b-tooltip :label="isCaptain(member.user) ? $t('team.removeCaptain') : $t('team.makeCaptain')" v-if="member.user.id !== user.id">
-            <b-button icon-right="crown" @click="toggleCaptain(member)" :type="isCaptain(member.user) ? 'is-danger' : 'is-warning'" icon-pack="mdi" size="is-small"></b-button>
+        <div v-if="isCaptain(participant)" class="column is-paddingless">
+          <b-tooltip :label="isCaptain(member.participant) ? $t('team.removeCaptain') : $t('team.makeCaptain')" v-if="member.participant.id !== participant.id">
+            <b-button icon-right="crown" @click="toggleCaptain(member)" :type="isCaptain(member.participant) ? 'is-danger' : 'is-warning'" icon-pack="mdi" size="is-small"></b-button>
           </b-tooltip>
         </div>
       </div>
@@ -52,14 +52,14 @@ import { sendAlert, sendAlertWithVariables } from '@/helpers'
 import { FlaskRebarError } from '@/models/flask_rebar_error'
 import { AxiosResponse } from 'axios'
 import { TeamMember } from '@/models/team_member'
-import { UserMixin } from '@/mixins/UserMixin'
+import { ParticipantMixin } from '@/mixins/ParticipantMixin'
 
 /**
  * Component to manage a team (either as a captain or a simple member)
  */
 export default Vue.extend({
   name: 'TeamManagementModal',
-  mixins: [UserMixin, TeamMixin],
+  mixins: [ParticipantMixin, TeamMixin],
   data() {
     return {
 
@@ -68,7 +68,7 @@ export default Vue.extend({
   methods: {
     rejectInvitation(request: TeamJoinRequest) {
       rejectInvitation(request).then((response) => {
-        sendAlertWithVariables('team.userRejected', {user: request.user.username}, {type: 'is-success'})
+        sendAlertWithVariables('team.participantRejected', {participant: request.participant.user.username}, {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
         sendAlertWithVariables('team.rejectError', {error: error.data.message})
       })
@@ -76,19 +76,20 @@ export default Vue.extend({
 
     acceptInvitation(request: TeamJoinRequest) {
       acceptInvitation(request).then((response) => {
-        sendAlertWithVariables('team.userAccepted', {user: request.user.username}, {type: 'is-success'})
+        sendAlertWithVariables('team.participantAccepted', {participant: request.participant.user.username}, {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
         sendAlertWithVariables('team.acceptError', {error: error.data.message})
       })
     },
 
     /**
-     * Toggles the captain role for a given user.
+     * Toggles the captain role for a given participant.
      * @param member
      */
     toggleCaptain(member: TeamMember) {
       changeRole(member).then((response) => {
-        sendAlertWithVariables('team.roleChanged', {user: member.user.username}, {type: 'is-success'})
+        sendAlertWithVariables('team.roleChanged', {participant: member.participant.user.username},
+                {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
         sendAlertWithVariables('team.roleChangeError', {error: error.data.message})
       })
@@ -100,7 +101,8 @@ export default Vue.extend({
      */
     kick(member: TeamMember) {
       kick(member).then((response) => {
-        sendAlertWithVariables('team.memberKicked', {user: member.user.username}, {type: 'is-success'})
+        sendAlertWithVariables('team.memberKicked', {participant: member.participant.user.username},
+                {type: 'is-success'})
       }).catch((error: AxiosResponse<FlaskRebarError>) => {
         sendAlertWithVariables('team.kickError', {error: error.data.message})
       })

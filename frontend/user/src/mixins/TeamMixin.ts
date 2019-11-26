@@ -1,19 +1,19 @@
 import store from '../store'
 import { Team } from '@/models/team'
-import { User } from '@/models/user'
+import { Participant } from '@/models/participant';
 import { TeamJoinRequest } from '@/models/team_join_request'
 
 /**
- * Use this mixin to have access to the user's team.
+ * Use this mixin to have access to the participant's team.
  */
 export const TeamMixin = {
   computed: {
     team(): Team {
-      return (store.state as any).team.userTeam as Team
+      return (store.state as any).team.participantTeam as Team
     },
 
     teamRequest(): TeamJoinRequest {
-      return (store.state as any).team.userTeamRequest as TeamJoinRequest
+      return (store.state as any).team.participantTeamRequest as TeamJoinRequest
     },
 
     hasPendingRequest(): boolean {
@@ -26,9 +26,9 @@ export const TeamMixin = {
   },
 
   methods: {
-    isCaptain(user: User): boolean {
+    isCaptain(participant: Participant): boolean {
       return TeamMixin.computed.hasTeam() && TeamMixin.computed.team().members.find((member) => {
-        return member.user.id === user.id
+        return member.participant.id === participant.id
       })!.captain
     }
   }
