@@ -1,5 +1,7 @@
 """API routes for the application"""
 
+from JDISCTF.api.admin.challenges import get_admin_challenges
+
 from JDISCTF.api.auth import register_participant
 from JDISCTF.api.challenges import get_all_challenges_by_category_for_event, \
     get_all_challenges_for_event, \
