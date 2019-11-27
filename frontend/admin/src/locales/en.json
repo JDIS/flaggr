@@ -6,6 +6,8 @@
   "challenge.get.error.details": "Could not get challenge: {error}",
   "challenge.name": "Name",
   "challenge.points": "Points",
+  "challenge.tags": "Tags",
+  "challenge.track": "Track",
   "challenges": "Challenges",
   "challenges.create": "Create Challenge",
   "challenges.delete.success": "Challenge deleted",
@@ -19,6 +21,7 @@
   "challenges.update.error": "Could not update the challenge",
   "challenges.update.error.details": "Could not update the challenge: {error}",
   "challenges.visible.success": "Challenge {name} is now @.lower:visible",
+  "create": "Create",
   "event": "Event",
   "event.admins": "Administrators",
   "event.general": "General",
@@ -30,6 +33,7 @@
   "logout": "Logout",
   "name": "Name",
   "new": "New",
+  "noresult": "No result for: {value}",
   "participants": "Participants",
   "points": "Points",
   "save": "Save",
@@ -37,5 +41,6 @@
   "save.error": "Could not save",
   "save.error.details": "Could not save: {error}",
   "track": "Track",
+  "track.create": "New track",
   "visible": "Visible"
 }

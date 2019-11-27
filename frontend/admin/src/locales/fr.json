@@ -6,6 +6,8 @@
   "challenge.get.error.details": "Impossible de récupérer le défi : {error}",
   "challenge.name": "Nom",
   "challenge.points": "Points",
+  "challenge.tags": "Étiquettes",
+  "challenge.track": "Catégorie",
   "challenges": "Défis",
   "challenges.create": "Créer un défi",
   "challenges.delete.success": "Défi supprimé",
@@ -19,6 +21,7 @@
   "challenges.update.error.details": "Erreur lors de la mise à jour du défi : {error}",
   "challenges.hidden.success": "Défi {name} est maintenant @.lower:hidden",
   "challenges.visible.success": "Défi {name} est maintenant @.lower:visible",
+  "create": "Créer",
   "event": "Compétition",
   "event.admins": "Administrateurs",
   "event.general": "Général",
@@ -30,6 +33,7 @@
   "logout": "Déconnexion",
   "name": "Nom",
   "new": "Nouveau",
+  "noresult": "Aucun résultat pour : {value}",
   "participants": "Participants",
   "points": "Points",
   "save": "Sauvegarder",
@@ -37,5 +41,6 @@
   "save.error": "Erreur lors de la sauvegarde",
   "save.error.details": "Erreur lors de la sauvegarde : {error}",
   "track": "Catégorie",
+  "track.create": "Nouvelle catégorie",
   "visible": "Visible"
 }
