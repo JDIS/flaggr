@@ -6,6 +6,15 @@ from JDISCTF.schemas.admin.flag import FlagSchema
 from JDISCTF.schemas.category import CategorySchema
 
 
+class AdminChallengeRequestSchema(RequestSchema):
+    category_id = fields.Integer(required=True)
+
+    name = fields.String(required=True)
+    description = fields.String(required=True)
+    points = fields.Integer(required=True)
+
+    hidden = fields.Boolean(required=True)
+
 class AdminChallengeListSchema(Schema):
     id = fields.Integer(required=True)
     name = fields.String(required=True)
@@ -24,10 +33,11 @@ class AdminChallengeSchema(Schema):
     is_solved = fields.Boolean()
     hidden = fields.Boolean(required=True)
 
+
 class AdminChallengeInformationSchema(Schema):
     """Response schema for getting a challenge"""
     challenge = fields.Nested(AdminChallengeSchema, required=True)
-    flags = fields.Nested(FlagSchema, many=True, required=True)
+    flags = fields.Nested(FlagSchema, many=True)
 
     # En ordre de priorité
     #FIXMEMAX : files = nested
