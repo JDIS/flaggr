@@ -12,9 +12,11 @@
         <b-field :label="`${$t('challenge.points')} :`">
           <b-input type="number" v-model="challenge.points"></b-input>
         </b-field>
+        <challenge-track-input @trackChange="updateTrack" />
         <b-field :label="`${$t('challenge.description')} :`">
           <b-input type="textarea" v-model="challenge.description"></b-input>
         </b-field>
+        <challenge-tag-input @tagsChange="updateTags" />
       </div>
     </div>
     <bottom-bar>
@@ -30,7 +32,10 @@
 import Vue from 'vue';
 import BaseTitle from '../components/BaseTitle.vue';
 import BottomBar from '../components/BottomBar.vue';
+import ChallengeTrackInput from '../components/ChallengeTrackInput.vue';
+import ChallengeTagInput from '../components/ChallengeTagInput.vue';
 import { Challenge } from '../models/challenge';
+import { Track } from '../models/track';
 import {
   getChallengeById,
   createChallenge,
@@ -46,7 +51,9 @@ export default Vue.extend({
   data() {
     return {
       color: 'second',
-      challenge: new Challenge()
+      challenge: new Challenge(),
+      tags: [] as string[], // TODO: fill with existing values from API,
+      name: ''
     };
   },
   async created() {
@@ -66,10 +73,16 @@ export default Vue.extend({
         } else {
           await createChallenge(this.challenge);
         }
-        sendAlert('save.success', { type: 'is-success'});
+        sendAlert('save.success', { type: 'is-success' });
       } catch (error) {
         sendErrorAlert('save.error', error);
       }
+    },
+    updateTrack(selectedTrack: Track) {
+      this.challenge.track = selectedTrack;
+    },
+    updateTags(selectedTags: string[]) {
+      this.challenge.tags = selectedTags;
     }
   },
   computed: {
@@ -89,7 +102,9 @@ export default Vue.extend({
   },
   components: {
     BaseTitle,
-    BottomBar
+    BottomBar,
+    ChallengeTrackInput,
+    ChallengeTagInput
   }
 });
 </script>
