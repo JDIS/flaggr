@@ -14,10 +14,6 @@ from JDISCTF.schemas import ChallengeByCategorySchema, GenericMessageSchema,\
 
 from JDISCTF.schemas.admin import AdminChallengeInformationSchema, AdminChallengeListSchema, AdminChallengeRequestSchema
 
-## Missing from API
-
-#`GET /tracks`
-#`POST /tracks`
 
 @REGISTRY.handles(
     rule="/admin/challenges/event/<int:event_id>",
@@ -64,7 +60,7 @@ def get_admin_challenge(challenge_id: int):
 
 
 @REGISTRY.handles(
-    rule="/admin/challenge",
+    rule="/admin/challenges",
     method="POST",
     request_body_schema=AdminChallengeRequestSchema(),
     response_body_schema=AdminChallengeInformationSchema(),
