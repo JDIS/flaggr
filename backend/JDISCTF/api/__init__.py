@@ -11,3 +11,4 @@ from JDISCTF.api.teams import accept_team_request, change_role, create_team, cur
     teams_list
 from JDISCTF.api.users import get_user
 from JDISCTF.api.participants import get_connected_participant
+from JDISCTF.api.events import get_event

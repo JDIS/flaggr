@@ -8,6 +8,6 @@ import { ScoreboardEntry } from '@/models/scoreboard'
  * Get the scoreboard data.
  */
 export async function getScoreboard(): Promise<ScoreboardEntry[]> {
-  const response = await axios.get('event/0/scoreboard'); // TODO: get event id from url
+  const response = await axios.get(`/scoreboard`, {data: {withEvent: true}});
   return response.data as ScoreboardEntry[]
 }

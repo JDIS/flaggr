@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 from flask_rebar import errors
 from pytest import fixture, raises
 
-from JDISCTF.api import teams_list, teams
-from JDISCTF.models import Event, Team, TeamMember, TeamRequest, User, Participant
+from JDISCTF.api import teams, teams_list
+from JDISCTF.models import Event, Participant, Team, TeamMember, TeamRequest, User
 
 
 def local_patch(module: str, **kwargs):
@@ -93,7 +93,7 @@ class TestCurrentTeam:
 class TestTeamsList:
     def test_should_return_all_lists_for_event(self, team_mock):
         team_mock.query.filter_by.return_value.join.return_value.all.return_value = [A_TEAM]
-        teams = teams_list()
+        teams = teams_list(event_id=0)
         assert teams == [A_TEAM]
 
 

@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import './plugins/buefy'
 import i18n from './plugins/i18n'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 // @ts-ignore
 import curlirize from 'axios-curlirize'
 
@@ -15,14 +15,19 @@ if (process.env.VUE_APP_DEBUG) {
 axios.interceptors.request.use((config) => {
   // This appends the backend url after each call, allowing to use it
   // like that: axios.get('status') instead of axios.get(`${process.env.VUE_APP_BACKEND_URL}/status`)
-  config.url = `${process.env.VUE_APP_BACKEND_URL}/${config.url}`
+  config.baseURL = `${process.env.VUE_APP_BACKEND_URL}/`;
+  const configPlus: any | AxiosRequestConfig = config;
+  if (configPlus.data && configPlus.data.withEvent) {
+    delete config.data.withEvent
+    config.baseURL += `event/${router.currentRoute.params.eventId}/`
+  }
   if (process.env.VUE_APP_DEBUG) {
-    config.headers.Authorization = `Basic ${(store as any).getters['participant/creds']}`
+    configPlus.headers.Authorization = `Basic ${(store as any).getters['participant/creds']}`
   }
 
   store.dispatch('network/addRequestInProgress')
 
-  return config;
+  return configPlus;
 });
 
 axios.interceptors.response.use((config) => {

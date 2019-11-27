@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { sendAlert, sendAlertWithVariables } from '@/helpers'
 import store from '../store'
 import route from '../router'
-import {Participant} from '@/models/participant';
+import { Participant } from '@/models/participant'
 
 /**
  * Store to manage the connected participant's information.
@@ -50,7 +50,7 @@ const getters = {
  */
 function checkPermissions() {
   if (route.currentRoute.meta.requiresAuth === true) {
-    route.replace('/')
+    route.replace(`/${route.currentRoute.params.eventId}`)
   }
 }
 
@@ -63,7 +63,7 @@ const actions = {
    */
   connectParticipant(context: any, payload: any) {
     payload.remember = true // To change later
-    axios.post('login', payload)
+    axios.post('login', payload, {data: {withEvent: true}})
       .then((response: AxiosResponse) => {
         context.commit('setParticipant', response.data as Participant)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
@@ -85,7 +85,7 @@ const actions = {
    * @param payload Data to register the user (email, pass, username)
    */
   registerParticipant(context: any, payload: any) {
-    axios.post('register', payload)
+    axios.post('register', payload, {data: {withEvent: true}})
       .then((response: AxiosResponse) => {
         store.dispatch('participant/fetchParticipant')
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
@@ -119,8 +119,8 @@ const actions = {
    * redirect to home page.
    * @param context VueX Store context.
    */
-  fetchParticipant(context: any) {
-    return axios.get('participant')
+  fetchParticipant(context: any, eventId: number) {
+    return axios.get(`/participant`)
       .then((response: AxiosResponse<Participant>) => {
         context.commit('setParticipant', response.data)
         store.dispatch('team/fetchTeam')
