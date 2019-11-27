@@ -10,13 +10,13 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/:eventId',
       name: 'home',
       component: Home,
       meta: { title: 'title.home' },
     },
     {
-      path: '/challenges',
+      path: '/:eventId/challenges',
       name: 'challenges',
       meta: { title: 'title.challenges', requiresAuth: true, requiresTeam: true},
       // route level code-splitting
@@ -25,7 +25,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "challenges" */ './views/Challenges.vue'),
     },
     {
-      path: '/scoreboard',
+      path: '/:eventId/scoreboard',
       name: 'scoreboard',
       meta: { title: 'title.scoreboard'},
       component: () => import(/* webpackChunkName: "scoreboard" */ './views/Scoreboard.vue'),
@@ -42,13 +42,13 @@ router.beforeEach((to, from, next) => {
   if (store.getters['participant/isConnected']) {
     next()
   } else {
+    store.dispatch('event/fetchEvent', to.params.eventId)
     store.dispatch('participant/fetchParticipant').then((partcipant) => {
       if (to.meta.requiresAuth) {
-        console.log(store.getters['participant/isConnected'])
         if (store.getters['participant/isConnected']) {
           next()
         } else {
-          next('/')
+          next(`/${to.params.eventId}`)
         }
       } else {
         next()

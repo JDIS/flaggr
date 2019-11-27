@@ -1,6 +1,6 @@
 import store from '../store'
 import { Team } from '@/models/team'
-import { Participant } from '@/models/participant';
+import { Participant } from '@/models/participant'
 import { TeamJoinRequest } from '@/models/team_join_request'
 
 /**
@@ -14,6 +14,10 @@ export const TeamMixin = {
 
     teamRequest(): TeamJoinRequest {
       return (store.state as any).team.participantTeamRequest as TeamJoinRequest
+    },
+
+    isFetchingTeam(): boolean {
+      return store.getters['team/isFetchingTeam']
     },
 
     hasPendingRequest(): boolean {
@@ -30,6 +34,10 @@ export const TeamMixin = {
       return TeamMixin.computed.hasTeam() && TeamMixin.computed.team().members.find((member) => {
         return member.participant.id === participant.id
       })!.captain
-    }
+    },
+
+    refreshTeam() {
+      store.dispatch('team/fetchTeam')
+    },
   }
 }

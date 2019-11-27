@@ -19,6 +19,12 @@ def local_patch(module: str):
     return patch('JDISCTF.api.challenges.' + module)
 
 
+@fixture(autouse=True)
+def require_event_mock():
+    with patch('JDISCTF.permission_wrappers.Event') as mock:
+        yield mock
+
+
 @fixture
 def challenge_mock():
     with local_patch('Challenge') as mock:
@@ -156,11 +162,11 @@ class TestGetChallengesByCategoryForEvent:
         current_user_mock.return_value = A_USER
         yield current_user_mock
 
-    def test_given_non_existent_event_id_should_raise_not_found_error(self, event_mock: MagicMock):
-        event_mock.query.filter_by.return_value.first.return_value = None
+    def test_given_non_existent_event_id_should_raise_not_found_error(self, require_event_mock: MagicMock):
+        require_event_mock.query.filter_by.return_value.first.return_value = None
 
         with raises(errors.NotFound):
-            get_all_challenges_by_category_for_event(1)
+            get_all_challenges_by_category_for_event(event_id=1)
 
     def test_should_return_challenges(self, event_mock: MagicMock, category_mock: MagicMock,
                                       _current_user_mock: MagicMock):
@@ -173,7 +179,7 @@ class TestGetChallengesByCategoryForEvent:
             .filter.return_value \
             .all.return_value = [A_CATEGORY]
 
-        assert get_all_challenges_by_category_for_event(1) == [A_CATEGORY]
+        assert get_all_challenges_by_category_for_event(event_id=1) == [A_CATEGORY]
 
 
 class TestSubmitFlag:

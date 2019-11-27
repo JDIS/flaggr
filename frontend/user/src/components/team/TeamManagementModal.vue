@@ -1,5 +1,13 @@
 <template>
   <div class="teamManagementModal columns is-multiline">
+    <b-loading :active="isFetchingTeam" :is-full-page="false"></b-loading>
+    <div class="column is-full team-name" >
+      <h2>
+        {{ team.name }}
+        <b-button @click="refreshTeam()" class="is-pulled-right" size="is-size-7" icon-right="refresh" type="is-success"></b-button>
+        <div class="is-clearfix"></div>
+      </h2>
+    </div>
     <div class="column is-full requests" v-show="this.team.requests.length > 0">
       <h3>{{ $t('team.requests') }}</h3>
       <hr>
@@ -127,6 +135,14 @@ export default Vue.extend({
 <style scoped lang="scss">
 @import "../../style/theme";
 
+h2 {
+  font-size: 120%;
+  font-weight: bolder;
+  text-align: center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 h3 {
   font-size: 110%;
 }
@@ -136,7 +152,7 @@ hr {
   background: $light-3;
 }
 
-/deep/ .members .button, /deep/ .requests .button {
+/deep/ .members .button, /deep/ .requests .button, /deep/ h2 .button {
   width: auto !important;
 }
 

@@ -2,10 +2,10 @@
  * API service for Team management
  */
 import axios from 'axios'
-import {Team} from '@/models/team'
+import { Team } from '@/models/team'
 import store from '../store'
-import {TeamJoinRequest} from '@/models/team_join_request'
-import {TeamMember} from '@/models/team_member'
+import { TeamJoinRequest } from '@/models/team_join_request'
+import { TeamMember } from '@/models/team_member'
 
 /**
  * Send a request to create a team. If an error occurs, throw it.
@@ -40,7 +40,7 @@ export async function sendJoinTeamRequest(id: number): Promise<Team> {
  */
 export async function fetchTeams(): Promise<Team[]> {
   try {
-    const response = await axios.get('teams');
+    const response = await axios.get('teams', {data: {withEvent: true}});
     return response.data;
   } catch (e) {
     throw e.response
