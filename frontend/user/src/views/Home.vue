@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container front-page">
-      <vue-markdown v-if="event">{{ event.front_page }}</vue-markdown>
+      <vue-markdown>{{ event.front_page }}</vue-markdown>
     </div>
   </div>
 </template>

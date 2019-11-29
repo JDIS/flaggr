@@ -25,12 +25,14 @@ import { getScoreboard } from '@/services/scoreboard.service'
 import { ScoreboardEntry } from '@/models/scoreboard'
 import { FlaskRebarError } from '@/models/flask_rebar_error'
 import { sendAlertWithVariables } from '@/helpers'
+import { EventMixin } from '@/mixins/EventMixin'
 
 /**
  * Component to display the scoreboard (holds both the graph and the table)
  */
 export default Vue.extend({
   name: 'ScoreboardContainer',
+  mixins: [EventMixin],
   data() {
     return {
       isFetchingScoreboard: false,
@@ -69,6 +71,12 @@ export default Vue.extend({
       ]
     };
   },
+  created() {
+    // @ts-ignore
+    if (this.isSoloEvent) {
+      this.columns.find((col) => col.field === 'team_name')!.label = this.$t('scoreboard.participant')
+    }
+  },
   mounted() {
     window.setInterval(() => {
       if (this.automaticReload && this.$router.currentRoute.name === 'scoreboard') {
@@ -93,6 +101,7 @@ export default Vue.extend({
       })
     }
   },
+  computed: {},
   props: {
   },
   components: {

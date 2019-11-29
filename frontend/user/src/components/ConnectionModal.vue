@@ -22,23 +22,29 @@
         @click="focusJoinTeam()"
       >{{ $t('signup') }}</div>
     </div>
-    <div id="form">
+    <form v-on:submit.prevent="submit()" id="form">
       <b-field
         :label="$t('form.email')"
         custom-class="is-size-7"
         label-for="email"
       >
-        <b-input type="email" placeholder="user@example.org" expanded v-model="email" id="email" icon="email"></b-input>
+        <b-input type="email" placeholder="user@example.org"
+                 v-on:keyup.enter.native="submit()"
+                 expanded v-model="email" id="email" icon="email"></b-input>
       </b-field>
       <b-field v-show="isInscription" :label="$t('form.username')"
                custom-class="is-size-7" label-for="username">
-        <b-input placeholder="XxUserxX" expanded v-model="username" id="username" icon="account"></b-input>
+        <b-input placeholder="XxUserxX" expanded v-model="username"
+                 id="username" icon="account"
+                 v-on:keyup.enter.native="submit()"
+        ></b-input>
       </b-field>
       <b-field :label="$t('form.password')" custom-class="is-size-7" label-for="password">
         <b-input
           type="password"
           password-reveal
           placeholder="✱✱✱✱✱✱"
+          v-on:keyup.enter.native="submit()"
           expanded
           v-model="password"
           id="password"
@@ -57,6 +63,7 @@
           placeholder="✱✱✱✱✱✱"
           expanded
           v-model="passwordConfirmation"
+          v-on:keyup.enter.native="submit()"
           id="password-confirmation"
           icon="lock"
         ></b-input>
@@ -67,7 +74,7 @@
         :icon-right="isInscription ? 'plus-box' : 'arrow-right'"
         @click="isInscription ? signup() : signin()"
       >{{ $t(isInscription ? "signup" : "signin") }}</b-button>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -87,6 +94,9 @@ export default Vue.extend({
     }
   },
   methods: {
+    submit() {
+      this.isInscription ? this.signup() : this.signin()
+    },
     signin() {
       store.dispatch('participant/connectParticipant', {email: this.email, password: this.password})
     },

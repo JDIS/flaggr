@@ -2,7 +2,7 @@
   <b-navbar class="has-shadow">
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ name: 'home' }">
-        <img src="../assets/jdis_logo.svg" alt="Brand logo" class="is-marginless" />
+        <img src="../assets/jdis_logo.png" alt="Brand logo" class="is-marginless" />
         <h1 class="title" v-if="this.event">{{ this.event.name }}</h1>
       </b-navbar-item>
     </template>
@@ -11,7 +11,7 @@
     </template>
 
     <template slot="end">
-      <TeamButtonContainer v-if="participant" id="teamButtonContainer"></TeamButtonContainer>
+      <TeamButtonContainer v-if="participant && !isSoloEvent" id="teamButtonContainer"></TeamButtonContainer>
       <div v-if="this.participant" class="participant navbar-item">{{ this.participant.user.username }}</div>
       <SignoutButton v-if="participant"></SignoutButton>
       <ConnectionButtonContainer v-else></ConnectionButtonContainer>

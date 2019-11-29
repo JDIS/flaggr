@@ -16,3 +16,14 @@ def get_event(event: Event):
     """Get an event"""
 
     return event
+
+
+@REGISTRY.handles(
+    rule="/event/all",
+    method="GET",
+    response_body_schema={200: EventSchema(many=True)},
+)
+def get_all_events():
+    """Get the list of all events"""
+
+    return Event.query.all()
