@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import BasePageTitle from '../components/base/BasePageTitle.vue';
-import TrackFilter from '../components/TrackFilter.vue';
-import TrackContainer from '../components/TrackContainer.vue';
-import { Challenge } from '../models/challenge';
-import { Track } from '../models/track';
-import { getChallengesByTrack } from '../services/challenge.service';
+import Vue from 'vue'
+import BasePageTitle from '../components/base/BasePageTitle.vue'
+import TrackFilter from '../components/TrackFilter.vue'
+import TrackContainer from '../components/TrackContainer.vue'
+import { Challenge } from '../models/challenge'
+import { Track } from '../models/track'
+import { getChallengesByTrack } from '../services/challenge.service'
 
 /**
  * Challenges page
@@ -39,6 +39,13 @@ export default Vue.extend({
   },
   async created() {
     this.tracks = await getChallengesByTrack();
+  },
+  mounted() {
+    window.setInterval(() => {
+      if (this.$router.currentRoute.name === 'challenges') {
+        getChallengesByTrack().then((tracks) => this.tracks = tracks)
+      }
+    }, 30000)
   },
   methods: {
     updateVisibleTracks(visibleTracks: Track[]) {
