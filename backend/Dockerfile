@@ -13,6 +13,6 @@ RUN \
 
 COPY . /JDISCTF
 
-EXPOSE 5000
+EXPOSE 8080
 
-CMD ["./run.sh"]
+ENTRYPOINT [ "waitress-serve", "--call", "JDISCTF:create_app" ]
