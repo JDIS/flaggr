@@ -32,6 +32,7 @@
           placeholder="TheBestTeam"
           expanded
           v-model="teamName"
+          v-on:keyup.enter.native="onSubmit()"
           id="teamName"
           icon="account-group"
         ></b-input>

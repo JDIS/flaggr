@@ -8,6 +8,7 @@
       class="has-cursor-pointer"
       v-if="isConnected()"
     >
+      <div v-if="!hasTeam && !hasPendingRequest" class="no-team notification has-text-danger">!</div>
       <div v-if="hasTeam && isCaptain(participant)" v-show="team.requests.length > 0" class="has-text-warning notification">{{ team.requests.length}}</div>
       <div v-if="hasPendingRequest" class="has-text-warning notification">...</div>
       <b-tooltip :label="$t('nav.manageTeam')" position="is-right" animated class="is-flex">

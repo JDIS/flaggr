@@ -13,5 +13,13 @@ export const EventMixin = {
     hasEvent(): boolean {
       return store.getters['event/hasEvent']
     },
+
+    /**
+     * True if the event is not a team event.
+     */
+    isSoloEvent(): boolean {
+      const event = (store.state as any).event.event as Event
+      return event && !event.teams
+    }
   }
 }

@@ -5,7 +5,7 @@ from flask_login import current_user, login_user, logout_user
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.models import Event, Participant, User
+from JDISCTF.models import Event, Participant, Team, TeamMember, User
 from JDISCTF.permission_wrappers import require_event
 from JDISCTF.schemas import CreateUserSchema, GenericMessageSchema, LoginSchema, ParticipantSchema
 
@@ -87,9 +87,17 @@ def register_participant(event: Event):
     user = User(email=email, username=username)
     user.set_password(password)
 
+    participant = Participant(event_id=event.id, user_id=user.id, user=user)
 
-    participant = Participant(event_id=event.id, user_id=user.id)
     DB.session.add(participant)
+
+    if not event.teams:
+        # means that its a solo event, need to create a team with the participant in it.
+        team = Team(event_id=event.id, name=user.username,
+                    members=[TeamMember(participant=participant, captain=True)])
+
+        DB.session.add(team)
+
     DB.session.commit()
 
     return participant, 201

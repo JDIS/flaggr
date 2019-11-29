@@ -9,3 +9,4 @@ class EventSchema(ResponseSchema):
     id = fields.Integer()
     name = fields.String()
     front_page = fields.String()
+    teams = fields.Boolean()
