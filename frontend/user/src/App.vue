@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navigation-bar />
+    <navigation-bar v-show="$router.currentRoute.meta.showNavbar" />
     <router-view />
     <AppFooter></AppFooter>
     <div class="footer-margin"></div>

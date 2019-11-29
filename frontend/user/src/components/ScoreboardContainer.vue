@@ -78,6 +78,10 @@ export default Vue.extend({
     }
   },
   mounted() {
+    // @ts-ignore
+    if (this.isSoloEvent) {
+      this.columns.find((col) => col.field === 'team_name')!.label = this.$t('scoreboard.participant')
+    }
     window.setInterval(() => {
       if (this.automaticReload && this.$router.currentRoute.name === 'scoreboard') {
         this.fetchScoreboard()
