@@ -1,8 +1,9 @@
 module.exports = {
+  publicPath: process.env.APP_BASEPATH,
   pluginOptions: {
     i18n: {
-      locale: 'fr',
-      fallbackLocale: 'en',
+      locale: process.env.I18N_LOCALE,
+      fallbackLocale: process.env.I18N_FALLBACK_LOCALE,
       localeDir: 'locales',
       enableInSFC: false
     }

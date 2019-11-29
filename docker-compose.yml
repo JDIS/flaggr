@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.3"
 
 services:
   db:
@@ -11,6 +11,7 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    restart: always
   
   migration:
     environment:
@@ -23,3 +24,27 @@ services:
     command: sh -c "sleep 10s && flask db upgrade"
     depends_on:
       - db
+    restart: always
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    depends_on:
+      - frontend-user
+      - frontend-admin
+      - backend
+
+  backend:
+    build: ./backend
+    restart: always
+
+  frontend-user:
+    build: ./frontend/user
+    restart: always
+
+  frontend-admin:
+    build: ./frontend/admin
+    restart: always
