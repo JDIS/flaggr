@@ -62,7 +62,6 @@ instance/
 .python-version
 
 # Environments
-.env
 .venv
 env/
 venv/

@@ -15,4 +15,4 @@ COPY . /JDISCTF
 
 EXPOSE 8080
 
-ENTRYPOINT [ "waitress-serve", "--call", "JDISCTF:create_app" ]
+ENTRYPOINT [ "sh", "run.prod.sh" ]

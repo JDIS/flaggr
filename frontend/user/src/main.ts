@@ -8,7 +8,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 // @ts-ignore
 import curlirize from 'axios-curlirize'
 
-if (process.env.VUE_APP_DEBUG) {
+if (process.env.VUE_APP_DEBUG === '1') {
   curlirize(axios)
 }
 
@@ -21,7 +21,7 @@ axios.interceptors.request.use((config) => {
     delete config.data.withEvent
     config.baseURL += `event/${router.currentRoute.params.eventId}/`
   }
-  if (process.env.VUE_APP_DEBUG) {
+  if (process.env.VUE_APP_DEBUG === '1') {
     configPlus.headers.Authorization = `Basic ${(store as any).getters['participant/creds']}`
   }
 
