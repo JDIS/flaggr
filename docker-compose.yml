@@ -12,19 +12,6 @@ services:
     ports:
       - "5432:5432"
     restart: always
-  
-  migration:
-    environment:
-      FLASK_APP: main.py
-      POSTGRES_URL: db:5432
-      POSTGRES_USER: jdisctf
-      POSTGRES_PW: jdisctf
-      POSTGRES_DB: jdisctf_db
-    build: ./backend
-    command: sh -c "sleep 10s && flask db upgrade"
-    depends_on:
-      - db
-    restart: always
 
   nginx:
     build: ./nginx
@@ -40,6 +27,8 @@ services:
   backend:
     build: ./backend
     restart: always
+    depends_on:
+      - db
 
   frontend-user:
     build: ./frontend/user

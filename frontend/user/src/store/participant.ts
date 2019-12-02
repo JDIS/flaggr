@@ -21,7 +21,7 @@ const mutations = {
     storeState.connectedParticipant = participant;
   },
   setCreds(storeState: any, creds: string) {
-    if (process.env.VUE_APP_DEBUG) {
+    if (process.env.VUE_APP_DEBUG === '1') {
       storeState.creds = creds;
       localStorage.setItem('creds', creds)
     }
@@ -33,7 +33,7 @@ const getters = {
     return storeState.connectedParticipant !== null
   },
   creds: (storeState: any) => {
-    if (process.env.VUE_APP_DEBUG) {
+    if (process.env.VUE_APP_DEBUG === '1') {
       if (storeState.creds) {
         return storeState.creds
       } else {
