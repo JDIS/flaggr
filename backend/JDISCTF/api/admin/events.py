@@ -69,7 +69,7 @@ def create_event():
     event = Event.query.filter_by(name=name).first()
 
     if event:
-        raise errors.NotFound("An event with that name already exists")
+        raise errors.UnprocessableEntity("An event with that name already exists")
 
     event = Event(name=name, url=url, front_page=front_page, flag_format=flag_format,
                   is_open=is_open, is_visible=is_visible, teams=teams)

@@ -34,3 +34,13 @@ class Event(DB.Model):
 
     def __repr__(self):
         return '<Event id:{} name:{} teams: {}>'.format(self.id, self.name, self.teams)
+
+    def __eq__(self, other):
+        return self.id == other.id and \
+               self.name == other.name and \
+               self.front_page == other.front_page and \
+               self.teams == other.teams and \
+               self.url == other.url and \
+               self.flag_format == other.flag_format and \
+               self.is_open == other.is_open and \
+               self.is_visible == other.is_visible
