@@ -106,6 +106,7 @@ const actions = {
         context.commit('setParticipant', null)
         context.commit('setCreds', null)
         checkPermissions()
+        store.dispatch('team/fetchTeam')
       })
       .catch((error: AxiosError) => {
         console.log('error during logout:', error)

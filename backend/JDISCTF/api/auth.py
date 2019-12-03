@@ -100,4 +100,6 @@ def register_participant(event: Event):
 
     DB.session.commit()
 
+    login_user(participant.user, remember=True)
+
     return participant, 201

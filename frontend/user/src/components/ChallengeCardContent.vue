@@ -132,7 +132,7 @@ export default Vue.extend({
 
 .solves {
     margin-bottom: 0.5rem;
-    color: $light-3;
+    color: $light-2;
     cursor: pointer;
 }
 .description {
