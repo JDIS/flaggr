@@ -129,7 +129,7 @@ def edit_challenge(challenge_id: int):
         raise errors.UnprocessableEntity("This challenge does not exist.")
 
     if name != editable_challenge.name:
-        if name is None:
+        if not name:
             raise errors.UnprocessableEntity("Name must not be empty.")
 
         challenge = Challenge.query.filter_by(name=name).first()
@@ -155,7 +155,6 @@ def edit_challenge(challenge_id: int):
     editable_challenge.description = description
     editable_challenge.category_id = category_id
 
-    print(editable_challenge)
     DB.session.commit()
 
     return {"challenge": editable_challenge}

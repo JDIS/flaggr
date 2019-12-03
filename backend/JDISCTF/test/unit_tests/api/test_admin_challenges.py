@@ -143,3 +143,93 @@ class TestCreateChallenge:
 
         result = challenges.create_challenge()
         assert result == {"challenge": self.A_NEW_CHALLENGE}
+
+class TestEditChallenge:
+    REQUEST_BODY = {"name": "Edited challenge", "points": 999, "hidden": True, "description": "Edited Description", "category_id": 1}
+    AN_EDITED_CHALLENGE = Challenge(id=0, name=REQUEST_BODY["name"], points=REQUEST_BODY["points"],hidden=REQUEST_BODY["hidden"],
+                                    description=REQUEST_BODY["description"], category_id=REQUEST_BODY["category_id"])
+
+    @fixture(autouse=True)
+    def _rebar_mock(self, rebar_mock: MagicMock):
+        rebar_mock.get_validated_body.return_value = self.REQUEST_BODY
+        yield rebar_mock
+
+    @fixture(autouse=True)
+    def _db_mock(self, db_mock: MagicMock):
+        yield db_mock
+
+    @fixture(autouse=True)
+    def _challenge_mock(self, challenge_mock: MagicMock):
+        challenge_mock.side_effect = lambda A_CHALLENGE, **kwargs: Challenge(*args, **kwargs)
+
+    def test_given_invalid_challenge_id_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.return_value = None
+
+        with raises(errors.UnprocessableEntity):
+            challenges.edit_challenge(-1)
+
+    def test_given_blank_name_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock, rebar_mock: MagicMock):
+        rebar_mock.get_validated_body.return_value = \
+            {"name": "", "points": 999, "hidden": True, "description": "Edited Description", "category_id": 1}
+
+        with raises(errors.UnprocessableEntity):
+            challenges.edit_challenge(1)
+
+    def test_given_already_used_name_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, A_CHALLENGE]
+
+        with raises(errors.UnprocessableEntity):
+            challenges.edit_challenge(1)
+
+    def test_given_negative_points_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock, rebar_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, None]
+
+        rebar_mock.get_validated_body.return_value = \
+            {"name": "Edited challenge", "points": -1, "hidden": True, "description": "Edited Description", "category_id": 1}
+
+        with raises(errors.UnprocessableEntity):
+            challenges.edit_challenge(1)
+
+    def test_given_invalid_category_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock, category_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, None]
+        category_mock.query.filter_by.return_value.first.return_value = None
+
+        with raises(errors.UnprocessableEntity):
+            challenges.edit_challenge(1)
+
+    def test_should_edit_challenge(self, db_mock: MagicMock, challenge_mock: MagicMock, category_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, None]
+        category_mock.query.filter_by.return_value.first.return_value = A_CATEGORY
+
+        challenges.edit_challenge(1)
+
+        db_mock.session.commit.assert_called_once()
+
+    def test_should_return_challenge(self, challenge_mock: MagicMock, category_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, None]
+        category_mock.query.filter_by.return_value.first.return_value = A_CATEGORY
+
+        result = challenges.edit_challenge(1)
+        assert result == {"challenge": self.AN_EDITED_CHALLENGE}
+
+class TestDeleteChallenge:
+    @fixture(autouse=True)
+    def _db_mock(self, db_mock: MagicMock):
+        yield db_mock
+
+    @fixture(autouse=True)
+    def _challenge_mock(self, challenge_mock: MagicMock):
+        challenge_mock.side_effect = lambda A_CHALLENGE, **kwargs: Challenge(*args, **kwargs)
+
+    def test_given_invalid_challenge_id_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.return_value = None
+
+        with raises(errors.UnprocessableEntity):
+            challenges.delete_challenge(-1)
+
+    def test_should_delete_challenge(self, db_mock: MagicMock, challenge_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
+        challenges.delete_challenge(1)
+
+        db_mock.session.delete.assert_called_with(A_CHALLENGE)
+        db_mock.session.commit.assert_called_once()
