@@ -12,10 +12,7 @@ import route from '@/router'
 const state = {
   participantTeam: null,
   participantTeamRequest: null,
-<<<<<<< HEAD
-=======
   isFetchingTeam: false
->>>>>>> f414832f7bdbe1a90d8a91c88af95125e726e075
 }
 
 const mutations = {
@@ -25,13 +22,10 @@ const mutations = {
 
   setTeamRequest(storeState: any, request: TeamJoinRequest) {
     storeState.participantTeamRequest = request;
-<<<<<<< HEAD
-=======
   },
 
   setFetchingTeam(storeState: any, fetching: boolean) {
     storeState.isFetchingTeam = fetching;
->>>>>>> f414832f7bdbe1a90d8a91c88af95125e726e075
   },
 }
 
