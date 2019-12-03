@@ -43,7 +43,7 @@ $top-offset: 5rem;
   box-shadow: 0 0 3px black;
   position: absolute;
   top: $top-offset;
-  left: -10rem;
+  left: -13rem;
   width: 22rem;
 
   padding: 1rem;

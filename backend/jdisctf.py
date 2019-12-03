@@ -1,4 +1,5 @@
 """Flask app / WSGI entrypoint"""
+import os
 
 import click
 
@@ -16,4 +17,7 @@ def perform_seeding(verbose: bool):
     exit(0)
 
 if __name__ == "__main__":
-    serve(app, port=8080)
+    if os.environ.FLASK_ENV == "production":
+        serve(app, port=8080)
+    else:
+        app.run()

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-source .env
+source ./.env
 flask db upgrade

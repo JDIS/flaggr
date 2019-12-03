@@ -3,7 +3,7 @@
 <template>
   <div id="connectionButtonContainer">
     <b-navbar-item tag="div">
-      <b-button @click="toggleVisibility()" type="is-primary">{{ $t("nav.connectionInscription") }}</b-button>
+      <b-button @click="toggleVisibility()" type="is-success">{{ $t("nav.connectionInscription") }}</b-button>
     </b-navbar-item>
     <FadeTransition>
       <CustomModal v-if="shown" :visible="shown" v-on:close="toggleVisibility()">

@@ -13,6 +13,8 @@ RUN \
 
 COPY . /JDISCTF
 
+RUN ["mv", ".env.production", ".env"]
+
 EXPOSE 8080
 
 ENTRYPOINT [ "sh", "run.prod.sh" ]
