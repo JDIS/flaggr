@@ -22,6 +22,15 @@ class Event(DB.Model):
     """The front page content of the event. Markdown text that will be parsed by frontend"""
     teams = DB.Column(DB.Boolean)
     """Whether participants have to register as teams or individually."""
+    url = DB.Column(DB.string(255))
+    """The URL of the event."""
+    flag_format = DB.Column(DB.String(64))
+    """The flag format used by most challenges."""
+    is_open = DB.Column(DB.Boolean)
+    """Whether flag submission is open or not."""
+    is_visible = DB.Column(DB.Boolean)
+    """Whether the event is currently visible or not."""
+
 
     def __repr__(self):
         return '<Event id:{} name:{} teams: {}>'.format(self.id, self.name, self.teams)
