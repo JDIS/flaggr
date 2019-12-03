@@ -1,8 +1,6 @@
-"""Categorys routes"""
+"""Categories routes"""
 import flask_rebar
-from flask_login import current_user
 from flask_rebar import errors
-from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
@@ -16,7 +14,7 @@ from JDISCTF.schemas.admin import AdminCategorySchema, AdminCategoryRequestSchem
     response_body_schema=AdminCategorySchema(many=True)
     # Commented for dev
     # TOOD : Admin-only decorators
-    #authenticators=FlaskLoginAuthenticator() 
+    #authenticators=FlaskLoginAuthenticator()
 )
 def get_admin_categories(event_id: int):
     """Get all the categories for a given event"""

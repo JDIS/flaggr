@@ -1,16 +1,12 @@
 """Challenges routes"""
-import re
 
 import flask_rebar
-from flask_login import current_user
 from flask_rebar import errors
-from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
-from JDISCTF.models import Category, Challenge, Event, Flag, Submission
-from JDISCTF.schemas import ChallengeByCategorySchema, GenericMessageSchema,\
-    SubmitFlagResponseSchema, SubmitFlagSchema, UserChallengeSchema
+from JDISCTF.models import Category, Challenge, Event, Flag
+from JDISCTF.schemas import GenericMessageSchema
 
 from JDISCTF.schemas.admin import AdminChallengeInformationSchema, AdminChallengeListSchema, AdminChallengeRequestSchema
 
@@ -21,7 +17,7 @@ from JDISCTF.schemas.admin import AdminChallengeInformationSchema, AdminChalleng
     response_body_schema=AdminChallengeListSchema(many=True)
     # Commented for dev
     # TOOD : Admin-only decorators
-    #authenticators=FlaskLoginAuthenticator() 
+    #authenticators=FlaskLoginAuthenticator()
 )
 def get_admin_challenges(event_id: int):
     """Get all the challenges for a given event"""
@@ -47,9 +43,9 @@ def get_admin_challenge(challenge_id: int):
     """Get a single challenge by its id"""
     challenge = Challenge.query.filter_by(id=challenge_id).first()
     flags = Flag.query.filter_by(challenge_id=challenge_id).all()
-    # TODO : Add tags
-    # TODO : Add files
-    # TODO : Add links
+    # TODOMAX : Add tags
+    # TODOMAX : Add files
+    # TODOMAX : Add links
 
     if challenge is None:
         raise errors.NotFound(f'Challenge with id "{challenge_id}" not found.')
@@ -77,6 +73,8 @@ def create_challenge():
     description = body["description"]
     category_id = body["category_id"]
 
+    # FIXME Missing validations. If the current admin is admin of challenge.category.event_id
+
     if not name:
         raise errors.UnprocessableEntity("Name must not be empty.")
 
@@ -93,7 +91,6 @@ def create_challenge():
     if category is None:
         raise errors.UnprocessableEntity("The category doesn't exist.")
 
-    # FIXME Missing validations. If the current admin is admin of challenge.category.event_id
 
     challenge = Challenge(name=name, points=points, hidden=hidden, description=description, category_id=category_id)
 
@@ -147,8 +144,6 @@ def edit_challenge(challenge_id: int):
         if category is None:
             raise errors.UnprocessableEntity("The category doesn't exist.")
 
-    # FIXME Missing validations. If the current admin is admin of challenge.category.event_id
-
     editable_challenge.name = name
     editable_challenge.points = points
     editable_challenge.hidden = hidden
@@ -171,7 +166,7 @@ def edit_challenge(challenge_id: int):
 def delete_challenge(challenge_id: int):
     """Delete a challenge"""
 
-    # TODO : should it delete it's associated ressources? (flags, links, files)
+    # TODO : Should it delete it's associated ressources? (flags, links, files)
     # FIXME Missing validations. If the current admin is admin of challenge.category.event_id
 
     challenge = Challenge.query.filter_by(id=challenge_id).first()
