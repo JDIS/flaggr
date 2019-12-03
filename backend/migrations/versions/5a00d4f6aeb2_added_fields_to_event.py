@@ -1,8 +1,8 @@
 """Added fields to event
 
-Revision ID: 6dfa62a926e5
+Revision ID: 5a00d4f6aeb2
 Revises: b2cfada3abcd
-Create Date: 2019-12-03 18:00:09.195577
+Create Date: 2019-12-03 18:03:56.390741
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6dfa62a926e5'
+revision = '5a00d4f6aeb2'
 down_revision = 'b2cfada3abcd'
 branch_labels = None
 depends_on = None

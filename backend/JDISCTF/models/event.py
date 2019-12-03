@@ -19,16 +19,16 @@ class Event(DB.Model):
     name = DB.Column(DB.String(64), index=True, unique=True)
     """The name of the event. Max 64 characters."""
     front_page = DB.Column(DB.Text())
-    """The front page content of the event. Markdown text that will be parsed by frontend"""
+    """The front page content of the event. Markdown text that will be parsed by frontend."""
     teams = DB.Column(DB.Boolean)
     """Whether participants have to register as teams or individually."""
-    url = DB.Column(DB.String(255))
+    url = DB.Column(DB.String(255), default="")
     """The URL of the event."""
-    flag_format = DB.Column(DB.String(64))
+    flag_format = DB.Column(DB.String(64), default="")
     """The flag format used by most challenges."""
-    is_open = DB.Column(DB.Boolean)
+    is_open = DB.Column(DB.Boolean, default=False)
     """Whether flag submission is open or not."""
-    is_visible = DB.Column(DB.Boolean)
+    is_visible = DB.Column(DB.Boolean, default=False)
     """Whether the event is currently visible or not."""
 
 
