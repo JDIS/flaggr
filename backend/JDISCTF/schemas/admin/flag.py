@@ -1,5 +1,4 @@
 """Challenge marshmallow schemas"""
-from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
 
 class FlagSchema(Schema):
