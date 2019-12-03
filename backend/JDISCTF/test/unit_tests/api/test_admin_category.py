@@ -82,3 +82,10 @@ class TestCreateCategory:
 
         db_mock.session.add.assert_called_with(self.A_NEW_CATEGORY)
         db_mock.session.commit.assert_called_once()
+
+    def test_given_should_return_category(self, category_mock: MagicMock, db_mock: MagicMock):
+        category_mock.query.filter_by.return_value.first.return_value = None
+
+        result = categories.create_category()
+
+        assert result == self.A_NEW_CATEGORY

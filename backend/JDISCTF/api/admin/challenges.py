@@ -77,16 +77,16 @@ def create_challenge():
     description = body["description"]
     category_id = body["category_id"]
 
+    if not name:
+        raise errors.UnprocessableEntity("Name must not be empty.")
+
+    if points < 0:
+        raise errors.UnprocessableEntity("Points must be positive.")
+
     challenge = Challenge.query.filter_by(name=name).first()
 
     if challenge is not None:
         raise errors.UnprocessableEntity("A challenge with that name already exists.")
-
-    if name is None:
-        raise errors.UnprocessableEntity("Name must not be empty.")
-
-    if points <= 0:
-        raise errors.UnprocessableEntity("Points must be positive.")
 
     category = Category.query.filter_by(id=category_id).first()
 

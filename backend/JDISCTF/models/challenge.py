@@ -49,3 +49,11 @@ class Challenge(DB.Model):
     def __repr__(self):
         return '<Challenge id:{} category_id:{} name:{} description:{} points:{}>'\
             .format(self.id, self.category_id, self.name, self.description, self.points)
+
+    def __eq__(self, other):
+        return self.id == other.id and \
+               self.category_id == other.category_id and \
+               self.name == other.name and \
+               self.description == other.description and \
+               self.points == other.points and \
+               self.hidden == other.hidden
