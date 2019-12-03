@@ -22,7 +22,7 @@ class Event(DB.Model):
     """The front page content of the event. Markdown text that will be parsed by frontend"""
     teams = DB.Column(DB.Boolean)
     """Whether participants have to register as teams or individually."""
-    url = DB.Column(DB.string(255))
+    url = DB.Column(DB.String(255))
     """The URL of the event."""
     flag_format = DB.Column(DB.String(64))
     """The flag format used by most challenges."""
