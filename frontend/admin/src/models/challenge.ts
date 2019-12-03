@@ -11,7 +11,7 @@ export class Challenge {
   public visible: boolean;
   public flag?: string;
   public track?: Track;
-  public files?: string[];
+  public files?: File[];
   public links?: string[];
   public tags?: string[];
 
@@ -20,5 +20,8 @@ export class Challenge {
     this.name = '';
     this.description = '';
     this.visible = false;
+    this.files = [];
+    this.links = [];
+    this.tags = [];
   }
 }
