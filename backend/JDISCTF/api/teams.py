@@ -28,14 +28,14 @@ def current_team(current_participant: Participant):
 
 
 @REGISTRY.handles(
-    rule="/teams",
+    rule="/event/<int:event_id>/teams",
     method="GET",
     response_body_schema={200: TeamSchema(many=True)},
     authenticators=FlaskLoginAuthenticator()
 )
-def teams_list():
+def teams_list(event_id: int):
     """ Get teams list for the current event """
-    return Team.query.filter_by(event_id=0).join(TeamMember).all()
+    return Team.query.filter_by(event_id=event_id).join(TeamMember).all()
 
 
 @REGISTRY.handles(

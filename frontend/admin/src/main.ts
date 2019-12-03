@@ -8,7 +8,7 @@ import axios from 'axios'
 // @ts-ignore
 import curlirize from 'axios-curlirize'
 
-if (process.env.VUE_APP_DEBUG) {
+if (process.env.VUE_APP_DEBUG === '1') {
   curlirize(axios)
 }
 
@@ -16,7 +16,7 @@ axios.interceptors.request.use((config: any) => {
   // This appends the backend url after each call, allowing to use it
   // like that: axios.get('status') instead of axios.get(`${process.env.VUE_APP_BACKEND_URL}/status`)
   config.url = `${process.env.VUE_APP_BACKEND_URL}/${config.url}`
-  if (process.env.VUE_APP_DEBUG) {
+  if (process.env.VUE_APP_DEBUG === '1') {
     config.headers.Authorization = `Basic ${(store as any).getters.creds}`
   }
 

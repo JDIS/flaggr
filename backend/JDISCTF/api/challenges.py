@@ -9,12 +9,13 @@ from sqlalchemy.orm import contains_eager
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import Category, Challenge, Event, Flag, Submission
+from JDISCTF.permission_wrappers import require_event
 from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema, SubmitFlagSchema, \
     UserChallengeSchema
 
 
 @REGISTRY.handles(
-    rule="/challenges/event/<int:event_id>",
+    rule="/event/<int:event_id>/challenges",
     method="GET",
     response_body_schema=UserChallengeSchema(many=True),
     authenticators=FlaskLoginAuthenticator()
@@ -67,23 +68,20 @@ def get_challenge(challenge_id: int):
 
 
 @REGISTRY.handles(
-    rule="/challenges/event/<int:event_id>/by-category",
+    rule="/event/<int:event_id>/challenges/by-category",
     method="GET",
     response_body_schema=ChallengeByCategorySchema(many=True),
     authenticators=FlaskLoginAuthenticator()
 )
-def get_all_challenges_by_category_for_event(event_id: int):
+@require_event
+def get_all_challenges_by_category_for_event(event: Event):
     # pylint: disable=singleton-comparison
     """Get all the challenges for an event, grouped by category"""
-    event = Event.query.filter_by(id=event_id).first()
-
-    if event is None:
-        raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
     categories = Category.query \
         .join(Category.challenges) \
         .options(contains_eager(Category.challenges)) \
-        .filter(Category.event_id == event_id, Challenge.hidden == False) \
+        .filter(Category.event_id == event.id, Challenge.hidden == False) \
         .all()
     for category in categories:
         for challenge in category.challenges:

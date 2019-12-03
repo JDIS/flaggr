@@ -2,7 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'This-will-be-automated-later'
+    SECRET_KEY = os.environ.get('FLASK_SECRET_KEY') or 'This-will-be-automated-later'
 
     # TODO maybe hardcode the postgre db info?
     DEBUG = os.environ.get("FLASK_ENV") == "development"

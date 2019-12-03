@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home.vue'
 import store from '@/store'
 
 Vue.use(Router)
@@ -11,23 +10,30 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
-      meta: { title: 'title.home' },
+      name: 'eventSelection',
+      component: () => import(/* webpackChunkName: "eventSelection" */ './views/EventSelection.vue'),
+      meta: { title: 'title.eventSelection'},
     },
     {
-      path: '/challenges',
+      path: '/:eventId',
+      name: 'home',
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
+      meta: { title: 'title.home' , showNavbar: true},
+    },
+    {
+      path: '/:eventId/challenges',
       name: 'challenges',
-      meta: { title: 'title.challenges', requiresAuth: true, requiresTeam: true},
+      meta: { title: 'title.challenges', showNavbar: true,
+        requiresAuth: true, requiresTeam: true},
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "challenges" */ './views/Challenges.vue'),
     },
     {
-      path: '/scoreboard',
+      path: '/:eventId/scoreboard',
       name: 'scoreboard',
-      meta: { title: 'title.scoreboard'},
+      meta: { title: 'title.scoreboard', showNavbar: true},
       component: () => import(/* webpackChunkName: "scoreboard" */ './views/Scoreboard.vue'),
     }
   ],
@@ -42,18 +48,23 @@ router.beforeEach((to, from, next) => {
   if (store.getters['participant/isConnected']) {
     next()
   } else {
-    store.dispatch('participant/fetchParticipant').then((partcipant) => {
-      if (to.meta.requiresAuth) {
-        console.log(store.getters['participant/isConnected'])
-        if (store.getters['participant/isConnected']) {
-          next()
+    // This weird comparison is due to the fact that '0' == false in JS 😡
+    if (parseInt(to.params.eventId, 0.4) >= 0) {
+      store.dispatch('event/fetchEvent', to.params.eventId)
+      store.dispatch('participant/fetchParticipant').then((partcipant) => {
+        if (to.meta.requiresAuth) {
+          if (store.getters['participant/isConnected']) {
+            next()
+          } else {
+            next(`/${to.params.eventId}`)
+          }
         } else {
-          next('/')
+          next()
         }
-      } else {
-        next()
-      }
-    })
+      })
+    } else {
+      next()
+    }
   }
 })
 

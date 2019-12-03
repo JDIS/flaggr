@@ -40,7 +40,7 @@ export async function sendJoinTeamRequest(id: number): Promise<Team> {
  */
 export async function fetchTeams(): Promise<Team[]> {
   try {
-    const response = await axios.get('teams');
+    const response = await axios.get('teams', {data: {withEvent: true}});
     return response.data;
   } catch (e) {
     throw e.response

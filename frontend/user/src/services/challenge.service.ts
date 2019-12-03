@@ -10,7 +10,7 @@ import axios from 'axios'
  * list.
  */
 export async function getChallengesByTrack(): Promise<Track[]> {
-  const response = await axios.get('challenges/event/0/by-category'); // TODO: get event id from backend
+  const response = await axios.get(`challenges/by-category`, {data: {withEvent: true}});
   const data = response.data as [];
   const tracks: Track[] = data.map((trackData: any) => createTrackFromData(trackData))
   tracks.forEach((track) => {

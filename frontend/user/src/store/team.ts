@@ -12,6 +12,10 @@ import route from '@/router'
 const state = {
   participantTeam: null,
   participantTeamRequest: null,
+<<<<<<< HEAD
+=======
+  isFetchingTeam: false
+>>>>>>> f414832f7bdbe1a90d8a91c88af95125e726e075
 }
 
 const mutations = {
@@ -21,6 +25,13 @@ const mutations = {
 
   setTeamRequest(storeState: any, request: TeamJoinRequest) {
     storeState.participantTeamRequest = request;
+<<<<<<< HEAD
+=======
+  },
+
+  setFetchingTeam(storeState: any, fetching: boolean) {
+    storeState.isFetchingTeam = fetching;
+>>>>>>> f414832f7bdbe1a90d8a91c88af95125e726e075
   },
 }
 
@@ -32,6 +43,10 @@ const getters = {
   hasTeamRequest: (storeState: any) => {
     return storeState.participantTeamRequest !== null && JSON.stringify(storeState.participantTeamRequest) !== '{}'
   },
+
+  isFetchingTeam: (storeState: any) =>  {
+    return storeState.isFetchingTeam
+  }
 }
 
 /**
@@ -41,7 +56,7 @@ const getters = {
  */
 function checkPermissions() {
   if (route.currentRoute.meta.requiresTeam === true) {
-    route.replace('/')
+    route.replace(`/${route.currentRoute.params.eventId}`)
   }
 }
 
@@ -52,6 +67,7 @@ const actions = {
    * @param context vuex context
    */
   fetchTeam(context: any) {
+    context.commit('setFetchingTeam', true)
     axios.get('team')
       .then((response: AxiosResponse<Team>) => {
         if (JSON.stringify(response.data) === '{}') {
@@ -59,12 +75,14 @@ const actions = {
           checkPermissions()
         } else {
           context.commit('setTeamRequest', null)
+          context.commit('setFetchingTeam', false)
         }
         context.commit('setTeam', response.data)
       })
       .catch((error: AxiosError) => {
         context.commit('setTeam', null)
         checkPermissions()
+        context.commit('setFetchingTeam', false)
       })
   },
 
@@ -73,6 +91,7 @@ const actions = {
    * @param context vuex context
    */
   fetchTeamRequest(context: any) {
+    context.commit('setFetchingTeam', true)
     axios.get('team_request')
       .then((response: AxiosResponse<TeamJoinRequest>) => {
         context.commit('setTeamRequest', response.data)
@@ -80,6 +99,7 @@ const actions = {
       .catch((error: AxiosError) => {
         context.commit('setTeamRequest', null)
       })
+      .finally(() => context.commit('setFetchingTeam', false))
   }
 }
 

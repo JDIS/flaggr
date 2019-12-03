@@ -7,7 +7,7 @@ import axios from 'axios'
  * Get all the challenges
  */
 export async function getChallenges(): Promise<Challenge[]> {
-  const response = await axios.get('challenges/event/1'); // TODO: get event id from backend
+  const response = await axios.get('event/0/challenges'); // TODO: get event id from backend
   const data = response.data as [];
   return data.map((challengeData: any) => createChallengeFromData(challengeData));
 }

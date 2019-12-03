@@ -10,9 +10,18 @@ $title-family: $family-primary;
 $subtitle-family: $family-secondary;
 
 /* GENERAL */
+$navbar-height: 3.25rem;
 $navbar-breakpoint: $tablet;
 $navbar-box-shadow-color: $grey-dark;
 $navbar-box-shadow-size: 0 0px 4px 0px;
+.is-full-height {
+  height: auto;
+  min-height: calc(100vh - #{$navbar-height});
+}
+.page-content {
+  @extend .is-full-height;
+  padding: 1.5rem 3rem;
+}
 
 .button span {
   font-size: 0.75rem;

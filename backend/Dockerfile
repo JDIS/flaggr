@@ -13,6 +13,8 @@ RUN \
 
 COPY . /JDISCTF
 
-EXPOSE 5000
+RUN ["mv", ".env.production", ".env"]
 
-CMD ["./run.sh"]
+EXPOSE 8080
+
+ENTRYPOINT [ "sh", "run.prod.sh" ]

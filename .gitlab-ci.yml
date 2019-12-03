@@ -30,7 +30,7 @@ stages:
       - frontend/user/node_modules
 
 # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-.job_template: &frontend_user_definition_build
+.job_template: &definition_build
   image: docker:19.03.1
   variables:
     # When using dind service we need to instruct docker, to talk with the
@@ -54,12 +54,7 @@ stages:
   - docker:19.03.1-dind
   before_script:
     - docker info
-    - cd frontend/user
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  cache:
-    key: "$CI_COMMIT_REF_SLUG-node_modules"
-    paths:
-      - frontend/user/node_modules
 
 
 .job_template: &frontend_admin_definition
@@ -86,14 +81,36 @@ frontend-user-lint:
   script:
     - npm run lint -- --no-fix
 
-frontend-user-build:
-  <<: *frontend_user_definition_build
+backend-build:
+  <<: *definition_build
   stage: build-and-test
   script:
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - cd backend
+    - docker pull $CI_REGISTRY_IMAGE:backend_latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:backend_latest --tag $CI_REGISTRY_IMAGE:backend_$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:backend_latest .
+    - docker push $CI_REGISTRY_IMAGE:backend_$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:backend_latest
+
+frontend-user-build:
+  <<: *definition_build
+  stage: build-and-test
+  script:
+    - cd frontend/user
+    - docker pull $CI_REGISTRY_IMAGE:user_latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:user_latest --tag $CI_REGISTRY_IMAGE:user_$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:user_latest .
+    - docker push $CI_REGISTRY_IMAGE:user_$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:user_latest
+
+frontend-admin-build:
+  <<: *definition_build
+  stage: build-and-test
+  script:
+    - cd frontend/admin
+    - docker pull "$CI_REGISTRY_IMAGE":admin_latest || true
+    - docker build --cache-from "$CI_REGISTRY_IMAGE":admin_latest --tag "$CI_REGISTRY_IMAGE":admin_$CI_COMMIT_SHA --tag "$CI_REGISTRY_IMAGE":admin_latest .
+    - docker push "$CI_REGISTRY_IMAGE":admin_$CI_COMMIT_SHA
+    - docker push "$CI_REGISTRY_IMAGE":admin_latest
+
 
 backend-test:
   <<: *backend_definition
@@ -106,12 +123,3 @@ frontend-admin-lint:
   stage: lint
   script:
     - npm run lint -- --no-fix
-
-frontend-admin-build:
-  <<: *frontend_admin_definition
-  stage: build-and-test
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - frontend/admin/dist

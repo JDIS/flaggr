@@ -12,10 +12,17 @@
         <b-field :label="`${$t('challenge.points')} :`">
           <b-input type="number" v-model="challenge.points"></b-input>
         </b-field>
+        <challenge-track-input @trackChange="updateTrack" />
         <b-field :label="`${$t('challenge.description')} :`">
           <b-input type="textarea" v-model="challenge.description"></b-input>
         </b-field>
+        <challenge-tag-input @tagsChange="updateTags" />
       </div>
+
+      <base-subitle :text="$t('challenge.content')" />
+      <b-field :label="`${$t('challenge.files')} :`">
+        <multiple-file-upload :color="color" @input="updateFiles" />
+      </b-field>
     </div>
     <bottom-bar>
       <b-button :class="`is-${color}`" @click="save">{{ $t('save') }}</b-button>
@@ -29,8 +36,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import BaseTitle from '../components/BaseTitle.vue';
+import BaseSubtitle from '../components/BaseSubtitle.vue';
 import BottomBar from '../components/BottomBar.vue';
+import ChallengeTrackInput from '../components/ChallengeTrackInput.vue';
+import ChallengeTagInput from '../components/ChallengeTagInput.vue';
+import MultipleFileUpload from '../components/MultipleFileUpload.vue';
 import { Challenge } from '../models/challenge';
+import { Track } from '../models/track';
 import {
   getChallengeById,
   createChallenge,
@@ -46,7 +58,9 @@ export default Vue.extend({
   data() {
     return {
       color: 'second',
-      challenge: new Challenge()
+      challenge: new Challenge(),
+      tags: [] as string[], // TODO: fill with existing values from API,
+      name: ''
     };
   },
   async created() {
@@ -66,10 +80,19 @@ export default Vue.extend({
         } else {
           await createChallenge(this.challenge);
         }
-        sendAlert('save.success', { type: 'is-success'});
+        sendAlert('save.success', { type: 'is-success' });
       } catch (error) {
         sendErrorAlert('save.error', error);
       }
+    },
+    updateFiles(newFiles: File[]) {
+      this.challenge.files = newFiles;
+    },
+    updateTrack(selectedTrack: Track) {
+      this.challenge.track = selectedTrack;
+    },
+    updateTags(selectedTags: string[]) {
+      this.challenge.tags = selectedTags;
     }
   },
   computed: {
@@ -89,13 +112,14 @@ export default Vue.extend({
   },
   components: {
     BaseTitle,
-    BottomBar
+    BaseSubtitle,
+    BottomBar,
+    ChallengeTrackInput,
+    ChallengeTagInput,
+    MultipleFileUpload
   }
 });
 </script>
 
 <style lang="scss">
-.form {
-  margin-top: 1rem;
-}
 </style>

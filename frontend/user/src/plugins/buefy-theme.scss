@@ -19,7 +19,7 @@ $title-family: $family-secondary;
 $subtitle-family: $family-primary;
 
 /* GENERAL */
-$link: $link-color;
+$link: rgb(115,115,255);
 $link-hover: $link-hover-color;
 $link-active: $link-hover-color;
 
@@ -114,7 +114,7 @@ $colors: (
     $info-invert
   ),
   'success': (
-    $success,
+    rgb(0,135,0),
     $success-invert
   ),
   'warning': (
@@ -122,7 +122,7 @@ $colors: (
     $warning-invert
   ),
   'danger': (
-    $danger,
+    rgb(200, 0, 0),
     $danger-invert
   ),
   'solved': (

@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres:10.10-alpine
+    environment:
+      POSTGRES_USER: jdisctf
+      POSTGRES_PASSWORD: jdisctf
+      POSTGRES_DB: jdisctf_db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    depends_on:
+      - frontend-user
+      - frontend-admin
+      - backend
+
+  backend:
+    build: ./backend
+    restart: always
+    depends_on:
+      - db
+
+  frontend-user:
+    build: ./frontend/user
+    restart: always
+
+  frontend-admin:
+    build: ./frontend/admin
+    restart: always

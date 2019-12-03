@@ -1,10 +1,10 @@
 """Scoreboard routes"""
 
-from flask_rebar import errors
 from sqlalchemy import text
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import Event
+from JDISCTF.permission_wrappers import require_event
 from JDISCTF.schemas.scoreboard import ScoreboardSchema
 
 
@@ -13,12 +13,9 @@ from JDISCTF.schemas.scoreboard import ScoreboardSchema
     method="GET",
     response_body_schema=ScoreboardSchema(many=True)
 )
-def get_scoreboard(event_id: int):
+@require_event
+def get_scoreboard(event: Event):
     """Get the scoreboard data"""
-    event = Event.query.filter_by(id=event_id).first()
-
-    if event is None:
-        raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
     query = """
     SELECT ROW_NUMBER() OVER (ORDER BY qq.pointss DESC) AS "position",
@@ -26,7 +23,7 @@ def get_scoreboard(event_id: int):
     FROM (
     SELECT team_id, SUM(points) AS "pointss", team_name, MAX(submission_time) AS "last_submission", COUNT(challenge_id) as "solved_challenges"
     FROM (
-        SELECT DISTINCT ON (s.challenge_id)
+        SELECT DISTINCT ON (s.challenge_id, s.team_id)
              s.team_id AS "team_id", t.name AS "team_name",
            s.challenge_id AS "challenge_id", c.points as "points", s.time AS "submission_time"
         FROM "Submissions" s
@@ -40,5 +37,5 @@ def get_scoreboard(event_id: int):
     ORDER BY pointss DESC
     """
 
-    result = list(DB.engine.execute(text(query), e=event_id))
+    result = list(DB.engine.execute(text(query), e=event.id))
     return list(map(dict, result))
