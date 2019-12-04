@@ -10,3 +10,4 @@ from JDISCTF.schemas.team import AcceptTeamRequestRequestSchema, \
 from JDISCTF.schemas.user import CreateUserSchema, LoginSchema, UserSchema
 from JDISCTF.schemas.generic import GenericMessageSchema
 from JDISCTF.schemas.participant import ParticipantSchema
+from JDISCTF.schemas.administrator import AdministratorSchema

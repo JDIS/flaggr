@@ -3,10 +3,29 @@
 from typing import Generic, List, TypeVar
 
 from JDISCTF.app import DB
-from seeds import categories, challenges, events, flags, submissions, teams, users, participants, team_members
+from JDISCTF.models import User
+from seeds import categories, challenges, events, flags, submissions, teams, users, participants, team_members, admins,\
+    event_administrators
 
 ModelType = TypeVar('ModelType', bound=DB.Model)
 ValueType = TypeVar('ValueType', str, int, bool, float)
+
+
+def seed_users(user_records: [User]):
+    """
+    Seed the users into the database.
+
+    Users have to be handled separately because we want each event to have the same participants (same email and
+    username) to simplify testing, but the generic seeding method doesn't allow that.
+    """
+    users_count = User.query.count()
+    if users_count < len(user_records):
+        for user in user_records[:len(user_records) - users_count]:
+            DB.session.add(user)
+
+        DB.session.commit()
+
+    return User.query.all()
 
 
 class Seeder:
@@ -28,11 +47,14 @@ class Seeder:
         db_teams = self.seed_table(teams.get_records(db_events), teams.FILTER_ARGS)
         self.seed_table(submissions.get_records(db_challenges, db_teams), submissions.FILTER_ARGS)
 
-        db_users = self.seed_table(users.get_records(db_events), users.FILTER_ARGS)
+        db_users = seed_users(users.get_records(db_events))
 
         db_participants = self.seed_table(participants.get_records(db_users, db_events), participants.FILTER_ARGS)
 
         self.seed_table(team_members.get_records(db_teams, db_participants), team_members.FILTER_ARGS)
+
+        db_admins = self.seed_table(admins.get_records(db_users), admins.FILTER_ARGS)
+        self.seed_table(event_administrators.get_records(db_admins, db_events), event_administrators.FILTER_ARGS)
 
         print('Seeding done successfully')
 

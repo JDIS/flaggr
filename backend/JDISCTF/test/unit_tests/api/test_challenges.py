@@ -8,12 +8,6 @@ from JDISCTF.api import get_all_challenges_by_category_for_event, get_all_challe
     submit_flag
 from JDISCTF.models import Category, Challenge, Event, Flag, Submission, Team, User
 
-EVENT_ID = 1
-A_TEAM = Team(id=1, event_id=EVENT_ID, name='Team 1')
-REQUEST_BODY = {"team_id": 1, "flag": "JDIS"}
-A_EVENT = Event(id=0, name="Test Event", teams=True)
-A_USER = User(id=0, username="test", email="test@gmail.com")
-
 
 def local_patch(module: str):
     return patch('JDISCTF.api.challenges.' + module)
@@ -66,6 +60,11 @@ def submission_mock():
     with local_patch('Submission') as mock:
         yield mock
 
+EVENT_ID = 1
+A_TEAM = Team(id=1, event_id=EVENT_ID, name='Team 1')
+REQUEST_BODY = {"team_id": 1, "flag": "JDIS"}
+A_EVENT = Event(id=0, name="Test Event", teams=True)
+A_USER = User(id=0, username="test", email="test@gmail.com")
 A_CHALLENGE = Challenge(id=1, category_id=1, name='Challenge', description='Description',
                         points=100, hidden=False)
 A_CATEGORY = Category(id=1, event_id=1, name='Category')
