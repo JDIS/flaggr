@@ -8,3 +8,5 @@ from JDISCTF.models.flag import Flag
 from JDISCTF.models.submission import Submission
 from JDISCTF.models.user import User
 from JDISCTF.models.participant import Participant
+from JDISCTF.models.administrator import Administrator, EventAdministrator
+from JDISCTF.models.role import RoleAssociation, Role

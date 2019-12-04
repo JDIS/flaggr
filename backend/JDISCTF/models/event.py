@@ -1,4 +1,6 @@
 """Events' SQLAlchemy model"""
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import relationship
 
 from JDISCTF.app import DB
 
@@ -22,6 +24,9 @@ class Event(DB.Model):
     """The front page content of the event. Markdown text that will be parsed by frontend"""
     teams = DB.Column(DB.Boolean)
     """Whether participants have to register as teams or individually."""
+
+    event_administrators = relationship('EventAdministrator', back_populates='event')
+    administrators = association_proxy('event_administrators', 'administrator')
 
     def __repr__(self):
         return '<Event id:{} name:{} teams: {}>'.format(self.id, self.name, self.teams)
