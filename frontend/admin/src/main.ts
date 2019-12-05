@@ -17,7 +17,7 @@ axios.interceptors.request.use((config: any) => {
   // like that: axios.get('status') instead of axios.get(`${process.env.VUE_APP_BACKEND_URL}/status`)
   config.url = `${process.env.VUE_APP_BACKEND_URL}/${config.url}`
   if (process.env.VUE_APP_DEBUG === '1') {
-    config.headers.Authorization = `Basic ${(store as any).getters.creds}`
+    config.headers.Authorization = `Basic ${(store as any).getters['admin/creds']}`
   }
 
   store.dispatch('network/addRequestInProgress')
@@ -33,7 +33,6 @@ axios.interceptors.response.use((config: any) => {
   // If an HTTP call results in an error, set the state accordingly.
   store.dispatch('network/setError')
   store.dispatch('network/removeRequestInProgress')
-  console.log('Request error:', error)
   return Promise.reject(error)
 });
 

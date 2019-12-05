@@ -1,4 +1,5 @@
 {
+  "projectName": "Flags R US",
   "cancel": "Cancel",
   "challenge.description": "Description",
   "challenge.flag": "Flag",
@@ -56,5 +57,12 @@
   "save.error.details": "Could not save: {error}",
   "track": "Track",
   "track.create": "New track",
-  "visible": "Visible"
+  "visible": "Visible",
+  "form.email": "Email",
+  "form.password": "Password",
+  "signin": "Sign in",
+  "login.error": "Error during login: {error}",
+  "pickEvent": "Choose an event",
+  "logout.error": "Error during logout: {error}"
+
 }

@@ -2,12 +2,14 @@
   <b-navbar shadow type="is-dark" fixed-top>
     <template slot="brand">
       <b-navbar-item tag="div">
-        <h1>JDIS</h1>
+        <h1>{{ $t('projectName') }}</h1>
       </b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-dropdown label="Qualifications CS Games 2020">
-        <b-navbar-item href="#">JDIS Games 2020</b-navbar-item>
+      <b-navbar-dropdown :label="event ? event.name : $t('pickEvent')" v-if="isConnected()">
+        <router-link v-for="event in events" :to="`/${event.id}`">
+          <b-navbar-item>{{ event.name }}</b-navbar-item>
+        </router-link>
         <b-navbar-item href="#">
           <b-icon icon="plus-circle" size="is-small"></b-icon>
           <strong>{{ this.$t('event.new') }}</strong>
@@ -16,8 +18,8 @@
     </template>
 
     <template slot="end">
-      <b-navbar-item tag="div">
-        <b-button type="is-primary">{{ this.$t('logout') }}</b-button>
+      <b-navbar-item tag="div" v-if="isConnected()">
+        <b-button type="is-primary" @click="logout()">{{ this.$t('logout') }}</b-button>
       </b-navbar-item>
     </template>
   </b-navbar>
@@ -25,16 +27,24 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {AdminMixin} from '@/mixins/AdminMixin';
+import {EventMixin} from '@/mixins/EventMixin';
 
 /**
  * Application header (at the top of the page)
  */
 export default Vue.extend({
   name: 'AppHeader',
+  mixins: [AdminMixin, EventMixin],
   data() {
-    return {};
+    return {
+    };
   },
-  methods: {},
+  methods: {
+    logout() {
+      this.$store.dispatch('admin/disconnectAdmin')
+    }
+  },
   components: {}
 });
 </script>
