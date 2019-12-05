@@ -1,4 +1,5 @@
 {
+  "projectName": "Flags R US",
   "cancel": "Annuler",
   "challenge.description": "Description",
   "challenge.flag": "Réponse",
@@ -56,5 +57,12 @@
   "save.error.details": "Erreur lors de la sauvegarde : {error}",
   "track": "Catégorie",
   "track.create": "Nouvelle catégorie",
-  "visible": "Visible"
+  "visible": "Visible",
+  "form.email": "Email",
+  "form.password": "Mot de passe",
+  "signin": "Connexion",
+  "login.error": "Erreur pendant la connexion: {error}",
+  "pickEvent": "Choisir un événement",
+  "logout.error": "Erreur durant la déconnexion: {error}"
+
 }
