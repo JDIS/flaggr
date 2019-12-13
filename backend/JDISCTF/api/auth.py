@@ -15,6 +15,7 @@ from JDISCTF.schemas import CreateUserSchema, GenericMessageSchema, LoginSchema,
     method="POST",
     request_body_schema=LoginSchema(),
     response_body_schema={200: ParticipantSchema()},
+    authenticators=None
 )
 @require_event
 def login(event: Event):
@@ -48,6 +49,7 @@ def login(event: Event):
     rule="/logout",
     method="GET",
     response_body_schema={200: GenericMessageSchema()},
+    authenticators=None
 )
 def logout():
     """Logouts the user"""
@@ -60,6 +62,7 @@ def logout():
     method="POST",
     request_body_schema=CreateUserSchema(),
     response_body_schema={201: ParticipantSchema()},
+    authenticators=None
 )
 @require_event
 def register_participant(event: Event):

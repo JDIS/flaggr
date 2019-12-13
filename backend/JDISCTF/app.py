@@ -11,7 +11,7 @@ from flask_rebar import Rebar
 from flask_sqlalchemy import SQLAlchemy
 
 # Globally accessible libraries
-from JDISCTF.flask_login_authenticator import register_authenticators
+from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator, register_authenticators
 from config import Config
 
 DB = SQLAlchemy()
@@ -19,6 +19,7 @@ MIGRATE = Migrate()
 REBAR = Rebar()
 LOGIN_MANAGER = LoginManager()
 REGISTRY = REBAR.create_handler_registry(prefix="/api")
+REGISTRY.set_default_authenticator(FlaskLoginAuthenticator())
 
 # make columns non-nullable by default, most of them should be
 DB.Column = partial(DB.Column, nullable=False)

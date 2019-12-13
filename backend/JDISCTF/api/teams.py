@@ -5,7 +5,6 @@ from flask_rebar import errors
 from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import Participant, Team, TeamMember, TeamRequest
 from JDISCTF.permission_wrappers import require_participant
 from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
@@ -17,8 +16,7 @@ from JDISCTF.schemas import AcceptTeamRequestRequestSchema, \
 @REGISTRY.handles(
     rule="/team",
     method="GET",
-    response_body_schema={200: TeamSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: TeamSchema()}
 )
 @require_participant
 def current_team(current_participant: Participant):
@@ -30,8 +28,7 @@ def current_team(current_participant: Participant):
 @REGISTRY.handles(
     rule="/event/<int:event_id>/teams",
     method="GET",
-    response_body_schema={200: TeamSchema(many=True)},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: TeamSchema(many=True)}
 )
 def teams_list(event_id: int):
     """ Get teams list for the current event """
@@ -42,8 +39,7 @@ def teams_list(event_id: int):
     rule="/team",
     method="POST",
     request_body_schema=CreateTeamRequestSchema(),
-    response_body_schema={200: TeamSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: TeamSchema()}
 )
 @require_participant
 def create_team(current_participant: Participant):
@@ -72,8 +68,7 @@ def create_team(current_participant: Participant):
 @REGISTRY.handles(
     rule="/team_request",
     method="GET",
-    response_body_schema={200: TeamRequestSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: TeamRequestSchema()}
 )
 @require_participant
 def get_team_request(current_participant: Participant):
@@ -92,8 +87,7 @@ def get_team_request(current_participant: Participant):
     rule="/team_request",
     method="POST",
     request_body_schema=SendTeamRequestRequestSchema(),
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def send_team_request(current_participant: Participant):
@@ -129,8 +123,7 @@ def send_team_request(current_participant: Participant):
     rule="/accept_team_request",
     method="POST",
     request_body_schema=AcceptTeamRequestRequestSchema(),
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def accept_team_request(current_participant: Participant):
@@ -162,8 +155,7 @@ def accept_team_request(current_participant: Participant):
     rule="/decline_team_request",
     method="POST",
     request_body_schema=DeclineTeamRequestRequestSchema(),
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def decline_team_request(current_participant: Participant):
@@ -190,8 +182,7 @@ def decline_team_request(current_participant: Participant):
     rule="/kick_team_member",
     method="POST",
     request_body_schema=KickTeamMemberRequestSchema(),
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def kick_team_member(current_participant: Participant):
@@ -217,8 +208,7 @@ def kick_team_member(current_participant: Participant):
     rule="/change_role",
     method="POST",
     request_body_schema=ChangeRoleRequestSchema(),
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def change_role(current_participant: Participant):
@@ -246,8 +236,7 @@ def change_role(current_participant: Participant):
 @REGISTRY.handles(
     rule="/team_request",
     method="DELETE",
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def remove_own_team_request(current_participant: Participant):
@@ -266,8 +255,7 @@ def remove_own_team_request(current_participant: Participant):
 @REGISTRY.handles(
     rule="/leave_team",
     method="POST",
-    response_body_schema={200: GenericMessageSchema()},
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema={200: GenericMessageSchema()}
 )
 @require_participant
 def leave_team(current_participant: Participant):

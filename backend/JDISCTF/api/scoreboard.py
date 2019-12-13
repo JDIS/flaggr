@@ -11,7 +11,8 @@ from JDISCTF.schemas.scoreboard import ScoreboardSchema
 @REGISTRY.handles(
     rule="/event/<int:event_id>/scoreboard",
     method="GET",
-    response_body_schema=ScoreboardSchema(many=True)
+    response_body_schema=ScoreboardSchema(many=True),
+    authenticators=None
 )
 @require_event
 def get_scoreboard(event: Event):
