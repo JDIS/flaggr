@@ -17,8 +17,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install and build
+    - name: npm install and build USER
       working-directory: ./frontend/user
+      run: |
+        npm ci
+        npm run build --if-present
+      env:
+        CI: true
+    - name: npm install and build ADMIN
+      working-directory: ./frontend/admin
       run: |
         npm ci
         npm run build --if-present
