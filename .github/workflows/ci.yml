@@ -37,9 +37,9 @@ jobs:
     - name: Install setuptools
       run: sudo apt install python3-setuptools
     - name: Install wheel
-      run: pip3 install wheel --user
-    - name: Install pytest && pylint
-      run: pip3 install pytest pylint --user
+      run: sudo pip3 install wheel
+    - name: Install requirements
+      run: pip3 install -r requirements.txt
 
     - name: Lint backend
       working-directory: ./backend
