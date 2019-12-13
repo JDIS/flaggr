@@ -6,20 +6,20 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     
-    steps:
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: Lint Frontend USER
-        working-directory: ./frontend/user
-        run: |
-          echo haha
-          npm --version
-          npm ci
-          npm run lint
-        env:
-          CI: true
+  steps:
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Lint Frontend USER
+      working-directory: ./frontend/user
+      run: |
+        echo haha
+        npm --version
+        npm ci
+        npm run lint
+      env:
+        CI: true
 
   build:
 
