@@ -13,7 +13,7 @@ jobs:
         node-version: 12.x
 
     - name: Lint Frontend USER
-      working-directory: frontend/user
+      working-directory: "frontend/user"
       run: pwd
       env:
         CI: true
