@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build-frontend:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -14,12 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       
-    - name: Lint Backend
-      run: |
-        sudo apt install python3-setuptools
-        pip3 install pylint
-        pylint JDISCTF seeds
-      working-directory: ./backend
+    - name: Build Backend
+      run: docker build ./backend --tag my-image-name:$(date +%s)
       
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
