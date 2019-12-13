@@ -14,8 +14,7 @@ jobs:
 
     - name: Lint Frontend USER
       working-directory: ./frontend/user
-      run: |
-        pwd
+      run: pwd
       env:
         CI: true
 
