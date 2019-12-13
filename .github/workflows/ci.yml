@@ -3,7 +3,7 @@ name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
-  lint:
+  lint-frontend:
     runs-on: ubuntu-latest
     
     steps:
@@ -28,6 +28,20 @@ jobs:
         npm run lint
       env:
         CI: true
+        
+  lint-test-backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install setuptools
+      run: sudo apt install python3-setuptools
+    - name: Install pytest && pylint
+      run: pip3 install pytest pylint
+
+    - name: Lint backend
+      working-directory: ./backend
+      run: pylint JDISCTF seeds
 
   build:
 
