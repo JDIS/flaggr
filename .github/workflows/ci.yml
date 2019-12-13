@@ -39,16 +39,16 @@ jobs:
         python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
         architecture: 'x64' 
         
-    - name: test
+    - name: Python version
       run: python3 --version
-    - name: test2
-      run: python --version
+    - name: Pip version
+      run: pip --version
     
     - name: Install setuptools
       run: sudo apt install python3-setuptools
     - name: Install requirements
       working-directory: ./backend
-      run: sudo pip3 install -r requirements.txt
+      run: sudo pip install -r requirements.txt
 
     - name: Lint backend
       working-directory: ./backend
