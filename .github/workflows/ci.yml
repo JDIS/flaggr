@@ -53,6 +53,10 @@ jobs:
     - name: Lint backend
       working-directory: ./backend
       run: pylint JDISCTF seeds
+      
+    - name: Test backend
+      working-directory: ./backend
+      run: pytest
 
   build:
 
