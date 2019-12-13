@@ -15,7 +15,9 @@ jobs:
     - uses: actions/checkout@v1
       
     - name: Lint Backend
-      run: pylint JDISCTF seeds
+      run: |
+        pip3 install pylint
+        pylint JDISCTF seeds
       working-directory: ./backend
       
     - name: Use Node.js ${{ matrix.node-version }}
