@@ -12,11 +12,15 @@ jobs:
         with:
           node-version: 12.x
       - name: Lint Frontend USER
-        run: npm run lint
+        run: |
+          npm ci
+          npm run lint
         working-directory: ./frontend/user
 
       - name: Lint Frontend ADMIN
-        run: npm run lint
+        run: |
+          npm ci
+          npm run lint
         working-directory: ./frontend/admin
 
   build:
