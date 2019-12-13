@@ -1,15 +1,23 @@
-name: CI
+name: Continuous Integration
 
 on: [push, pull_request]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Lint Frontend USER
+        run: npm run lint
+        working-directory: ./frontend/user
+
+      - name: Lint Frontend ADMIN
+        run: npm run lint
+        working-directory: ./frontend/admin
+
   build:
 
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v1
