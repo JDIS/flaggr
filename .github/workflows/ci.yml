@@ -36,8 +36,10 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install setuptools
       run: sudo apt install python3-setuptools
+    - name: Install wheel
+      run: pip3 install wheel --user
     - name: Install pytest && pylint
-      run: pip3 install pytest pylint
+      run: pip3 install pytest pylint --user
 
     - name: Lint backend
       working-directory: ./backend
