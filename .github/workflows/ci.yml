@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-frontend:
 
     runs-on: ubuntu-latest
 
@@ -13,10 +13,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      
+    - name: Lint Backend
+      run: pylint JDISCTF seeds
+      working-directory: ./backend
+      
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: npm install and build USER
       working-directory: ./frontend/user
       run: |
@@ -24,6 +30,7 @@ jobs:
         npm run build --if-present
       env:
         CI: true
+
     - name: npm install and build ADMIN
       working-directory: ./frontend/admin
       run: |
