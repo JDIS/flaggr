@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -15,12 +15,16 @@ jobs:
         run: |
           npm ci
           npm run lint
+        env:
+          CI: true
         working-directory: ./frontend/user
 
       - name: Lint Frontend ADMIN
         run: |
           npm ci
           npm run lint
+        env:
+          CI: true
         working-directory: ./frontend/admin
 
   build:
