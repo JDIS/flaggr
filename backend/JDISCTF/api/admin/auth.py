@@ -14,6 +14,7 @@ from JDISCTF.schemas import CreateUserSchema, LoginSchema, AdministratorSchema
     method="POST",
     request_body_schema=LoginSchema(),
     response_body_schema={200: AdministratorSchema()},
+    authenticators=None
 )
 def login_administrator():
     """Login an administrator"""
@@ -46,6 +47,7 @@ def login_administrator():
     method="POST",
     request_body_schema=CreateUserSchema(),
     response_body_schema={201: AdministratorSchema()},
+    authenticators=None
 )
 def register_administrator():
     """Register a new user"""

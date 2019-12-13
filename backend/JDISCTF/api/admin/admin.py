@@ -1,5 +1,4 @@
 from JDISCTF.app import REGISTRY
-from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import Administrator
 from JDISCTF.permission_wrappers import require_admin
 from JDISCTF.schemas import AdministratorSchema
@@ -8,8 +7,7 @@ from JDISCTF.schemas import AdministratorSchema
 @REGISTRY.handles(
     rule="/admin/admin",
     method="GET",
-    response_body_schema=AdministratorSchema(),
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema=AdministratorSchema()
 )
 @require_admin
 def get_connected_admin(current_admin: Administrator):

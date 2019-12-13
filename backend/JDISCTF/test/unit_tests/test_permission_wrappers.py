@@ -60,7 +60,7 @@ class TestRequireAdmin:
         _current_user_mock.get_administrator.return_value = admin
 
         with raises(errors.Unauthorized):
-            require_admin_for_event(NOP, AN_EVENT_ID)()
+            require_admin_for_event(NOP)(event_id=AN_EVENT_ID)
 
     def test_given_user_administering_event_should_inject_current_participant(self, _current_user_mock: MagicMock):
         event = copy(AN_EVENT)
@@ -70,7 +70,7 @@ class TestRequireAdmin:
             [EventAdministrator(id=0, administrator_id=0, event_id=0, event=event)]
         _current_user_mock.get_administrator.return_value = admin
 
-        assert require_admin_for_event(has_current_administrator, AN_EVENT_ID)()
+        assert require_admin_for_event(has_current_administrator)(event_id=AN_EVENT_ID)
 
 
 class TestRequireAdminWithRole:

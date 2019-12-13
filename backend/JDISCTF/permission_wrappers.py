@@ -8,7 +8,6 @@ from flask_rebar import errors
 
 from JDISCTF.models import Administrator, Event
 
-
 def require_participant(func):
     """
     Ensures that the current user is a participant account and
@@ -34,18 +33,20 @@ def validate_and_get_current_admin_for_event(event_id: int):
     current_admin: Administrator = current_user.get_administrator()
     if current_admin is None:
         raise errors.Unauthorized("You must be an administrator to access this resource.")
-    if event_id not in map(lambda x: x.id, current_admin.events):
+    if not current_admin.is_admin_of_event(event_id):
         raise errors.Unauthorized("You do not have the permission to administer this event.")
     return current_admin
 
 
-def require_admin_for_event(func, event_id: int):
+# Maybe this should have a parameter to decide weither or not it injects the admin argument into the function call.
+def require_admin_for_event(func):
     """
     Ensures that the current user is an administrator account for the given event
     and injects the corresponding Administrator as kwarg
     """
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        event_id = kwargs['event_id']
         kwargs['current_admin'] = validate_and_get_current_admin_for_event(event_id)
         return func(*args, **kwargs)
 

@@ -32,3 +32,8 @@ class Category(DB.Model):
 
     def __repr__(self):
         return '<Category id:{} event_id:{} name:{}>'.format(self.id, self.event_id, self.name)
+
+    def __eq__(self, other):
+        return self.id == other.id and \
+            self.name == other.name and \
+            self.event_id == other.event_id

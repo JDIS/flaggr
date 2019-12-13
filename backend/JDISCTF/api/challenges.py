@@ -7,7 +7,6 @@ from flask_rebar import errors
 from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
 from JDISCTF.models import Category, Challenge, Event, Flag, Submission
 from JDISCTF.permission_wrappers import require_event
 from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema, SubmitFlagSchema, \
@@ -17,8 +16,7 @@ from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema,
 @REGISTRY.handles(
     rule="/event/<int:event_id>/challenges",
     method="GET",
-    response_body_schema=UserChallengeSchema(many=True),
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema=UserChallengeSchema(many=True)
 )
 def get_all_challenges_for_event(event_id: int):
     # pylint: disable=singleton-comparison
@@ -45,8 +43,7 @@ def get_all_challenges_for_event(event_id: int):
 @REGISTRY.handles(
     rule="/challenges/<int:challenge_id>",
     method="GET",
-    response_body_schema=UserChallengeSchema(),
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema=UserChallengeSchema()
 )
 def get_challenge(challenge_id: int):
     # pylint: disable=singleton-comparison
@@ -70,8 +67,7 @@ def get_challenge(challenge_id: int):
 @REGISTRY.handles(
     rule="/event/<int:event_id>/challenges/by-category",
     method="GET",
-    response_body_schema=ChallengeByCategorySchema(many=True),
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema=ChallengeByCategorySchema(many=True)
 )
 @require_event
 def get_all_challenges_by_category_for_event(event: Event):
@@ -93,8 +89,7 @@ def get_all_challenges_by_category_for_event(event: Event):
     rule="/challenges/<int:challenge_id>/submit",
     method="POST",
     request_body_schema=SubmitFlagSchema(),
-    response_body_schema=SubmitFlagResponseSchema(),
-    authenticators=FlaskLoginAuthenticator()
+    response_body_schema=SubmitFlagResponseSchema()
 )
 def submit_flag(challenge_id: int):
     """Submit a flag for a given challenge"""
