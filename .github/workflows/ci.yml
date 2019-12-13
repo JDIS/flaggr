@@ -20,6 +20,14 @@ jobs:
         npm run lint
       env:
         CI: true
+        
+    - name: Lint Frontend ADMIN
+      working-directory: ./frontend/admin
+      run: |
+        npm ci
+        npm run lint
+      env:
+        CI: true
 
   build:
 
