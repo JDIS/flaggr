@@ -16,6 +16,7 @@ jobs:
       
     - name: Lint Backend
       run: |
+        apt install python3-setuptools
         pip3 install pylint
         pylint JDISCTF seeds
       working-directory: ./backend
