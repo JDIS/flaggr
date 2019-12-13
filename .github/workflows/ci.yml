@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
       - name: Lint Frontend USER
         run: npm run lint
         working-directory: ./frontend/user
