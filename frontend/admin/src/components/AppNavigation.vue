@@ -38,7 +38,7 @@ export default Vue.extend({
       links: [
         {
           name: this.$t('event'),
-          url: '/event',
+          url: `/${this.$route.params.eventId}/event`,
           icon: 'trophy',
           sections: [
             this.$t('event.general'),
@@ -49,14 +49,14 @@ export default Vue.extend({
         },
         {
           name: this.$t('challenges'),
-          url: '/challenges',
+          url: `/${this.$route.params.eventId}/challenges`,
           icon: 'flag-variant',
           sections: [],
           color: 'second'
         },
         {
           name: this.$t('participants'),
-          url: '/participants',
+          url: `/${this.$route.params.eventId}/participants`,
           icon: 'account-group',
           sections: [],
           color: 'third'
