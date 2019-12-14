@@ -13,15 +13,10 @@ const router = new VueRouter({
   linkActiveClass: 'is-active',
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
-    },
-    {
       path: '/:eventId',
-      name: 'home',
+      name: 'eventHome',
       meta: { requiresAuth: true },
-      component: Home,
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue')
     },
     {
       path: '/:eventId/event',
@@ -94,7 +89,7 @@ router.beforeEach((to, from, next) => {
           if (store.getters['admin/isConnected']) {
             next()
           } else {
-            next(`/login`)
+            next(`/`)
           }
         } else {
           next()
