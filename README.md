@@ -1,4 +1,4 @@
-# Flaggr
+![image](https://user-images.githubusercontent.com/14599855/70843130-39169700-1dfb-11ea-8057-36536f60072e.png)
 
 ## Qu'est-ce que Flaggr ?
 
