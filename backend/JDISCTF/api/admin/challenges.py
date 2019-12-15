@@ -18,6 +18,7 @@ from JDISCTF.schemas.admin import AdminChallengeListSchema, \
 @require_admin_for_event
 def get_admin_challenges_for_event(current_admin: Administrator, event_id: int):
     """Get all the challenges for a given event"""
+    # pylint: disable=unused-argument
     event = Event.query.filter_by(id=event_id).first()
 
     if event is None:

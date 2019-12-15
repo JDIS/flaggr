@@ -2,5 +2,5 @@
 
 from JDISCTF.schemas.admin.category import AdminCategoryRequestSchema, AdminCategorySchema
 from JDISCTF.schemas.admin.challenge import AdminChallengeListSchema, AdminChallengeRequestSchema, \
-    AdminChallengeSchema, AdminChallengeSchema
+    AdminChallengeSchema
 from JDISCTF.schemas.admin.flag import FlagSchema
