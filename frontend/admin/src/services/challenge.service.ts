@@ -26,7 +26,7 @@ export async function getChallengeById(id: number): Promise<Challenge> {
  * @return if the challenge was successfully deleted
  */
 export async function deleteChallenge(id: number): Promise<void> {
-  console.log(`deleting challenge ${id}`) // TODO: api call
+  return axios.delete(`admin/challenges/${id}`)
 }
 
 /**
@@ -36,7 +36,7 @@ export async function deleteChallenge(id: number): Promise<void> {
  */
 export async function createChallenge(challenge: Challenge): Promise<void> {
   return axios.post('admin/challenges', {
-    category_id: challenge.track!.id,
+    category_id: challenge.category!.id,
     description: challenge.description,
     hidden: !challenge.visible,
     name: challenge.name,
@@ -47,9 +47,16 @@ export async function createChallenge(challenge: Challenge): Promise<void> {
 
 /**
  * Update a challenge
- * @param id Id of the challenge to update
+ * @param challenge Challenge to update
  * @return if the challenge was successfully updated
  */
 export async function updateChallenge(challenge: Challenge): Promise<void> {
-  console.log(`updating challenge ${challenge.id}`); // TODO: api call
+  return axios.put(`admin/challenges/${challenge.id}`, {
+    category_id: challenge.category!.id,
+    description: challenge.description,
+    hidden: !challenge.visible,
+    name: challenge.name,
+    points: challenge.points,
+    flags: challenge.flags
+  });
 }

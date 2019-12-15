@@ -2,7 +2,6 @@
 
 import flask_rebar
 from flask_rebar import errors
-from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import Administrator, Category, Challenge, Event, Flag, Submission
@@ -116,6 +115,7 @@ def edit_challenge(current_admin: Administrator, challenge_id: int):
     hidden = body["hidden"]
     description = body["description"]
     category_id = body["category_id"]
+    flags = body["flags"]
 
     editable_challenge = Challenge.query.filter_by(id=challenge_id).first()
 
@@ -140,7 +140,6 @@ def edit_challenge(current_admin: Administrator, challenge_id: int):
         if challenge is not None:
             raise errors.UnprocessableEntity("A challenge with that name already exists.")
 
-
     if points != editable_challenge.points and points <= 0:
         raise errors.UnprocessableEntity("Points must be positive.")
 
@@ -149,10 +148,12 @@ def edit_challenge(current_admin: Administrator, challenge_id: int):
     editable_challenge.hidden = hidden
     editable_challenge.description = description
     editable_challenge.category_id = category_id
+    flag_objects = list(map(lambda flag: Flag(is_regex=flag['is_regex'], value=flag['value']), flags))
+    editable_challenge.flags = flag_objects
 
     DB.session.commit()
 
-    return {"challenge": editable_challenge}
+    return editable_challenge
 
 
 @REGISTRY.handles(
@@ -177,8 +178,10 @@ def delete_challenge(current_admin: Administrator, challenge_id: int):
     submissions = Submission.query.filter_by(challenge_id=challenge_id).all()
 
     DB.session.delete(challenge)
-    DB.session.delete(flags)
-    DB.session.delete(submissions)
+    for flag in flags:
+        DB.session.delete(flag)
+    for submission in submissions:
+        DB.session.delete(submission)
     DB.session.commit()
 
     return ""

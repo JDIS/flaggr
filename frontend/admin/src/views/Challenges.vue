@@ -18,16 +18,16 @@
           >{{ props.row.name }}</router-link>
         </b-table-column>
         <b-table-column field="track" :label="$t('track')" sortable>
-          <span v-if="props.row.track">{{ props.row.track.name }}</span>
+          <span v-if="props.row.category">{{ props.row.category }}</span>
         </b-table-column>
         <b-table-column field="points" :label="$t('points')" numeric sortable>{{ props.row.points }}</b-table-column>
 
         <b-table-column field="visible" :label="$t('visible')" centered sortable>
           <span>
             <b-icon
-              :icon="props.row.visible ? 'eye' : 'eye-off'"
+              :icon="!props.row.hidden ? 'eye' : 'eye-off'"
               class="clickable-icon"
-              :class="{ 'not-visible': !props.row.visible }"
+              :class="{ 'not-visible': props.row.hidden }"
               @click.native="toggleVisibility(props.row)"
             ></b-icon>
           </span>

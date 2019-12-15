@@ -2,8 +2,8 @@
 from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
 
-from JDISCTF.schemas.admin.flag import FlagSchema
 from JDISCTF.schemas.admin.category import AdminCategorySchema
+from JDISCTF.schemas.admin.flag import FlagSchema
 
 
 class AdminChallengeRequestSchema(RequestSchema):
@@ -25,6 +25,7 @@ class AdminChallengeListSchema(Schema):
     name = fields.String(required=True)
     category = fields.Nested(AdminCategorySchema, only="name", required=True)
     hidden = fields.Boolean(required=True)
+    points = fields.Integer(required=True)
 
 
 class AdminChallengeSchema(Schema):

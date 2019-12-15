@@ -11,7 +11,7 @@ export class Challenge {
   public points?: number;
   public visible: boolean;
   public flags?: Flag[];
-  public track?: Track;
+  public category?: Track;
   public files?: File[];
   public links?: string[];
   public tags?: string[];
