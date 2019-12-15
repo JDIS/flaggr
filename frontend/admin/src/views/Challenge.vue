@@ -7,26 +7,26 @@
           <b-input v-model="challenge.name"></b-input>
         </b-field>
         <b-field :label="`${$t('challenge.flag')} :`">
-          <b-input v-model="challenge.flag"></b-input>
+          <b-input v-model="challenge.flags[0].value"></b-input>
         </b-field>
         <b-field :label="`${$t('challenge.points')} :`">
           <b-input type="number" v-model="challenge.points"></b-input>
         </b-field>
-        <challenge-track-input @trackChange="updateTrack" />
+        <challenge-track-input :challenge="challenge" @trackChange="updateTrack" />
         <b-field :label="`${$t('challenge.description')} :`">
           <b-input type="textarea" v-model="challenge.description"></b-input>
         </b-field>
-        <challenge-tag-input @tagsChange="updateTags" />
+        <challenge-tag-input v-if="false" @tagsChange="updateTags" /> <!-- hidden until supported by backend -->
       </div>
 
-      <base-subitle :text="$t('challenge.content')" />
-      <b-field :label="`${$t('challenge.files')} :`">
-        <multiple-file-upload :color="color" @input="updateFiles" />
-      </b-field>
+<!--      <base-subtitle :text="$t('challenge.content')" />-->
+<!--      <b-field :label="`${$t('challenge.files')} :`">-->
+<!--        <multiple-file-upload :color="color" @input="updateFiles" />-->
+<!--      </b-field>  SAME HERE -->
     </div>
     <bottom-bar>
       <b-button :class="`is-${color}`" @click="save">{{ $t('save') }}</b-button>
-      <router-link to="/challenges">
+      <router-link :to="{name: 'challenges'}">
         <b-button class="is-light">{{ $t('cancel') }}</b-button>
       </router-link>
     </bottom-bar>
@@ -41,14 +41,10 @@ import BottomBar from '../components/BottomBar.vue';
 import ChallengeTrackInput from '../components/ChallengeTrackInput.vue';
 import ChallengeTagInput from '../components/ChallengeTagInput.vue';
 import MultipleFileUpload from '../components/MultipleFileUpload.vue';
-import { Challenge } from '../models/challenge';
-import { Track } from '../models/track';
-import {
-  getChallengeById,
-  createChallenge,
-  updateChallenge
-} from '../services/challenge.service';
-import { sendAlert, sendErrorAlert } from '../helpers/alerts.helper';
+import {Challenge} from '../models/challenge';
+import {Track} from '../models/track';
+import {createChallenge, getChallengeById, updateChallenge} from '../services/challenge.service';
+import {sendAlert, sendErrorAlert} from '../helpers/alerts.helper';
 
 /**
  * Page for creating or editing a challenge
@@ -81,6 +77,7 @@ export default Vue.extend({
           await createChallenge(this.challenge);
         }
         sendAlert('save.success', { type: 'is-success' });
+        this.$router.push({name: 'events'})
       } catch (error) {
         sendErrorAlert('save.error', error);
       }

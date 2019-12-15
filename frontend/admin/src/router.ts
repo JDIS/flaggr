@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter, {Route} from 'vue-router';
-import Home from './views/Home.vue';
 import store from '@/store'
 import {getEvents} from '@/services/event.service';
 import {Event} from '@/models/event';
@@ -12,6 +11,12 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   linkActiveClass: 'is-active',
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      meta: {},
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue')
+    },
     {
       path: '/:eventId',
       name: 'eventHome',
@@ -71,6 +76,7 @@ function fetchEventsSetEventIfNeeded(to: Route, from: Route) {
         (event: Event) => event.id === parseInt(to.params.eventId, 0.4))
     store.dispatch('event/setEvent', currentEvent)
   }
+
 }
 
 /**

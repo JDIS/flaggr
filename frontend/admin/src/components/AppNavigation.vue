@@ -5,7 +5,7 @@
         v-for="link in links"
         v-bind:key="link.name"
         tag="router-link"
-        :to="link.url"
+        :to="{name: link.url}"
         :expanded="isActive(link.url)"
       >
         <template slot="label">
@@ -38,7 +38,7 @@ export default Vue.extend({
       links: [
         {
           name: this.$t('event'),
-          url: `/${this.$route.params.eventId}/event`,
+          url: 'event',
           icon: 'trophy',
           sections: [
             this.$t('event.general'),
@@ -49,14 +49,14 @@ export default Vue.extend({
         },
         {
           name: this.$t('challenges'),
-          url: `/${this.$route.params.eventId}/challenges`,
+          url: 'challenges',
           icon: 'flag-variant',
           sections: [],
           color: 'second'
         },
         {
           name: this.$t('participants'),
-          url: `/${this.$route.params.eventId}/participants`,
+          url: 'participants',
           icon: 'account-group',
           sections: [],
           color: 'third'

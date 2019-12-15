@@ -1,6 +1,7 @@
 """Flag marshmallow schemas"""
 from marshmallow import fields, Schema
 
+
 class FlagSchema(Schema):
     """Response schema for getting a flag"""
     id = fields.Integer(required=True)

@@ -1,4 +1,5 @@
 import {Track} from './track';
+import {Flag} from '@/models/flag';
 
 /**
  * Challenge model
@@ -9,7 +10,7 @@ export class Challenge {
   public description: string;
   public points?: number;
   public visible: boolean;
-  public flag?: string;
+  public flags?: Flag[];
   public track?: Track;
   public files?: File[];
   public links?: string[];
@@ -23,5 +24,6 @@ export class Challenge {
     this.files = [];
     this.links = [];
     this.tags = [];
+    this.flags = [new Flag()];
   }
 }

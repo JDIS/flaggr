@@ -2,13 +2,14 @@
 
 import flask_rebar
 from flask_rebar import errors
+from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import Administrator, Category, Challenge, Event, Flag, Submission
 from JDISCTF.permission_wrappers import require_admin, require_admin_for_event
 from JDISCTF.schemas import GenericMessageSchema
-
-from JDISCTF.schemas.admin import AdminChallengeInformationSchema, AdminChallengeListSchema, AdminChallengeRequestSchema
+from JDISCTF.schemas.admin import AdminChallengeListSchema, \
+    AdminChallengeRequestSchema, AdminChallengeSchema
 
 
 @REGISTRY.handles(
@@ -16,7 +17,7 @@ from JDISCTF.schemas.admin import AdminChallengeInformationSchema, AdminChalleng
     response_body_schema=AdminChallengeListSchema(many=True)
 )
 @require_admin_for_event
-def get_admin_challenges_for_event(_: Administrator, event_id: int):
+def get_admin_challenges_for_event(current_admin: Administrator, event_id: int):
     """Get all the challenges for a given event"""
     event = Event.query.filter_by(id=event_id).first()
 
@@ -31,13 +32,15 @@ def get_admin_challenges_for_event(_: Administrator, event_id: int):
 @REGISTRY.handles(
     rule="/admin/challenges/<int:challenge_id>",
     method="GET",
-    response_body_schema=AdminChallengeInformationSchema()
+    response_body_schema=AdminChallengeSchema()
 )
 @require_admin
 def get_admin_challenge(current_admin: Administrator, challenge_id: int):
     """Get a single challenge by its id"""
-    challenge = Challenge.query.filter_by(id=challenge_id).first()
-    flags = Flag.query.filter_by(challenge_id=challenge_id).all()
+    challenge = Challenge.query.filter_by(id=challenge_id) \
+        .join(Challenge.category) \
+        .join(Challenge.flags) \
+        .first()
     # TODOMAX : Add tags
     # TODOMAX : Add files
     # TODOMAX : Add links
@@ -48,14 +51,14 @@ def get_admin_challenge(current_admin: Administrator, challenge_id: int):
     if not current_admin.is_admin_of_event(challenge.category.event_id):
         raise errors.Unauthorized("You do not have the permission to administer this challenge.")
 
-    return {"challenge": challenge, "flags": flags}
+    return challenge
 
 
 @REGISTRY.handles(
     rule="/admin/challenges",
     method="POST",
     request_body_schema=AdminChallengeRequestSchema(),
-    response_body_schema=AdminChallengeInformationSchema()
+    response_body_schema=AdminChallengeSchema()
 )
 @require_admin
 def create_challenge(current_admin: Administrator):
@@ -66,6 +69,7 @@ def create_challenge(current_admin: Administrator):
     hidden = body["hidden"]
     description = body["description"]
     category_id = body["category_id"]
+    flags = body["flags"]
 
     category = Category.query.filter_by(id=category_id).first()
 
@@ -86,19 +90,22 @@ def create_challenge(current_admin: Administrator):
     if points <= 0:
         raise errors.UnprocessableEntity("Points must be positive.")
 
-    challenge = Challenge(name=name, points=points, hidden=hidden, description=description, category_id=category_id)
+    flag_objects = list(map(lambda flag: Flag(is_regex=flag['is_regex'], value=flag['value']), flags))
+
+    challenge = Challenge(name=name, points=points, hidden=hidden, description=description,
+                          category_id=category_id, flags=flag_objects)
 
     DB.session.add(challenge)
     DB.session.commit()
 
-    return {"challenge": challenge}
+    return challenge
 
 
 @REGISTRY.handles(
     rule="/admin/challenges/<int:challenge_id>",
     method="PUT",
     request_body_schema=AdminChallengeRequestSchema(),
-    response_body_schema=AdminChallengeInformationSchema()
+    response_body_schema=AdminChallengeSchema()
 )
 @require_admin
 def edit_challenge(current_admin: Administrator, challenge_id: int):

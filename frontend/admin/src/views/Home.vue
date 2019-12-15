@@ -20,3 +20,12 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style lang="scss">
+
+#home {
+  max-width: 500px;
+  margin: 2rem auto auto;
+}
+
+</style>
