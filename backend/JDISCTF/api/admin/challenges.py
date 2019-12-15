@@ -23,7 +23,10 @@ def get_admin_challenges_for_event(current_admin: Administrator, event_id: int):
     if event is None:
         raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
-    challenges = Challenge.query.join(Category).filter_by(event_id=event_id).all()
+    challenges = Challenge.query.join(Category)\
+        .filter_by(event_id=event_id)\
+        .order_by(Challenge.id) \
+        .all()
 
     return challenges
 

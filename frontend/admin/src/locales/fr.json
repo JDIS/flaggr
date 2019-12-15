@@ -63,6 +63,7 @@
   "signin": "Connexion",
   "login.error": "Erreur pendant la connexion: {error}",
   "pickEvent": "Choisir un événement",
-  "logout.error": "Erreur durant la déconnexion: {error}"
+  "logout.error": "Erreur durant la déconnexion: {error}",
+  "categories.get.error": "Erreur lors de la récupération des catégories: {error}"
 
 }
