@@ -5,7 +5,6 @@
       :data="challenges"
       striped
       hoverable
-      checkable
       :checked-rows.sync="selectedChallenges"
       paginated
       per-page="10"
@@ -65,17 +64,9 @@
 import Vue from 'vue';
 import BaseTitle from '../components/BaseTitle.vue';
 import BaseSubtitle from '../components/BaseSubtitle.vue';
-import { Challenge } from '../models/challenge';
-import {
-  getChallenges,
-  deleteChallenge,
-  updateChallenge
-} from '../services/challenge.service';
-import {
-  sendAlert,
-  sendAlertWithVariables,
-  sendErrorAlert
-} from '../helpers/alerts.helper';
+import {Challenge} from '../models/challenge';
+import {deleteChallenge, getChallenges, updateChallenge} from '../services/challenge.service';
+import {sendAlert, sendAlertWithVariables, sendErrorAlert} from '../helpers/alerts.helper';
 
 /**
  * Challenges administration page
