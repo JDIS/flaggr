@@ -1,4 +1,4 @@
-<!-- Modal to sign in or sign up to a competition as a participant. -->
+<!-- Modal to log in or sign up to a competition as a participant. -->
 
 <template>
   <div class="connectionModal">
