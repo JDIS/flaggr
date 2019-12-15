@@ -78,7 +78,7 @@ export default Vue.extend({
           await createChallenge(this.challenge);
         }
         sendAlert('save.success', { type: 'is-success' });
-        this.$router.push({name: 'events'})
+        this.$router.push({name: 'challenges'})
       } catch (error) {
         console.log(error)
         sendErrorAlert('save.error', error);
