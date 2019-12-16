@@ -70,7 +70,8 @@
   "event.frontPage": "Contenu de la page d'accueil (markdown)",
   "event.updated": "Événement mis à jour!",
   "event.update.error": "Erreur lors de la mise à jour de l'événement: {error}",
-  "createEvent.error": "Erreur lors de la création d'un événement: {error}"
+  "createEvent.error": "Erreur lors de la création d'un événement: {error}",
+  "category.create.error": "Erreur lors de la création d'une catégorie: {error}"
 
 
 }

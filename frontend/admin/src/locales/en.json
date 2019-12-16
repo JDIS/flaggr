@@ -70,6 +70,7 @@
   "event.frontPage": "Front page content (markdown)",
   "event.updated": "Event updated!",
   "event.update.error": "Error while updating event: {error}",
-  "createEvent.error": "Error while creating an event: {error}"
+  "createEvent.error": "Error while creating an event: {error}",
+  "category.create.error": "Error while creating a category: {error}"
 
 }
