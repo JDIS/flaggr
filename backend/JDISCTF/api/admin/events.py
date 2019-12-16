@@ -3,12 +3,10 @@ import flask_rebar
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
-from JDISCTF.models import Event, Administrator
+from JDISCTF.models import Administrator, Event
 from JDISCTF.permission_wrappers import require_admin, require_admin_for_event
-
 from JDISCTF.schemas import GenericMessageSchema
-from JDISCTF.schemas.admin import AdminEventListSchema, AdminEventSchema, AdminEventRequestSchema
+from JDISCTF.schemas.admin import AdminEventListSchema, AdminEventRequestSchema, AdminEventSchema
 
 
 @REGISTRY.handles(
@@ -19,6 +17,7 @@ from JDISCTF.schemas.admin import AdminEventListSchema, AdminEventSchema, AdminE
 @require_admin
 def get_admin_events(current_admin: Administrator):
     """Get all the events"""
+    # pylint: disable=unused-argument
     events = Event.query.filter_by().all()
 
     return events
@@ -32,6 +31,7 @@ def get_admin_events(current_admin: Administrator):
 @require_admin_for_event
 def get_admin_event(current_admin: Administrator, event_id: int):
     """Get all the events"""
+    # pylint: disable=unused-argument
     event = Event.query.filter_by(id=event_id).first()
 
     if event is None:
@@ -48,6 +48,7 @@ def get_admin_event(current_admin: Administrator, event_id: int):
 @require_admin_for_event
 def delete_event(current_admin: Administrator, event_id: int):
     """Delete an event"""
+    # pylint: disable=unused-argument
     event = Event.query.filter_by(id=event_id).first()
 
     if event is None:
@@ -68,12 +69,12 @@ def delete_event(current_admin: Administrator, event_id: int):
 @require_admin
 def create_event(current_admin: Administrator):
     """Create a new event"""
+    # pylint: disable=unused-argument
     body = flask_rebar.get_validated_body()
     name = body["name"]
     teams = body["teams"]
     is_open = body["is_open"]
     is_visible = body["is_visible"]
-    url = body["url"] if "url" in body else ""
     front_page = body["front_page"] if "front_page" in body else ""
     flag_format = body["flag_format"] if "flag_format" in body else ""
 
@@ -82,7 +83,7 @@ def create_event(current_admin: Administrator):
     if event:
         raise errors.UnprocessableEntity("An event with that name already exists")
 
-    event = Event(name=name, url=url, front_page=front_page, flag_format=flag_format,
+    event = Event(name=name, front_page=front_page, flag_format=flag_format,
                   is_open=is_open, is_visible=is_visible, teams=teams)
 
     DB.session.add(event)
@@ -100,12 +101,12 @@ def create_event(current_admin: Administrator):
 @require_admin_for_event
 def edit_event(current_admin: Administrator, event_id: int):
     """Edit an new event"""
+    # pylint: disable=unused-argument
     body = flask_rebar.get_validated_body()
     name = body["name"]
     teams = body["teams"]
     is_open = body["is_open"]
     is_visible = body["is_visible"]
-    url = body["url"] if "url" in body else ""
     front_page = body["front_page"] if "front_page" in body else ""
     flag_format = body["flag_format"] if "flag_format" in body else ""
 
