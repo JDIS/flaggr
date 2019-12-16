@@ -21,6 +21,21 @@ export async function getEvent(id: string): Promise<Event> {
 }
 
 /**
+ * Create an event. For now with default values
+ */
+export async function createEvent(): Promise<Event> {
+  const response = await axios.post(`admin/event`, {
+    name: `My new event ${Math.random()}`,
+    front_page: '',
+    is_open: false,
+    is_visible: false,
+    teams: false,
+    flag_format: ''
+  });
+  return response.data as Event
+}
+
+/**
  * Edit an event.
  * @param event The new event data
  * @param id The id of the event

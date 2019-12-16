@@ -69,6 +69,7 @@
   "preview": "Preview",
   "event.frontPage": "Front page content (markdown)",
   "event.updated": "Event updated!",
-  "event.update.error": "Error while updating event: {error}"
+  "event.update.error": "Error while updating event: {error}",
+  "createEvent.error": "Error while creating an event: {error}"
 
 }

@@ -2,6 +2,7 @@
 from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
 
+
 class AdminEventRequestSchema(RequestSchema):
     """Response schema for getting an event"""
     name = fields.String(required=True)
@@ -11,6 +12,7 @@ class AdminEventRequestSchema(RequestSchema):
     url = fields.String()
     front_page = fields.String()
     flag_format = fields.String()
+    id = fields.Integer()
 
 
 class AdminEventListSchema(Schema):
@@ -30,3 +32,4 @@ class AdminEventSchema(Schema):
     is_visible = fields.Boolean(required=True)
     front_page = fields.String(required=True)
     teams = fields.Boolean(required=True)
+    id = fields.Integer(required=True)

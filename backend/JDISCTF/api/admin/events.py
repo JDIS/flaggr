@@ -18,7 +18,7 @@ from JDISCTF.schemas.admin import AdminEventListSchema, AdminEventRequestSchema,
 def get_admin_events(current_admin: Administrator):
     """Get all the events"""
     # pylint: disable=unused-argument
-    events = Event.query.filter_by().all()
+    events = Event.query.filter_by().order_by(Event.id).all()
 
     return events
 
