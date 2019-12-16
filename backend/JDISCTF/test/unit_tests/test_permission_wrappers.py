@@ -28,6 +28,7 @@ def administrator_mock():
 AN_EVENT_ID = 1
 AN_EVENT = Event(id=AN_EVENT_ID, name='', teams=True)
 AN_ADMINISTRATOR = Administrator(id=0, is_platform_admin=True, user_id=0)
+ANOTHER_ADMINISTRATOR = Administrator(id=1, is_platform_admin=False, user_id=1)
 
 A_ROLE = 'role'
 
@@ -54,7 +55,7 @@ class TestRequireAdmin:
     def test_given_user_not_administering_event_should_raise_unauthorized(self, _current_user_mock: MagicMock):
         event = copy(AN_EVENT)
         event.id = AN_EVENT.id + 1
-        admin = copy(AN_ADMINISTRATOR)
+        admin = copy(ANOTHER_ADMINISTRATOR)
         admin.event_administrators = \
             [EventAdministrator(id=0, administrator_id=0, event_id=0, event=event)]
         _current_user_mock.get_administrator.return_value = admin

@@ -63,7 +63,7 @@ A_EVENT = Event(id=0, name="Test Event", teams=True)
 AN_ADMINISTRATOR = Administrator(id=0, is_platform_admin=True, user_id=0)
 AN_ADMINISTRATOR.event_administrators = \
     [EventAdministrator(id=0, administrator_id=0, event_id=0, event=A_EVENT)]
-ANOTHER_ADMINISTRATOR = Administrator(id=1, is_platform_admin=True, user_id=1)
+ANOTHER_ADMINISTRATOR = Administrator(id=1, is_platform_admin=False, user_id=1)
 
 A_CATEGORY = Category(id=0, event_id=A_EVENT.id, name="Category")
 A_CHALLENGE = Challenge(id=0, name="Challenge name", points=100, hidden=False, description="My description",

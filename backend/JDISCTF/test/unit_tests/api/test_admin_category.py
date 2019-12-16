@@ -5,7 +5,7 @@ from flask_rebar import errors
 from pytest import fixture, raises
 
 from JDISCTF.api.admin import categories
-from JDISCTF.models import Administrator, Category, Challenge, Event, EventAdministrator, Flag, Submission, Team, User
+from JDISCTF.models import Administrator, Category, Event, EventAdministrator
 
 
 def local_patch(module: str):
@@ -64,7 +64,7 @@ A_EVENT = Event(id=0, name="Test Event", teams=True)
 AN_ADMINISTRATOR = Administrator(id=0, is_platform_admin=True, user_id=0)
 AN_ADMINISTRATOR.event_administrators = \
     [EventAdministrator(id=0, administrator_id=0, event_id=A_EVENT, event=A_EVENT)]
-ANOTHER_ADMINISTRATOR = Administrator(id=1, is_platform_admin=True, user_id=1)
+ANOTHER_ADMINISTRATOR = Administrator(id=1, is_platform_admin=False, user_id=1)
 A_CATEGORY = Category(id=None, event_id=A_EVENT, name="Category")
 
 class TestCreateCategory:
