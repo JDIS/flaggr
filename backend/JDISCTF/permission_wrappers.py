@@ -8,6 +8,7 @@ from flask_rebar import errors
 
 from JDISCTF.models import Administrator, Event
 
+
 def require_participant(func):
     """
     Ensures that the current user is a participant account and
@@ -91,14 +92,14 @@ def require_admin(func):
 def require_event(func):
     """
     Decorator that fetches the current event by parsing the URL. Requires an 'event_id' int
-    in the request, or a 400 Bad Request is returned.
+    in the request, or a 400 Bad Request is returned. The event must also be visible.
     """
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         if 'event_id' not in kwargs:
             raise errors.BadRequest('The request requires an event ID')
         event = Event.query.filter_by(id=kwargs['event_id']).first()
-        if event is None:
+        if event is None or not event.is_visible:
             raise errors.NotFound(f"Event with ID {kwargs['event_id']} not found.")
 
         kwargs['event'] = event
