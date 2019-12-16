@@ -64,6 +64,12 @@
   "login.error": "Erreur pendant la connexion: {error}",
   "pickEvent": "Choisir un événement",
   "logout.error": "Erreur durant la déconnexion: {error}",
-  "categories.get.error": "Erreur lors de la récupération des catégories: {error}"
+  "categories.get.error": "Erreur lors de la récupération des catégories: {error}",
+  "event.get.error": "Erreur lors de la récupération de l'événement: {error}",
+  "preview": "Aperçu",
+  "event.frontPage": "Contenu de la page d'accueil (markdown)",
+  "event.updated": "Événement mis à jour!",
+  "event.update.error": "Erreur lors de la mise à jour de l'événement: {error}"
+
 
 }

@@ -64,6 +64,11 @@
   "login.error": "Error during login: {error}",
   "pickEvent": "Choose an event",
   "logout.error": "Error during logout: {error}",
-  "categories.get.error": "Error while fetching categories: {error}"
+  "categories.get.error": "Error while fetching categories: {error}",
+  "event.get.error": "Error while fetching event: {error}",
+  "preview": "Preview",
+  "event.frontPage": "Front page content (markdown)",
+  "event.updated": "Event updated!",
+  "event.update.error": "Error while updating event: {error}"
 
 }

@@ -4,21 +4,20 @@ from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
-from JDISCTF.models import Event
+from JDISCTF.models import Event, Administrator
+from JDISCTF.permission_wrappers import require_admin, require_admin_for_event
 
 from JDISCTF.schemas import GenericMessageSchema
 from JDISCTF.schemas.admin import AdminEventListSchema, AdminEventSchema, AdminEventRequestSchema
 
 
 @REGISTRY.handles(
-    rule="/admin/events",
+    rule="/admin/event/all",
     method="GET",
     response_body_schema=AdminEventListSchema(many=True)
-    # Commented for dev
-    # TOOD : Platform-admin only decorators
-    #authenticators=FlaskLoginAuthenticator()
 )
-def get_admin_events():
+@require_admin
+def get_admin_events(current_admin: Administrator):
     """Get all the events"""
     events = Event.query.filter_by().all()
 
@@ -27,13 +26,27 @@ def get_admin_events():
 
 @REGISTRY.handles(
     rule="/admin/event/<int:event_id>",
+    method="GET",
+    response_body_schema=AdminEventSchema()
+)
+@require_admin_for_event
+def get_admin_event(current_admin: Administrator, event_id: int):
+    """Get all the events"""
+    event = Event.query.filter_by(id=event_id).first()
+
+    if event is None:
+        raise errors.NotFound(f"Event with ID {event_id} does not exist.")
+
+    return event
+
+
+@REGISTRY.handles(
+    rule="/admin/event/<int:event_id>",
     method="DELETE",
     response_body_schema=GenericMessageSchema()
-    # Commented for dev
-    # TOOD : Platform-admin only decorators
-    #authenticators=FlaskLoginAuthenticator()
 )
-def delete_event(event_id: int):
+@require_admin_for_event
+def delete_event(current_admin: Administrator, event_id: int):
     """Delete an event"""
     event = Event.query.filter_by(id=event_id).first()
 
@@ -47,15 +60,13 @@ def delete_event(event_id: int):
 
 
 @REGISTRY.handles(
-    rule="/admin/events",
+    rule="/admin/event",
     method="POST",
     request_body_schema=AdminEventRequestSchema(),
     response_body_schema=AdminEventSchema()
-    # Commented for dev
-    # Platform-admin only decorators
-    #authenticators=FlaskLoginAuthenticator()
 )
-def create_event():
+@require_admin
+def create_event(current_admin: Administrator):
     """Create a new event"""
     body = flask_rebar.get_validated_body()
     name = body["name"]
@@ -85,12 +96,10 @@ def create_event():
     method="PUT",
     request_body_schema=AdminEventRequestSchema(),
     response_body_schema=AdminEventSchema()
-    # Commented for dev
-    # Platform-admin only decorators
-    #authenticators=FlaskLoginAuthenticator()
 )
-def edit_event(event_id: int):
-    """Create a new event"""
+@require_admin_for_event
+def edit_event(current_admin: Administrator, event_id: int):
+    """Edit an new event"""
     body = flask_rebar.get_validated_body()
     name = body["name"]
     teams = body["teams"]
@@ -114,10 +123,13 @@ def edit_event(event_id: int):
         if event is not None:
             raise errors.UnprocessableEntity("An event with that name already exists.")
 
-    event = Event(name=name, url=url, front_page=front_page, flag_format=flag_format,
-                  is_open=is_open, is_visible=is_visible, teams=teams)
+    editable_event.name = name
+    editable_event.front_page = front_page
+    editable_event.flag_format = flag_format
+    editable_event.is_open = is_open
+    editable_event.is_visible = is_visible
+    editable_event.teams = teams
 
-    DB.session.add(event)
     DB.session.commit()
 
-    return event
+    return editable_event

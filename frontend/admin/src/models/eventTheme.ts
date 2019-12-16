@@ -3,6 +3,6 @@
  */
 export interface EventTheme {
   customCSS: string;
-  homePage: string;
+  front_page: string;
   logo?: File;
 }

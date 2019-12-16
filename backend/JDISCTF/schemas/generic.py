@@ -4,5 +4,5 @@ from marshmallow import fields, Schema
 
 
 class GenericMessageSchema(Schema):
-    """Response schema for getting a category"""
+    """Response schema for a message"""
     name = fields.String(required=True)
