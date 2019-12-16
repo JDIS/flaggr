@@ -52,13 +52,11 @@ class TestCreateEvent:
     def _event_mock(self, event_mock: MagicMock):
         event_mock.side_effect = lambda *args, **kwargs: Event(*args, **kwargs)
 
-
     def test_givent_an_already_existing_name_should_raise_unprocessable_entity(self, event_mock: MagicMock):
         event_mock.query.filter_by.return_value.first.return_value = A_EVENT
 
         with raises(errors.UnprocessableEntity):
             inspect.unwrap(events.create_event)(AN_ADMINISTRATOR)
-
 
     def test_should_create_event(self, db_mock: MagicMock, event_mock: MagicMock):
         event_mock.query.filter_by.return_value.first.return_value = None

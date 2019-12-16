@@ -59,7 +59,7 @@ export default Vue.extend({
               store.dispatch('event/setEvents', events)
               const currentEvent = events.find((event2) => event2.id === event.id)
               store.dispatch('event/setEvent', currentEvent)
-              this.$router.push({name: 'event', params: {eventId: event.id}})
+              this.$router.push({name: 'event', params: {eventId: event.id.toString()}})
             })
           })
           .catch((error) => sendErrorAlert('createEvent.error', error))

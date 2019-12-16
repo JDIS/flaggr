@@ -40,7 +40,7 @@ class Administrator(UserMixin, DB.Model):
         :param event_id:
         :return: True if the admin is admin for the given event.
         """
-        return event_id in map(lambda x: x.id, self.events)
+        return self.is_platform_admin or event_id in map(lambda x: x.id, self.events)
 
     def get_roles_for_event(self, event_id: int) -> [Role]:
         """
