@@ -36,7 +36,7 @@ import Vue from 'vue'
 import store from '../store'
 
 /**
- * Modal to sign in as a admin.
+ * Modal to log in as a admin.
  */
 export default Vue.extend({
   name: 'LoginModal',

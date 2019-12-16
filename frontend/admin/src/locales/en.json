@@ -60,7 +60,7 @@
   "visible": "Visible",
   "form.email": "Email",
   "form.password": "Password",
-  "signin": "Sign in",
+  "signin": "Log in",
   "login.error": "Error during login: {error}",
   "pickEvent": "Choose an event",
   "logout.error": "Error during logout: {error}",
