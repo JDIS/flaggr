@@ -1,10 +1,6 @@
 """API routes for the application"""
 
-from JDISCTF.api.admin.categories import create_category, get_admin_categories
-from JDISCTF.api.admin.challenges import get_admin_challenges, get_admin_challenge, create_challenge, edit_challenge, delete_challenge
-from JDISCTF.api.admin.events import get_admin_events, delete_event, create_event, edit_event
-
-from JDISCTF.api.auth import register_participant
+from JDISCTF.api.auth import register_participant, logout
 from JDISCTF.api.challenges import get_all_challenges_by_category_for_event, \
     get_all_challenges_for_event, \
     get_challenge, submit_flag

@@ -30,6 +30,7 @@
     "no-duplicate-variable": true,
     "semicolon": false,
     "trailing-comma": false,
-    "triple-equals": true
+    "triple-equals": true,
+    "variable-name": false
   }
 }

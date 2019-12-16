@@ -1,0 +1,89 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+  lint-frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Lint Frontend USER
+      working-directory: ./frontend/user
+      run: |
+        npm ci
+        npm run lint
+      env:
+        CI: true
+        
+    - name: Lint Frontend ADMIN
+      working-directory: ./frontend/admin
+      run: |
+        npm ci
+        npm run lint
+      env:
+        CI: true
+        
+  lint-test-backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        architecture: 'x64' 
+        
+    - name: Python version
+      run: python3 --version
+    - name: Pip version
+      run: pip --version
+    
+    - name: Install setuptools
+      run: sudo apt install python3-setuptools
+    - name: Install requirements
+      working-directory: ./backend
+      run: pip install -r requirements.txt
+
+    - name: Lint backend
+      working-directory: ./backend
+      run: pylint JDISCTF seeds
+      
+    - name: Test backend
+      working-directory: ./backend
+      run: pytest
+
+  build-backend:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Build Backend
+      run: docker build ./backend
+
+  build-frontend-user:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Build Frontend USER
+      run: docker build ./frontend/user
+    
+  build-frontend-admin:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Build Frontend ADMIN
+      run: docker build ./frontend/admin

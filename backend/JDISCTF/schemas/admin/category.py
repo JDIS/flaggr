@@ -1,9 +1,6 @@
-"""Challenge marshmallow schemas"""
+"""Category marshmallow schemas"""
 from flask_rebar import RequestSchema
 from marshmallow import fields, Schema
-
-from JDISCTF.schemas.admin.flag import FlagSchema
-from JDISCTF.schemas.category import CategorySchema
 
 class AdminCategoryRequestSchema(RequestSchema):
     """Request schema for creating a category"""

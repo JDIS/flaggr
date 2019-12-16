@@ -3,21 +3,20 @@ import flask_rebar
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.flask_login_authenticator import FlaskLoginAuthenticator
-from JDISCTF.models import Category, Event
-from JDISCTF.schemas.admin import AdminCategorySchema, AdminCategoryRequestSchema
+from JDISCTF.models import Administrator, Category, Event
+from JDISCTF.permission_wrappers import require_admin, require_admin_for_event
+from JDISCTF.schemas.admin import AdminCategoryRequestSchema, AdminCategorySchema
 
 
 @REGISTRY.handles(
     rule="/admin/categories/event/<int:event_id>",
     method="GET",
     response_body_schema=AdminCategorySchema(many=True)
-    # Commented for dev
-    # TOOD : Admin-only decorators
-    #authenticators=FlaskLoginAuthenticator()
 )
-def get_admin_categories(event_id: int):
+@require_admin_for_event
+def get_admin_categories(current_admin: Administrator, event_id: int):
     """Get all the categories for a given event"""
+    # pylint: disable=unused-argument
     event = Event.query.filter_by(id=event_id).first()
 
     if event is None:
@@ -31,12 +30,10 @@ def get_admin_categories(event_id: int):
     rule="/admin/categories",
     method="POST",
     request_body_schema=AdminCategoryRequestSchema(),
-    response_body_schema=AdminCategorySchema(),
-    # Commented for dev
-    # TOOD : Admin-only decorators
-    #authenticators=FlaskLoginAuthenticator()
+    response_body_schema=AdminCategorySchema()
 )
-def create_category():
+@require_admin
+def create_category(current_admin: Administrator):
     """Add a category """
     body = flask_rebar.get_validated_body()
     name = body["name"]
@@ -46,6 +43,9 @@ def create_category():
 
     if event is None:
         raise errors.NotFound(f'Event with id "{event_id}" not found.')
+
+    if not current_admin.is_admin_of_event(event_id):
+        raise errors.Unauthorized("You do not have the permission to administer this category.")
 
     category = Category.query.filter_by(name=name, event_id=event_id).first()
 

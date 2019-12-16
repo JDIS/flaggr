@@ -1,4 +1,6 @@
 """Events' SQLAlchemy model"""
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import relationship
 
 from JDISCTF.app import DB
 
@@ -31,6 +33,9 @@ class Event(DB.Model):
     is_visible = DB.Column(DB.Boolean, default=False)
     """Whether the event is currently visible or not."""
 
+
+    event_administrators = relationship('EventAdministrator', back_populates='event')
+    administrators = association_proxy('event_administrators', 'administrator')
 
     def __repr__(self):
         return '<Event id:{} name:{} teams: {}>'.format(self.id, self.name, self.teams)

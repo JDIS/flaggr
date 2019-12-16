@@ -34,7 +34,9 @@ class Challenge(DB.Model):
     hidden = DB.Column(DB.Boolean)
     """Whether or not the challenge should be visible by the event participants."""
 
-    flag = relationship('Flag', lazy='noload')
+    flags = relationship('Flag', lazy='joined')
+
+    category = relationship('Category', lazy='joined')
 
     category = relationship('Category', lazy='select')
 

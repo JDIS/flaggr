@@ -19,7 +19,20 @@ def get_records(events: [Event]):
         user4.set_password('test')
         users.append(user4)
 
+    user = User(email='admin@admin.com', username='admin')
+    user.set_password('admin')
+    users.append(user)
+    user = User(email='admin2@admin.com', username='admin2')
+    user.set_password('admin2')
+    users.append(user)
+    user = User(email='admin3@admin.com', username='admin3')
+    user.set_password('admin3')
+    users.append(user)
+    user = User(email='admin4@admin.com', username='admin4')
+    user.set_password('admin4')
+    users.append(user)
+
     return users
 
 
-FILTER_ARGS = {'username', 'email', 'password_hash'}
+FILTER_ARGS = {'username', 'email'}

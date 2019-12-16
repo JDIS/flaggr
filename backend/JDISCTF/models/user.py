@@ -10,6 +10,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from JDISCTF.app import Config, DB, LOGIN_MANAGER
+from JDISCTF.models.administrator import Administrator
 from JDISCTF.models.participant import Participant
 from JDISCTF.models.team import Team
 
@@ -59,14 +60,20 @@ class User(UserMixin, DB.Model):
         """
         return Participant.query.filter_by(user_id=self.id).first()
 
+    def get_administrator(self) -> Optional[Administrator]:
+        """
+        :return: The administrator associated with the user, or none if the user has no administrator.
+        """
+        return Administrator.query.filter_by(user_id=self.id).first()
+
     def __repr__(self):
         return '<User id:{} email:{} username:{}>'.format(self.id, self.email, self.username)
 
     def __eq__(self, other):
         return self.id == other.id and \
-            self.email == other.email and \
-            self.username == other.username and \
-            self.password_hash == other.password_hash
+               self.email == other.email and \
+               self.username == other.username and \
+               self.password_hash == other.password_hash
 
 
 if Config.DEBUG:

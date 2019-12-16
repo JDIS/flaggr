@@ -1,5 +1,6 @@
-"""Challenge marshmallow schemas"""
+"""Flag marshmallow schemas"""
 from marshmallow import fields, Schema
+
 
 class FlagSchema(Schema):
     """Response schema for getting a flag"""

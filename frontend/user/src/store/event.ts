@@ -4,7 +4,7 @@ import { Event } from '@/models/event'
 
 
 /**
- * Store to manage the connected participant's team.
+ * Store to manage the current event.
  */
 
 const state = {
@@ -25,8 +25,7 @@ const getters = {
 
 const actions = {
   /**
-   * Fetch the team from the server and set the state accordingly.
-   * If user has no team, fetch team request.
+   * Fetch the event from the server and set the state accordingly.
    * @param context vuex context
    */
   fetchEvent(context: any, eventId: number) {

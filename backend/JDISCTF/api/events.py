@@ -10,6 +10,7 @@ from JDISCTF.schemas.event import EventSchema
     rule="/event/<int:event_id>",
     method="GET",
     response_body_schema={200: EventSchema()},
+    authenticators=None
 )
 @require_event
 def get_event(event: Event):
@@ -22,6 +23,7 @@ def get_event(event: Event):
     rule="/event/all",
     method="GET",
     response_body_schema={200: EventSchema(many=True)},
+    authenticators=None
 )
 def get_all_events():
     """Get the list of all events"""
