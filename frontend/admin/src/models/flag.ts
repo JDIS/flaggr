@@ -1,5 +1,5 @@
 /**
- * Flag model
+ * Flag model. A flag is an answer to a challenge, can be a regex or a static string.
  */
 export class Flag {
   public id: number = 0;
