@@ -10,3 +10,4 @@ class EventSchema(ResponseSchema):
     name = fields.String()
     front_page = fields.String()
     teams = fields.Boolean()
+    is_open = fields.Boolean()

@@ -68,7 +68,7 @@ export default Vue.extend({
       this.event.flagFormat = config.flagFormat;
       this.event.teamSize = config.teamSize;
       this.event.is_visible = config.is_visible;
-      this.event.is_visible = config.is_open;
+      this.event.is_open = config.is_open;
     },
     updateTheme(theme: EventTheme) {
       this.event.customCSS = theme.customCSS;
