@@ -5,7 +5,6 @@
       :data="challenges"
       striped
       hoverable
-      checkable
       :checked-rows.sync="selectedChallenges"
       paginated
       per-page="10"
@@ -18,16 +17,16 @@
           >{{ props.row.name }}</router-link>
         </b-table-column>
         <b-table-column field="track" :label="$t('track')" sortable>
-          <span v-if="props.row.track">{{ props.row.track.name }}</span>
+          <span v-if="props.row.category">{{ props.row.category }}</span>
         </b-table-column>
         <b-table-column field="points" :label="$t('points')" numeric sortable>{{ props.row.points }}</b-table-column>
 
         <b-table-column field="visible" :label="$t('visible')" centered sortable>
           <span>
             <b-icon
-              :icon="props.row.visible ? 'eye' : 'eye-off'"
+              :icon="!props.row.hidden ? 'eye' : 'eye-off'"
               class="clickable-icon"
-              :class="{ 'not-visible': !props.row.visible }"
+              :class="{ 'not-visible': props.row.hidden }"
               @click.native="toggleVisibility(props.row)"
             ></b-icon>
           </span>
@@ -65,17 +64,9 @@
 import Vue from 'vue';
 import BaseTitle from '../components/BaseTitle.vue';
 import BaseSubtitle from '../components/BaseSubtitle.vue';
-import { Challenge } from '../models/challenge';
-import {
-  getChallenges,
-  deleteChallenge,
-  updateChallenge
-} from '../services/challenge.service';
-import {
-  sendAlert,
-  sendAlertWithVariables,
-  sendErrorAlert
-} from '../helpers/alerts.helper';
+import {Challenge} from '../models/challenge';
+import {deleteChallenge, getChallenges, updateChallenge} from '../services/challenge.service';
+import {sendAlert, sendAlertWithVariables, sendErrorAlert} from '../helpers/alerts.helper';
 
 /**
  * Challenges administration page

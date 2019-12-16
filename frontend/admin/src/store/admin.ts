@@ -50,7 +50,7 @@ const getters = {
  */
 function checkPermissions() {
   if (route.currentRoute.meta.requiresAuth === true) {
-    route.push(`/login`)
+    route.push(`/`)
   }
 }
 

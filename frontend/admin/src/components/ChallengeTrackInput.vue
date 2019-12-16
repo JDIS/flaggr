@@ -24,14 +24,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Track } from '../models/track';
+import {Track} from '@/models/track';
+import {getCategories} from '@/services/category.service';
+import {sendErrorAlert} from '@/helpers/alerts.helper';
 
 /**
  * Input for choosing a track from existing list or add new ones
  */
 export default Vue.extend({
   name: 'ChallengeTrackInput',
-  props: {},
+  props: {
+    challenge: Object
+  },
   data() {
     return {
       tracks: [] as Track[],
@@ -40,8 +44,19 @@ export default Vue.extend({
       currentInput: ''
     };
   },
+  watch: {
+    challenge(newVal, oldVal) {
+      this.selectedTrack = newVal.category
+      this.selectedName = newVal.category.name
+      this.currentInput = newVal.category.name
+    }
+  },
   created() {
-    this.tracks = [new Track(1, 'Bla'), new Track(2, 'Blablabla')]; // TODO: get from API
+    getCategories(this.$route.params.eventId)
+        .then((categories) => this.tracks = categories)
+        .catch((error) => {
+          sendErrorAlert('categories.get.error', error);
+        })
   },
   methods: {
     isInTrackList(name: string) {

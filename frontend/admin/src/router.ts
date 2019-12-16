@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter, {Route} from 'vue-router';
-import Home from './views/Home.vue';
 import store from '@/store'
 import {getEvents} from '@/services/event.service';
 import {Event} from '@/models/event';
@@ -13,15 +12,16 @@ const router = new VueRouter({
   linkActiveClass: 'is-active',
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
+      path: '/',
+      name: 'home',
+      meta: {},
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue')
     },
     {
       path: '/:eventId',
-      name: 'home',
+      name: 'eventHome',
       meta: { requiresAuth: true },
-      component: Home,
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue')
     },
     {
       path: '/:eventId/event',
@@ -76,6 +76,7 @@ function fetchEventsSetEventIfNeeded(to: Route, from: Route) {
         (event: Event) => event.id === parseInt(to.params.eventId, 0.4))
     store.dispatch('event/setEvent', currentEvent)
   }
+
 }
 
 /**
@@ -94,7 +95,7 @@ router.beforeEach((to, from, next) => {
           if (store.getters['admin/isConnected']) {
             next()
           } else {
-            next(`/login`)
+            next(`/`)
           }
         } else {
           next()

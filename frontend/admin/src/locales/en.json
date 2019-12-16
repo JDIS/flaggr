@@ -1,5 +1,5 @@
 {
-  "projectName": "Flags R US",
+  "projectName": "Flaggr",
   "cancel": "Cancel",
   "challenge.description": "Description",
   "challenge.flag": "Flag",
@@ -63,6 +63,7 @@
   "signin": "Sign in",
   "login.error": "Error during login: {error}",
   "pickEvent": "Choose an event",
-  "logout.error": "Error during logout: {error}"
+  "logout.error": "Error during logout: {error}",
+  "categories.get.error": "Error while fetching categories: {error}"
 
 }

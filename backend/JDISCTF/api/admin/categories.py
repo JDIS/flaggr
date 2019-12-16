@@ -5,7 +5,7 @@ from flask_rebar import errors
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import Administrator, Category, Event
 from JDISCTF.permission_wrappers import require_admin, require_admin_for_event
-from JDISCTF.schemas.admin import AdminCategorySchema, AdminCategoryRequestSchema
+from JDISCTF.schemas.admin import AdminCategoryRequestSchema, AdminCategorySchema
 
 
 @REGISTRY.handles(
@@ -14,8 +14,9 @@ from JDISCTF.schemas.admin import AdminCategorySchema, AdminCategoryRequestSchem
     response_body_schema=AdminCategorySchema(many=True)
 )
 @require_admin_for_event
-def get_admin_categories(_: Administrator, event_id: int):
+def get_admin_categories(current_admin: Administrator, event_id: int):
     """Get all the categories for a given event"""
+    # pylint: disable=unused-argument
     event = Event.query.filter_by(id=event_id).first()
 
     if event is None:

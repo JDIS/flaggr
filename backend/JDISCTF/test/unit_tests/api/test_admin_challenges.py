@@ -5,7 +5,7 @@ from flask_rebar import errors
 from pytest import fixture, raises
 
 from JDISCTF.api.admin import challenges
-from JDISCTF.models import Administrator, Category, Challenge, Event, EventAdministrator, Flag, Submission, Team, User
+from JDISCTF.models import Administrator, Category, Challenge, Event, EventAdministrator, Flag
 
 
 def local_patch(module: str):
@@ -69,6 +69,7 @@ A_CATEGORY = Category(id=0, event_id=A_EVENT.id, name="Category")
 A_CHALLENGE = Challenge(id=0, name="Challenge name", points=100, hidden=False, description="My description",
                         category=A_CATEGORY, category_id=A_CATEGORY.id)
 A_FLAG = Flag(id=None, challenge_id=A_CHALLENGE.id, is_regex=False, value="JDIS-FLAG")
+A_CHALLENGE.flags = [A_FLAG]
 
 class TestGetChallenge:
     @fixture(autouse=True)
@@ -76,7 +77,7 @@ class TestGetChallenge:
         challenge_mock.side_effect = lambda *args, **kwargs: Challenge(*args, **kwargs)
 
     def test_given_non_existent_challenge_id_should_raise_not_found_error(self, challenge_mock: MagicMock, flag_mock: MagicMock):
-        challenge_mock.query.filter_by.return_value.first.return_value = None
+        challenge_mock.query.filter_by.return_value.join.return_value.join.return_value.first.return_value = None
         flag_mock.query.filter_by.return_value.first.return_value = None
 
         with raises(errors.NotFound):
@@ -90,17 +91,17 @@ class TestGetChallenge:
             inspect.unwrap(challenges.get_admin_challenge)(ANOTHER_ADMINISTRATOR, 1)
 
     def test_should_return_challenge(self, challenge_mock: MagicMock, flag_mock: MagicMock):
-        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
+        challenge_mock.query.filter_by.return_value.join.return_value.join.return_value.first.return_value = A_CHALLENGE
         flag_mock.query.filter_by.return_value.all.return_value = A_FLAG
 
         result = inspect.unwrap(challenges.get_admin_challenge)(AN_ADMINISTRATOR, 1)
-        assert result == {"challenge": A_CHALLENGE, "flags": A_FLAG}
+        assert result == A_CHALLENGE
 
 
 class TestCreateChallenge:
-    REQUEST_BODY = {"name": "New challenge", "points": 100, "hidden": False, "description": "New Description", "category_id": 0}
+    REQUEST_BODY = {"name": "New challenge", "points": 100, "hidden": False, "description": "New Description", "category_id": 0, "flags": [{'value': 'JDIS-FLAG', 'is_regex': False}]}
     A_NEW_CHALLENGE = Challenge(id=None, name=REQUEST_BODY["name"], points=REQUEST_BODY["points"],hidden=REQUEST_BODY["hidden"],
-                                description=REQUEST_BODY["description"], category_id=REQUEST_BODY["category_id"])
+                                description=REQUEST_BODY["description"], category_id=REQUEST_BODY["category_id"], flags=[A_FLAG])
 
     @fixture(autouse=True)
     def _rebar_mock(self, rebar_mock: MagicMock):
@@ -135,7 +136,7 @@ class TestCreateChallenge:
     def test_given_blank_name_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock, rebar_mock: MagicMock):
         challenge_mock.query.filter_by.return_value.first.return_value = None
         rebar_mock.get_validated_body.return_value = \
-            {"name": "", "points": 100, "hidden": False, "description": "New Description", "category_id": 0}
+            {"name": "", "points": 100, "hidden": False, "description": "New Description", "category_id": 0, "flags": [{'value': 'JDIS-FLAG', 'is_regex': False}]}
 
         with raises(errors.UnprocessableEntity):
             inspect.unwrap(challenges.create_challenge)(AN_ADMINISTRATOR)
@@ -143,7 +144,7 @@ class TestCreateChallenge:
     def test_given_negative_points_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock, rebar_mock: MagicMock):
         challenge_mock.query.filter_by.return_value.first.return_value = None
         rebar_mock.get_validated_body.return_value = \
-            {"name": "A Name", "points": -1, "hidden": False, "description": "New Description", "category_id": 0}
+            {"name": "A Name", "points": -1, "hidden": False, "description": "New Description", "category_id": 0, "flags": [{'value': 'JDIS-FLAG', 'is_regex': False}]}
 
         with raises(errors.UnprocessableEntity):
             inspect.unwrap(challenges.create_challenge)(AN_ADMINISTRATOR)
@@ -160,12 +161,13 @@ class TestCreateChallenge:
         challenge_mock.query.filter_by.return_value.first.return_value = None
 
         result = inspect.unwrap(challenges.create_challenge)(AN_ADMINISTRATOR)
-        assert result == {"challenge": self.A_NEW_CHALLENGE}
+        assert result == self.A_NEW_CHALLENGE
+
 
 class TestEditChallenge:
-    REQUEST_BODY = {"name": "Edited challenge", "points": 999, "hidden": True, "description": "Edited Description", "category_id": 1}
+    REQUEST_BODY = {"name": "Edited challenge", "points": 999, "hidden": True, "description": "Edited Description", "category_id": 1, "flags": [{'value': 'JDIS-FLAG', 'is_regex': False}]}
     AN_EDITED_CHALLENGE = Challenge(id=0, name=REQUEST_BODY["name"], points=REQUEST_BODY["points"],hidden=REQUEST_BODY["hidden"],
-                                    description=REQUEST_BODY["description"], category_id=REQUEST_BODY["category_id"])
+                                    description=REQUEST_BODY["description"], category_id=REQUEST_BODY["category_id"], flags=[A_FLAG])
 
     @fixture(autouse=True)
     def _rebar_mock(self, rebar_mock: MagicMock):
@@ -201,7 +203,7 @@ class TestEditChallenge:
     def test_given_blank_name_should_raise_unprocessable_entity_error(self, challenge_mock: MagicMock, rebar_mock: MagicMock):
         challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, None]
         rebar_mock.get_validated_body.return_value = \
-            {"name": "", "points": 999, "hidden": True, "description": "Edited Description", "category_id": 1}
+            {"name": "", "points": 999, "hidden": True, "description": "Edited Description", "category_id": 1, "flags": [{'value': 'JDIS-FLAG', 'is_regex': False}]}
 
         with raises(errors.UnprocessableEntity):
             inspect.unwrap(challenges.edit_challenge)(AN_ADMINISTRATOR, 1)
@@ -216,7 +218,7 @@ class TestEditChallenge:
         challenge_mock.query.filter_by.return_value.first.side_effect = [A_CHALLENGE, None]
 
         rebar_mock.get_validated_body.return_value = \
-            {"name": "Edited challenge", "points": -1, "hidden": True, "description": "Edited Description", "category_id": 1}
+            {"name": "Edited challenge", "points": -1, "hidden": True, "description": "Edited Description", "category_id": 1, "flags": [{'value': 'JDIS-FLAG', 'is_regex': False}]}
 
         with raises(errors.UnprocessableEntity):
             inspect.unwrap(challenges.edit_challenge)(AN_ADMINISTRATOR, 1)
@@ -235,7 +237,8 @@ class TestEditChallenge:
 
         result = inspect.unwrap(challenges.edit_challenge)(AN_ADMINISTRATOR, 1)
 
-        assert result == {"challenge": self.AN_EDITED_CHALLENGE}
+        assert result == self.AN_EDITED_CHALLENGE
+
 
 class TestDeleteChallenge:
     @fixture(autouse=True)
@@ -250,10 +253,10 @@ class TestDeleteChallenge:
 
     def test_should_delete_challenge(self, db_mock: MagicMock, challenge_mock: MagicMock, flag_mock: MagicMock, submission_mock: MagicMock):
         challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
-        flag_mock.query.filter_by.return_value.all.return_value = None
-        submission_mock.query.filter_by.return_value.all.return_value = None
+        flag_mock.query.filter_by.return_value.all.return_value = []
+        submission_mock.query.filter_by.return_value.all.return_value = []
         inspect.unwrap(challenges.delete_challenge)(AN_ADMINISTRATOR, 1)
 
-        calls = [call(A_CHALLENGE), call(None), call(None)]
+        calls = [call(A_CHALLENGE)]
         db_mock.session.delete.assert_has_calls(calls)
         db_mock.session.commit.assert_called_once()
