@@ -38,7 +38,7 @@ export async function createChallenge(challenge: Challenge): Promise<void> {
   return axios.post('admin/challenges', {
     category_id: challenge.category!.id,
     description: challenge.description,
-    hidden: !challenge.visible,
+    hidden: challenge.hidden,
     name: challenge.name,
     points: challenge.points,
     flags: challenge.flags
@@ -54,9 +54,27 @@ export async function updateChallenge(challenge: Challenge): Promise<void> {
   return axios.put(`admin/challenges/${challenge.id}`, {
     category_id: challenge.category!.id,
     description: challenge.description,
-    hidden: !challenge.visible,
+    hidden: challenge.hidden,
     name: challenge.name,
     points: challenge.points,
     flags: challenge.flags
   });
+}
+
+/**
+ * Make a challenge visible
+ * @param id of the Challenge to update
+ * @return if the challenge was successfully updated
+ */
+export async function makeChallengeVisible(id: number): Promise<void> {
+  return axios.put(`admin/challenges/${id}/makeVisible`);
+}
+
+/**
+ * Make a challenge hidden
+ * @param id of the Challenge to update
+ * @return if the challenge was successfully updated
+ */
+export async function makeChallengeHidden(id: number): Promise<void> {
+  return axios.put(`admin/challenges/${id}/makeHidden`);
 }

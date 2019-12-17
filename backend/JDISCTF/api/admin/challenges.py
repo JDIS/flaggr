@@ -189,3 +189,55 @@ def delete_challenge(current_admin: Administrator, challenge_id: int):
     DB.session.commit()
 
     return ""
+
+
+@REGISTRY.handles(
+    rule="/admin/challenges/<int:challenge_id>/makeVisible",
+    method="PUT",
+    response_body_schema=GenericMessageSchema()
+)
+@require_admin
+def make_challenge_visible(current_admin: Administrator, challenge_id: int):
+    """
+        Make a challenge visible
+    """
+
+    challenge = Challenge.query.filter_by(id=challenge_id).first()
+
+    if challenge is None:
+        raise errors.UnprocessableEntity("This challenge does not exist.")
+
+    if not current_admin.is_admin_of_event(challenge.category.event_id):
+        raise errors.Unauthorized("You do not have the permission to administer this challenge.")
+
+    challenge.hidden = False
+
+    DB.session.commit()
+
+    return {"name": "OK"}
+
+
+@REGISTRY.handles(
+    rule="/admin/challenges/<int:challenge_id>/makeHidden",
+    method="PUT",
+    response_body_schema=GenericMessageSchema()
+)
+@require_admin
+def make_challenge_hidden(current_admin: Administrator, challenge_id: int):
+    """
+        Make a challenge hidden
+    """
+
+    challenge = Challenge.query.filter_by(id=challenge_id).first()
+
+    if challenge is None:
+        raise errors.UnprocessableEntity("This challenge does not exist.")
+
+    if not current_admin.is_admin_of_event(challenge.category.event_id):
+        raise errors.Unauthorized("You do not have the permission to administer this challenge.")
+
+    challenge.hidden = True
+
+    DB.session.commit()
+
+    return {"name": "OK"}

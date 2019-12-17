@@ -64,9 +64,15 @@
 import Vue from 'vue';
 import BaseTitle from '../components/BaseTitle.vue';
 import BaseSubtitle from '../components/BaseSubtitle.vue';
-import {Challenge} from '../models/challenge';
-import {deleteChallenge, getChallenges, updateChallenge} from '../services/challenge.service';
-import {sendAlert, sendAlertWithVariables, sendErrorAlert} from '../helpers/alerts.helper';
+import {Challenge} from '@/models/challenge';
+import {
+  deleteChallenge,
+  getChallenges,
+  makeChallengeHidden,
+  makeChallengeVisible,
+  updateChallenge
+} from '@/services/challenge.service';
+import {sendAlert, sendAlertWithVariables, sendErrorAlert} from '@/helpers/alerts.helper';
 
 /**
  * Challenges administration page
@@ -108,11 +114,17 @@ export default Vue.extend({
      */
     async toggleVisibility(challenge: Challenge) {
       try {
-        challenge.visible = !challenge.visible;
-        await updateChallenge(challenge);
-        const text = challenge.visible
-          ? 'challenges.visible.success'
-          : 'challenges.hidden.success';
+        let text
+        if (!challenge.hidden) {
+          await makeChallengeHidden(challenge.id)
+          text = 'challenges.hidden.success'
+          challenge.hidden = true;
+
+        } else {
+          await makeChallengeVisible(challenge.id)
+          text = 'challenges.visible.success'
+          challenge.hidden = false;
+        }
         sendAlertWithVariables(text, { name: challenge.name }, { type: 'is-success'});
       } catch (error) {
         sendErrorAlert('challenges.update.error', error);
