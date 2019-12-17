@@ -71,6 +71,8 @@
   "event.updated": "Event updated!",
   "event.update.error": "Error while updating event: {error}",
   "createEvent.error": "Error while creating an event: {error}",
-  "category.create.error": "Error while creating a category: {error}"
+  "category.create.error": "Error while creating a category: {error}",
+  "event.teams": "Teams",
+  "event.teams.tooltip": "If the event is in teams (or solo)."
 
 }
