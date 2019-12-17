@@ -71,7 +71,9 @@ export default Vue.extend({
     selectAll(): void {
       this.showAll = true;
       this.visibleTracks = this.tracks;
-      this.onChange();
+      if (this.visibleTracks.length > 1) {
+        this.onChange();
+      }
     },
 
     isSelected(track: Track): boolean {
