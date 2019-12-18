@@ -4,9 +4,9 @@ from unittest.mock import MagicMock, patch
 from flask_rebar import errors
 from pytest import fixture, raises
 
-from JDISCTF.models import Administrator, Event, EventAdministrator
+from JDISCTF.models import Administrator, Category, Challenge, Event, EventAdministrator
 from JDISCTF.permission_wrappers import require_admin, require_admin_for_event, \
-    require_admin_with_role, require_event, require_open_event
+    require_admin_with_role, require_event, require_open_event, require_open_event_for_challenge
 
 
 def local_patch(module: str):
@@ -24,6 +24,11 @@ def event_mock():
     with local_patch('Event') as mock:
         yield mock
 
+@fixture
+def challenge_mock():
+    with local_patch('Challenge') as mock:
+        yield mock
+
 
 @fixture
 def administrator_mock():
@@ -32,9 +37,13 @@ def administrator_mock():
 
 
 AN_EVENT_ID = 1
-AN_EVENT = Event(id=AN_EVENT_ID, name='', teams=True, is_visible=True)
+AN_EVENT = Event(id=AN_EVENT_ID, name='', teams=True, is_visible=True, is_open=True)
 A_CLOSED_EVENT = Event(id=AN_EVENT_ID, name='', teams=True, is_visible=True, is_open=False)
-AN_INVISIBLE_EVENT = Event(id=AN_EVENT_ID, name='', teams=True, is_visible=False)
+AN_INVISIBLE_EVENT = Event(id=AN_EVENT_ID, name='', teams=True, is_visible=False, is_open=False)
+A_CATEGORY_WITH_INVISIBLE_EVENT = Category(event_id=AN_INVISIBLE_EVENT, name="event invisible")
+A_CATEGORY = Category(event_id=AN_EVENT, name="event invisible")
+A_CHALLENGE_WITH_INVISIBLE_EVENT = Challenge(id=1, name='A chall', category_id=A_CATEGORY_WITH_INVISIBLE_EVENT.id, category=A_CATEGORY_WITH_INVISIBLE_EVENT)
+A_CHALLENGE = Challenge(id=1, name='A chall2', category_id=A_CATEGORY_WITH_INVISIBLE_EVENT.id, category=A_CATEGORY_WITH_INVISIBLE_EVENT)
 AN_ADMINISTRATOR = Administrator(id=0, is_platform_admin=True, user_id=0)
 ANOTHER_ADMINISTRATOR = Administrator(id=1, is_platform_admin=False, user_id=1)
 
@@ -105,8 +114,13 @@ class TestRequireEvent:
             require_event(NOP)(event_id=AN_EVENT_ID)
 
     def test_given_an_event_id_should_return_event(self, event_mock: MagicMock):
-        event_mock.query.filter_by.return_value.first.return_value = AN_EVENT
+        event_mock.query.filter_by.return_value.first.return_value = A_CLOSED_EVENT
         kwargs = require_event(NOP)(event_id=AN_EVENT_ID)
+        assert kwargs['event'] == A_CLOSED_EVENT
+
+    def test_given_an_event_id_should_return_event_open(self, event_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = AN_EVENT
+        kwargs = require_open_event(NOP)(event_id=AN_EVENT_ID)
         assert kwargs['event'] == AN_EVENT
 
     def test_given_a_closed_event_should_return_forbidden(self, event_mock: MagicMock):
@@ -114,6 +128,44 @@ class TestRequireEvent:
 
         with raises(errors.Forbidden):
             require_open_event(NOP)(event_id=AN_EVENT_ID)
+
+
+class TestRequireOpenEventForChallenge:
+    @fixture(autouse=True)
+    def _event_mock(self, event_mock: MagicMock):
+        event_mock.query.return_value.filter_by.return_value.first.return_value = AN_EVENT
+        yield event_mock
+
+    def test_given_no_challenge_id_should_raise_bad_request(self):
+        with raises(errors.BadRequest):
+            require_open_event_for_challenge(NOP)()
+
+    def test_given_invalid_challenge_id_should_raise_not_found(self, challenge_mock: MagicMock):
+        challenge_mock.query.filter_by.return_value.first.return_value = None
+
+        with raises(errors.NotFound):
+            require_open_event_for_challenge(NOP)(challenge_id=999)
+
+    def test_given_challenge_with_invisible_event_should_raise_not_found(self, event_mock: MagicMock, challenge_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = AN_INVISIBLE_EVENT
+        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE_WITH_INVISIBLE_EVENT
+
+        with raises(errors.NotFound):
+            require_open_event_for_challenge(NOP)(challenge_id=1)
+
+    def test_given_challenge_with_closed_event_should_raise_forbidden(self, event_mock: MagicMock, challenge_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = A_CLOSED_EVENT
+        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
+
+        with raises(errors.Forbidden):
+            require_open_event_for_challenge(NOP)(challenge_id=1)
+
+    def test_should_inject_event_and_challenge(self, event_mock: MagicMock, challenge_mock: MagicMock):
+        event_mock.query.filter_by.return_value.first.return_value = AN_EVENT
+        challenge_mock.query.filter_by.return_value.first.return_value = A_CHALLENGE
+        kwargs = require_open_event_for_challenge(NOP)(challenge_id=1)
+        assert kwargs['event'] == AN_EVENT
+        assert kwargs['challenge'] == A_CHALLENGE
 
 
 class TestRequireAdminWithRole:

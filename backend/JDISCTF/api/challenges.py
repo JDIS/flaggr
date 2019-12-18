@@ -8,7 +8,8 @@ from sqlalchemy.orm import contains_eager
 
 from JDISCTF.app import DB, REGISTRY
 from JDISCTF.models import Category, Challenge, Event, Flag, Submission
-from JDISCTF.permission_wrappers import require_event
+from JDISCTF.permission_wrappers import require_open_event, \
+    require_open_event_for_challenge
 from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema, SubmitFlagSchema, \
     UserChallengeSchema
 
@@ -18,13 +19,10 @@ from JDISCTF.schemas import ChallengeByCategorySchema, SubmitFlagResponseSchema,
     method="GET",
     response_body_schema=UserChallengeSchema(many=True)
 )
-def get_all_challenges_for_event(event_id: int):
+@require_open_event
+def get_all_challenges_for_event(event: Event):
     # pylint: disable=singleton-comparison
     """Get all the challenges for a given event"""
-    event = Event.query.filter_by(id=event_id).first()
-
-    if event is None:
-        raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
     completed_stmt = Submission.query \
         .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True) \
@@ -32,7 +30,7 @@ def get_all_challenges_for_event(event_id: int):
         .label('completed')
 
     challenges = DB.session.query(Challenge, completed_stmt).join(Category).join(Event) \
-        .filter(Event.id == event_id, Challenge.hidden == False).all()
+        .filter(Event.id == event.id, Challenge.hidden == False).all()
 
     for challenge in challenges:
         challenge.Challenge.completed = challenge[1]
@@ -41,35 +39,11 @@ def get_all_challenges_for_event(event_id: int):
 
 
 @REGISTRY.handles(
-    rule="/challenges/<int:challenge_id>",
-    method="GET",
-    response_body_schema=UserChallengeSchema()
-)
-def get_challenge(challenge_id: int):
-    # pylint: disable=singleton-comparison
-    """Get a single challenge by its id"""
-    completed_stmt = Submission.query \
-        .filter(Submission.challenge_id == Challenge.id, Submission.is_correct == True) \
-        .exists() \
-        .label('completed')
-
-    challenge = DB.session.query(Challenge, completed_stmt) \
-        .filter_by(id=challenge_id, hidden=False).first()
-
-    if challenge is None:
-        raise errors.NotFound(f'Challenge with id "{challenge_id}" not found.')
-
-    challenge.Challenge.completed = challenge[1]
-
-    return challenge.Challenge
-
-
-@REGISTRY.handles(
     rule="/event/<int:event_id>/challenges/by-category",
     method="GET",
     response_body_schema=ChallengeByCategorySchema(many=True)
 )
-@require_event
+@require_open_event
 def get_all_challenges_by_category_for_event(event: Event):
     # pylint: disable=singleton-comparison
     """Get all the challenges for an event, grouped by category"""
@@ -91,12 +65,9 @@ def get_all_challenges_by_category_for_event(event: Event):
     request_body_schema=SubmitFlagSchema(),
     response_body_schema=SubmitFlagResponseSchema()
 )
-def submit_flag(challenge_id: int):
+@require_open_event_for_challenge
+def submit_flag(challenge: Challenge, event: Event):
     """Submit a flag for a given challenge"""
-    challenge = Challenge.query.filter_by(hidden=False, id=challenge_id).first()
-
-    if challenge is None:
-        raise errors.NotFound(f'Challenge with id "{challenge_id}" not found.')
 
     body = flask_rebar.get_validated_body()
     submitted_flag = body["flag"]
@@ -106,18 +77,13 @@ def submit_flag(challenge_id: int):
     if team is None:
         raise errors.NotFound(f'Current user has no team.')
 
-    challenge_event_id = DB.session.query(Category.event_id) \
-        .join(Category.challenges) \
-        .filter(Challenge.id == challenge_id) \
-        .first()[0]
-
-    if challenge_event_id != team.event_id:
+    if event.id != team.event_id:
         raise errors.UnprocessableEntity(
-            f'Team "{team.name}" and challenge "{challenge_id}" are not part of the same event')
+            f'Team "{team.name}" and challenge "{challenge.id}" are not part of the same event')
 
-    submission = Submission(team_id=team.id, challenge_id=challenge_id, input=submitted_flag)
+    submission = Submission(team_id=team.id, challenge_id=challenge.id, input=submitted_flag)
 
-    flags = Flag.query.filter_by(challenge_id=challenge_id).all()
+    flags = Flag.query.filter_by(challenge_id=challenge.id).all()
 
     is_correct = any(validate_flag(x, submitted_flag) for x in flags)
     submission.is_correct = is_correct

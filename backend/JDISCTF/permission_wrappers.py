@@ -6,7 +6,7 @@ import functools
 from flask_login import current_user
 from flask_rebar import errors
 
-from JDISCTF.models import Administrator, Event
+from JDISCTF.models import Administrator, Challenge, Event
 
 
 def require_participant(func):
@@ -22,7 +22,7 @@ def require_participant(func):
 
         kwargs['current_participant'] = current_participant
         return func(*args, **kwargs)
-
+    wrapper.func = func  # To bypass decorator in unit testing
     return wrapper
 
 
@@ -50,7 +50,7 @@ def require_admin_for_event(func):
         event_id = kwargs['event_id']
         kwargs['current_admin'] = validate_and_get_current_admin_for_event(event_id)
         return func(*args, **kwargs)
-
+    wrapper.func = func  # To bypass decorator in unit testing
     return wrapper
 
 
@@ -68,7 +68,7 @@ def require_admin_with_role(func, event_id: int, role: str):
 
         kwargs['current_admin'] = current_admin
         return func(*args, **kwargs)
-
+    wrapper.func = func  # To bypass decorator in unit testing
     return wrapper
 
 
@@ -85,7 +85,7 @@ def require_admin(func):
 
         kwargs['current_admin'] = current_admin
         return func(*args, **kwargs)
-
+    wrapper.func = func  # To bypass decorator in unit testing
     return wrapper
 
 
@@ -113,8 +113,14 @@ def require_event(func):
         kwargs['event'] = event
         del kwargs['event_id']
         return func(*args, **kwargs)
-
+    wrapper.func = func  # To bypass decorator in unit testing
     return wrapper
+
+
+def check_open_event(event: Event):
+    """Return a 403 error if the given event in not open."""
+    if not event.is_open:
+        raise errors.Forbidden('The event is not open.')
 
 
 def require_open_event(func):
@@ -129,11 +135,40 @@ def require_open_event(func):
             raise errors.BadRequest('The request requires an event ID')
         event = validate_and_get_current_event(kwargs['event_id'])
 
-        if not event.is_open:
-            raise errors.Forbidden('The event is not open.')
+        check_open_event(event)
 
         kwargs['event'] = event
         del kwargs['event_id']
         return func(*args, **kwargs)
+    wrapper.func = func  # To bypass decorator in unit testing
+    return wrapper
 
+
+def require_open_event_for_challenge(func):
+    """
+    Decorator that fetches the current event by going through the given challenge_id. Requires a 'challenge_id' int
+    in the request, or a 400 Bad Request is returned. The event must also be visible. It must also
+    be open. Injects the 'challenge' kwarg onto the function and deletes the challenge_id arg.
+    Also injects the 'event' kwarg.
+    """
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'challenge_id' not in kwargs:
+            raise errors.BadRequest('The request requires a challenge ID')
+        challenge = Challenge.query.filter_by(id=kwargs['challenge_id']).first()
+
+        if challenge is None:
+            raise errors.NotFound(f'The challenge with id {kwargs["challenge_id"]} was not found')
+
+        event = Event.query.filter_by(id=challenge.category.event_id).first()
+        if event is None or not event.is_visible:
+            raise errors.NotFound(f"Event with ID {event.id} not found.")
+
+        check_open_event(event)
+
+        kwargs['challenge'] = challenge
+        kwargs['event'] = event
+        del kwargs['challenge_id']
+        return func(*args, **kwargs)
+    wrapper.func = func  # To bypass decorator in unit testing
     return wrapper
