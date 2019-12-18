@@ -67,7 +67,7 @@ export async function updateChallenge(challenge: Challenge): Promise<void> {
  * @return if the challenge was successfully updated
  */
 export async function makeChallengeVisible(id: number): Promise<void> {
-  return axios.put(`admin/challenges/${id}/makeVisible`);
+  return axios.put(`admin/challenges/${id}/make_visible`);
 }
 
 /**
@@ -76,5 +76,5 @@ export async function makeChallengeVisible(id: number): Promise<void> {
  * @return if the challenge was successfully updated
  */
 export async function makeChallengeHidden(id: number): Promise<void> {
-  return axios.put(`admin/challenges/${id}/makeHidden`);
+  return axios.put(`admin/challenges/${id}/make_hidden`);
 }
