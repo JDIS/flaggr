@@ -89,6 +89,16 @@ def require_admin(func):
     return wrapper
 
 
+def validate_and_get_current_event(event_id: int):
+    """
+    Check if event with id event_id exists and that the event is visible. If not, return a 404 error.
+    """
+    event = Event.query.filter_by(id=event_id).first()
+    if event is None or not event.is_visible:
+        raise errors.NotFound(f"Event with ID {event_id} not found.")
+    return event
+
+
 def require_event(func):
     """
     Decorator that fetches the current event by parsing the URL. Requires an 'event_id' int
@@ -98,9 +108,29 @@ def require_event(func):
     def wrapper(*args, **kwargs):
         if 'event_id' not in kwargs:
             raise errors.BadRequest('The request requires an event ID')
-        event = Event.query.filter_by(id=kwargs['event_id']).first()
-        if event is None or not event.is_visible:
-            raise errors.NotFound(f"Event with ID {kwargs['event_id']} not found.")
+        event = validate_and_get_current_event(kwargs['event_id'])
+
+        kwargs['event'] = event
+        del kwargs['event_id']
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+def require_open_event(func):
+    """
+    Decorator that fetches the current event by parsing the URL. Requires an 'event_id' int
+    in the request, or a 400 Bad Request is returned. The event must also be visible. It must also
+    be opened
+    """
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'event_id' not in kwargs:
+            raise errors.BadRequest('The request requires an event ID')
+        event = validate_and_get_current_event(kwargs['event_id'])
+
+        if not event.is_open:
+            raise errors.Forbidden('The event is not open.')
 
         kwargs['event'] = event
         del kwargs['event_id']
