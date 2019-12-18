@@ -192,7 +192,7 @@ def delete_challenge(current_admin: Administrator, challenge_id: int):
 
 
 @REGISTRY.handles(
-    rule="/admin/challenges/<int:challenge_id>/makeVisible",
+    rule="/admin/challenges/<int:challenge_id>/make_visible",
     method="PUT",
     response_body_schema=GenericMessageSchema()
 )
@@ -216,7 +216,7 @@ def make_challenge_visible(current_admin: Administrator, challenge_id: int):
 
 
 @REGISTRY.handles(
-    rule="/admin/challenges/<int:challenge_id>/makeHidden",
+    rule="/admin/challenges/<int:challenge_id>/make_hidden",
     method="PUT",
     response_body_schema=GenericMessageSchema()
 )
