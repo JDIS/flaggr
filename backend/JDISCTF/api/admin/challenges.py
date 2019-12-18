@@ -198,9 +198,7 @@ def delete_challenge(current_admin: Administrator, challenge_id: int):
 )
 @require_admin
 def make_challenge_visible(current_admin: Administrator, challenge_id: int):
-    """
-        Make a challenge visible
-    """
+    """Make a challenge visible"""
 
     challenge = Challenge.query.filter_by(id=challenge_id).first()
 
@@ -224,9 +222,7 @@ def make_challenge_visible(current_admin: Administrator, challenge_id: int):
 )
 @require_admin
 def make_challenge_hidden(current_admin: Administrator, challenge_id: int):
-    """
-        Make a challenge hidden
-    """
+    """Make a challenge hidden"""
 
     challenge = Challenge.query.filter_by(id=challenge_id).first()
 
