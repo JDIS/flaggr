@@ -1,4 +1,4 @@
-"""Categories routes"""
+"""Events routes"""
 import flask_rebar
 from flask_rebar import errors
 
