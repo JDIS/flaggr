@@ -9,7 +9,7 @@
     </div>
     <bottom-bar>
       <b-button :class="`is-${color}`" @click="save">{{ $t('save') }}</b-button>
-      <router-link to="/event">
+      <router-link :to="{name: 'event'}">
         <b-button class="is-light">{{ $t('cancel') }}</b-button>
       </router-link>
     </bottom-bar>
