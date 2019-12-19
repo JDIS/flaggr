@@ -93,7 +93,7 @@ def register_participant(event: Event):
     user = User(email=email, username=username)
     user.set_password(password)
 
-    participant = Participant(event_id=event.id, user_id=user.id, user=user)
+    participant = Participant(event_id=event.id, user=user)
 
     DB.session.add(participant)
 
@@ -104,9 +104,6 @@ def register_participant(event: Event):
 
         DB.session.add(team)
 
-    DB.session.commit()
-    participant = Participant(event_id=event_id, user_id=user.id)
-    DB.session.add(participant)
     DB.session.commit()
 
     login_user(participant.user, remember=True)
