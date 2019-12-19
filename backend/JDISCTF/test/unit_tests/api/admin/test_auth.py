@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 from flask_rebar import errors
-from pytest import raises, fixture
+from pytest import fixture, raises
 
 from JDISCTF.api.admin.auth import login_administrator, register_administrator
 from JDISCTF.models import Administrator, User
@@ -9,12 +9,6 @@ from JDISCTF.models import Administrator, User
 
 def local_patch(module: str):
     return patch('JDISCTF.api.admin.auth.' + module)
-
-
-@fixture
-def current_user_mock():
-    with local_patch('current_user') as mock:
-        yield mock
 
 
 @fixture
@@ -34,11 +28,6 @@ AN_ADMINISTRATOR = Administrator(id=0, is_platform_admin=False, user_id=0)
 
 
 class TestLogin:
-    @fixture(autouse=True)
-    def _current_user_mock(self, current_user_mock: MagicMock):
-        current_user_mock.is_authenticated = False
-        current_user_mock.get_administrator.return_value = AN_ADMINISTRATOR
-        yield current_user_mock
 
     @fixture(autouse=True)
     def _user_mock(self, user_mock: MagicMock):
@@ -60,21 +49,6 @@ class TestLogin:
     def login_user_mock(self):
         with local_patch('login_user') as mock:
             yield mock
-
-    def test_given_user_not_authenticated_as_administrator_should_raise_unauthorized(self,
-                                                                                     _current_user_mock: MagicMock):
-        _current_user_mock.is_authenticated = True
-        _current_user_mock.get_administrator.return_value = None
-
-        with raises(errors.Unauthorized):
-            login_administrator()
-
-    def test_given_user_authenticated_as_administrator_should_return_current_admin(self,
-                                                                                   _current_user_mock: MagicMock):
-        _current_user_mock.is_authenticated = True
-        _current_user_mock.get_administrator.return_value = AN_ADMINISTRATOR
-
-        assert login_administrator() == AN_ADMINISTRATOR
 
     def test_given_invalid_email_should_raise_unprocessable_entity(self, user_mock: MagicMock):
         user_mock.query.filter_by.return_value.first.return_value = None

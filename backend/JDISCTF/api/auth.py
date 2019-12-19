@@ -1,7 +1,7 @@
 """Authentication routes"""
 
 import flask_rebar
-from flask_login import current_user, login_user, logout_user
+from flask_login import login_user, logout_user
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
@@ -66,9 +66,6 @@ def register_participant(event: Event):
     email = body["email"]
     username = body["username"]
     password = body["password"]
-
-    # FIXMEÉTIENNE: event_id should be sourced from the link.
-    event_id = 0
 
     # Validate user uniqueness constraint.
     user = User.query.filter_by(email=email).first()

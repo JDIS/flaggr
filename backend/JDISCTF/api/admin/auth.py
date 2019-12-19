@@ -1,12 +1,12 @@
 """Authentication routes for administration"""
 
 import flask_rebar
-from flask_login import current_user, login_user
+from flask_login import login_user
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.models import User, Administrator
-from JDISCTF.schemas import CreateUserSchema, LoginSchema, AdministratorSchema
+from JDISCTF.models import Administrator, User
+from JDISCTF.schemas import AdministratorSchema, CreateUserSchema, LoginSchema
 
 
 @REGISTRY.handles(
