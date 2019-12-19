@@ -20,11 +20,6 @@ from JDISCTF.schemas import CreateUserSchema, GenericMessageSchema, LoginSchema,
 @require_event
 def login(event: Event):
     """Login a participant"""
-    if current_user.is_authenticated:
-        participant = current_user.get_participant()
-        if participant is None:
-            raise errors.Unauthorized("You must be a participant to access this resource.")
-        return current_user.get_participant()
 
     body = flask_rebar.get_validated_body()
     email = body["email"]
