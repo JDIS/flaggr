@@ -64,6 +64,13 @@
   "login.error": "Error during login: {error}",
   "pickEvent": "Choose an event",
   "logout.error": "Error during logout: {error}",
-  "categories.get.error": "Error while fetching categories: {error}"
+  "categories.get.error": "Error while fetching categories: {error}",
+  "pageTitle.home": "Home - Admin",
+  "pageTitle.eventHome": "Home - Admin",
+  "pageTitle.event": "Event - Admin",
+  "pageTitle.challenges": "Challenges - Admin",
+  "pageTitle.edit-challenges": "Edit a challenge - Admin",
+  "pageTitle.new-challenges": "Create a challenge - Admin",
+  "pageTitle.participants": "Participants - Admin"
 
 }
