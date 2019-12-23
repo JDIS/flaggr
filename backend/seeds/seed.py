@@ -1,11 +1,13 @@
 """Database seeding script and utilities"""
 
+import os
+import secrets
 from typing import Generic, List, TypeVar
 
 from JDISCTF.app import DB
-from JDISCTF.models import User
-from seeds import categories, challenges, events, flags, submissions, teams, users, participants, team_members, admins,\
-    event_administrators
+from JDISCTF.models import Administrator, User
+from seeds import admins, categories, challenges, event_administrators, events, flags, participants, \
+    submissions, team_members, teams, users
 
 ModelType = TypeVar('ModelType', bound=DB.Model)
 ValueType = TypeVar('ValueType', str, int, bool, float)
@@ -38,23 +40,57 @@ class Seeder:
         """Perform seeding for all the tables"""
 
         print(f'Database URL: {DB.engine.url}')
+        print(f'Environment: {os.environ.get("FLASK_ENV")}')
 
-        db_events = self.seed_table(events.get_records(), events.FILTER_ARGS)
-        db_categories = self.seed_table(categories.get_records(db_events), categories.FILTER_ARGS)
-        db_challenges = self.seed_table(challenges.get_records(db_categories),
-                                        challenges.FILTER_ARGS)
-        self.seed_table(flags.get_records(db_challenges), flags.FILTER_ARGS)
-        db_teams = self.seed_table(teams.get_records(db_events), teams.FILTER_ARGS)
-        self.seed_table(submissions.get_records(db_challenges, db_teams), submissions.FILTER_ARGS)
+        if os.environ.get('FLASK_ENV') == 'development':
 
-        db_users = seed_users(users.get_records(db_events))
+            db_events = self.seed_table(events.get_records_dev(), events.FILTER_ARGS)
+            db_categories = self.seed_table(categories.get_records_dev(db_events), categories.FILTER_ARGS)
+            db_challenges = self.seed_table(challenges.get_records_dev(db_categories),
+                                            challenges.FILTER_ARGS)
+            self.seed_table(flags.get_records_dev(db_challenges), flags.FILTER_ARGS)
+            db_teams = self.seed_table(teams.get_records_dev(db_events), teams.FILTER_ARGS)
+            self.seed_table(submissions.get_records_dev(db_challenges, db_teams), submissions.FILTER_ARGS)
 
-        db_participants = self.seed_table(participants.get_records(db_users, db_events), participants.FILTER_ARGS)
+            db_users = seed_users(users.get_records_dev(db_events))
 
-        self.seed_table(team_members.get_records(db_teams, db_participants), team_members.FILTER_ARGS)
+            db_participants = self.seed_table(participants.get_records_dev(db_users, db_events),
+                                              participants.FILTER_ARGS)
 
-        db_admins = self.seed_table(admins.get_records(db_users), admins.FILTER_ARGS)
-        self.seed_table(event_administrators.get_records(db_admins, db_events), event_administrators.FILTER_ARGS)
+            self.seed_table(team_members.get_records_dev(db_teams, db_participants), team_members.FILTER_ARGS)
+
+            db_admins = self.seed_table(admins.get_records_dev(db_users), admins.FILTER_ARGS)
+            self.seed_table(event_administrators.get_records_dev(db_admins, db_events),
+                            event_administrators.FILTER_ARGS)
+
+        elif os.environ.get('FLASK_ENV') == "production":
+            admin_list = Administrator.query.all()
+            if len(admin_list) == 0:
+                admin_email = 'admin@admin.com'
+                admin_password = secrets.token_hex()
+                admin_user = User(id=0, email=admin_email, username='admin')
+                print("")
+                print("")
+                print("")
+                print("==================================================================")
+                print("========================ADMIN EMAIL===============================")
+                print(admin_email)
+                print("=======================ADMIN PASSWORD=============================")
+                print(admin_password)
+                print("=======================ADMIN PASSWORD=============================")
+                print("========TAKE NOTE OF THIS, IT WON'T BE PRINTED ANOTHER TIME=======")
+                print("==================================================================")
+                print("")
+                print("")
+                print("")
+                admin_user.set_password(admin_password)
+
+                admin_admin = Administrator(id=0, is_platform_admin=True, user=admin_user)
+
+                DB.session.add(admin_admin)
+                DB.session.commit()
+            else:
+                print("There is already an admin, not seeding another admin.")
 
         print('Seeding done successfully')
 

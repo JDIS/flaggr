@@ -1,10 +1,10 @@
 """EventAdministrators seeding data"""
 
-from JDISCTF.models import Event, Administrator, EventAdministrator
+from JDISCTF.models import Administrator, Event, EventAdministrator
 
 
-def get_records(admins: [Administrator], events: [Event]):
-    """Get the records to add to the database"""
+def get_records_dev(admins: [Administrator], events: [Event]):
+    """Get the records to add to the database for development"""
     event_admins = [EventAdministrator(event_id=events[0].id, administrator_id=admins[0].id),
                     EventAdministrator(event_id=events[0].id, administrator_id=admins[1].id),
                     EventAdministrator(event_id=events[1].id, administrator_id=admins[0].id),

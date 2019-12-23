@@ -2,8 +2,8 @@
 from JDISCTF.models import Event, User
 
 
-def get_records(events: [Event]):
-    """Get the records to add to the database"""
+def get_records_dev(events: [Event]):
+    """Get the records to add to the database for development"""
     users = []
     for _ in events:
         user1 = User(email='test@test.com', username='test')
