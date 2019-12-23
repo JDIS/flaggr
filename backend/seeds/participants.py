@@ -1,10 +1,10 @@
 """Participants seeding data"""
 
-from JDISCTF.models import Participant, User, Event
+from JDISCTF.models import Event, Participant, User
 
 
-def get_records(users: [User], events: [Event]):
-    """Get the records to add to the database"""
+def get_records_dev(users: [User], events: [Event]):
+    """Get the records to add to the database for development"""
     participants = []
     for i, event in enumerate(events):
         for j in range(4):
