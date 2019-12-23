@@ -54,12 +54,14 @@ class Seeder:
 
             db_users = seed_users(users.get_records_dev(db_events))
 
-            db_participants = self.seed_table(participants.get_records_dev(db_users, db_events), participants.FILTER_ARGS)
+            db_participants = self.seed_table(participants.get_records_dev(db_users, db_events),
+                                              participants.FILTER_ARGS)
 
             self.seed_table(team_members.get_records_dev(db_teams, db_participants), team_members.FILTER_ARGS)
 
             db_admins = self.seed_table(admins.get_records_dev(db_users), admins.FILTER_ARGS)
-            self.seed_table(event_administrators.get_records_dev(db_admins, db_events), event_administrators.FILTER_ARGS)
+            self.seed_table(event_administrators.get_records_dev(db_admins, db_events),
+                            event_administrators.FILTER_ARGS)
 
         elif os.environ.get('FLASK_ENV') == "production":
             admin_list = Administrator.query.all()
