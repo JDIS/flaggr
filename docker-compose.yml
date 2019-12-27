@@ -13,16 +13,13 @@ services:
       - "5432:5432"
     restart: always
 
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    restart: always
-    depends_on:
-      - frontend-user
-      - frontend-admin
-      - backend
+  frontend-user:
+    build: ./frontend/user
+    image: frontend-user
+
+  frontend-admin:
+    build: ./frontend/admin
+    image: frontend-admin
 
   backend:
     build: ./backend
@@ -30,10 +27,13 @@ services:
     depends_on:
       - db
 
-  frontend-user:
-    build: ./frontend/user
-    restart: always
-
-  frontend-admin:
-    build: ./frontend/admin
+  nginx:
+    build: ./nginx
+    depends_on:
+      - backend
+      - frontend-user
+      - frontend-admin
+    ports:
+      - "80:80"
+      - "443:443"
     restart: always
