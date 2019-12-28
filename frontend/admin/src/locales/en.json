@@ -73,6 +73,13 @@
   "createEvent.error": "Error while creating an event: {error}",
   "category.create.error": "Error while creating a category: {error}",
   "event.teams": "Teams",
-  "event.teams.tooltip": "If the event is in teams (or solo)."
+  "event.teams.tooltip": "If the event is in teams (or solo).",
+  "pageTitle.home": "Home - Admin",
+  "pageTitle.eventHome": "Home - Admin",
+  "pageTitle.event": "Event - Admin",
+  "pageTitle.challenges": "Challenges - Admin",
+  "pageTitle.edit-challenges": "Edit a challenge - Admin",
+  "pageTitle.new-challenges": "Create a challenge - Admin",
+  "pageTitle.participants": "Participants - Admin"
 
 }

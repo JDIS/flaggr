@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
+import i18n from '@/plugins/i18n'
 
 Vue.use(Router)
 
@@ -45,6 +46,7 @@ const router = new Router({
  * (ex: /scoreboard) and upon page change (ex: client clicks on the challenges page)
  */
 router.beforeEach((to, from, next) => {
+  document.title = `${i18n.tc(`pageTitle.${to.name}`)} | ${i18n.tc('projectName')}`;
   if (store.getters['participant/isConnected']) {
     next()
   } else {

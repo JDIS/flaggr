@@ -73,7 +73,13 @@
   "createEvent.error": "Erreur lors de la création d'un événement: {error}",
   "category.create.error": "Erreur lors de la création d'une catégorie: {error}",
   "event.teams": "Équipes",
-  "event.teams.tooltip": "Si l'événement est en équipe (sinon seul)."
-
+  "event.teams.tooltip": "Si l'événement est en équipe (sinon seul).",
+  "pageTitle.home": "Accueil - Administration",
+  "pageTitle.eventHome": "Accueil - Administration",
+  "pageTitle.event": "Événement - Administration",
+  "pageTitle.challenges": "Défis - Administration",
+  "pageTitle.edit-challenges": "Modifier un défi - Administration",
+  "pageTitle.new-challenges": "Créer un défi - Administration",
+  "pageTitle.participants": "Participants - Administration"
 
 }

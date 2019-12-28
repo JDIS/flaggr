@@ -3,8 +3,8 @@
 from JDISCTF.models import Category, Event
 
 
-def get_records(events: [Event]):
-    """Get the records to add to the database"""
+def get_records_dev(events: [Event]):
+    """Get the records to add to the database for development"""
     categories = []
     for event in events:
         categories.append(Category(event_id=event.id, name='Web'))

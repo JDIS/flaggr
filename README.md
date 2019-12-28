@@ -57,6 +57,10 @@ docker-compose up
 
 Pour que les différents services qui composent l'application puissent être créés correctement, les ports 80 et 443 (serveur web nginx) devront être disponibles sur le serveur, de même que le port 5432 (PostgreSQL).
 
+### Administration
+
+Pour administrer la plateforme, on doit aller sur `/admin`. Un nom d'utilisateur et un mot de passe seront demandés. **Cette information est affichée lors du premier démarrage** (`docker-compose up`).
+
 ### Contributions
 
 Les dépendances, procédures et normes de contribution au projet sont détaillées dans leurs fichiers respectifs :
