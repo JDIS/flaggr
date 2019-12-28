@@ -29,10 +29,19 @@ services:
 
   nginx:
     build: ./nginx
+    cap_add:
+      - NET_ADMIN
+    # Set this if you want to use HTTPS with lets encrypt. If so, simply put the domain name at which Flaggr will be accessible (example mydomain.org)
+    #environment:
+    #  - DOMAIN=res260.xyz
+
     depends_on:
       - backend
       - frontend-user
       - frontend-admin
+
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
     ports:
       - "80:80"
       - "443:443"
