@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 from JDISCTF.models import Challenge, Submission, Team
 
 
-def get_records(challenges: [Challenge], teams: [Team]):
-    """Get the records to add to the database"""
+def get_records_dev(challenges: [Challenge], teams: [Team]):
+    """Get the records to add to the database for development"""
     submissions = []
     for challenge, team in zip(challenges, teams):
         submissions.append(Submission(team_id=team.id, challenge_id=challenge.id, input='flag-123',

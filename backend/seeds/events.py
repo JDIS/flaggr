@@ -3,8 +3,8 @@
 from JDISCTF.models import Event
 
 
-def get_records():
-    """Get the records to add to the database"""
+def get_records_dev():
+    """Get the records to add to the database for development"""
     return [
         Event(name='Qualifications CS Games 2019', teams=True, id=0, is_visible=True, is_open=True, front_page="""
 # Qualifications CS Games 2019

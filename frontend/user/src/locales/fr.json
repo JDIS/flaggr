@@ -61,5 +61,9 @@
   "challenge.submissionError": "Erreur lors de la soumission du flag: {error}",
   "challenge.oldSubmissions": "Anciennes soumissions",
   "team.cancelRequest": "Annuler la demande",
-  "eventSelection.chooseEvent": "Choisir un événement:"
+  "eventSelection.chooseEvent": "Choisir un événement:",
+  "pageTitle.eventSelection": "Choisir un événement",
+  "pageTitle.home": "Accueil",
+  "pageTitle.challenges": "Défis",
+  "pageTitle.scoreboard": "Classement"
 }

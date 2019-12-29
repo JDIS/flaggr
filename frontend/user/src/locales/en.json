@@ -61,6 +61,9 @@
 	"challenge.submissionError": "Error while submitting flag: {error}",
 	"challenge.oldSubmissions": "Past submissions",
 	"team.cancelRequest": "Cancel request",
-	"eventSelection.chooseEvent": "Choose an event:"
+	"eventSelection.chooseEvent": "Choose an event:",
+	"pageTitle.eventSelection": "Event selection",
+	"pageTitle.home": "Home",
+	"pageTitle.challenges": "Challenges",
+	"pageTitle.scoreboard": "Scoreboard"
   }
-  

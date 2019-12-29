@@ -3,6 +3,8 @@ import VueRouter, {Route} from 'vue-router';
 import store from '@/store'
 import {getEvents} from '@/services/event.service';
 import {Event} from '@/models/event';
+import i18n from '@/plugins/i18n'
+
 
 Vue.use(VueRouter);
 
@@ -85,6 +87,7 @@ function fetchEventsSetEventIfNeeded(to: Route, from: Route) {
  * and upon page change (ex: client clicks on the challenges page)
  */
 router.beforeEach((to, from, next) => {
+  document.title = `${i18n.tc(`pageTitle.${to.name}`)} | ${i18n.tc('projectName')}`;
   fetchEventsSetEventIfNeeded(to, from);
   if (store.getters['admin/isConnected']) {
     next()

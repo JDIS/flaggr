@@ -3,8 +3,8 @@
 from JDISCTF.models import Category, Challenge
 
 
-def get_records(categories: [Category]):
-    """Get the records to add to the database"""
+def get_records_dev(categories: [Category]):
+    """Get the records to add to the database for development"""
     challenges = []
     for category in categories:
         challenges.append(Challenge(category_id=category.id, name='Super Duper Challenge',
