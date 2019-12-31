@@ -64,6 +64,13 @@
   "login.error": "Erreur pendant la connexion: {error}",
   "pickEvent": "Choisir un événement",
   "logout.error": "Erreur durant la déconnexion: {error}",
-  "categories.get.error": "Erreur lors de la récupération des catégories: {error}"
+  "categories.get.error": "Erreur lors de la récupération des catégories: {error}",
+  "pageTitle.home": "Accueil - Administration",
+  "pageTitle.eventHome": "Accueil - Administration",
+  "pageTitle.event": "Événement - Administration",
+  "pageTitle.challenges": "Défis - Administration",
+  "pageTitle.edit-challenges": "Modifier un défi - Administration",
+  "pageTitle.new-challenges": "Créer un défi - Administration",
+  "pageTitle.participants": "Participants - Administration"
 
 }

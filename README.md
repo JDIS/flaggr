@@ -41,21 +41,16 @@ La seule dépendance pour le déploienent de la plateforme est [Docker](https://
 Une fois Docker installé, il suffit d'exécuter les commandes suivantes :
 
 ```bash
-git clone git@depot.dinf.usherbrooke.ca:projets/a19/eq17/jdis.git
-cd jdis
-docker-compose up
-```
-
-Si votre environnement de déploiement ne dispose pas de Git, il est possible d'installer la plateforme à l'aide des commandes suivantes:
-
-```bash
-wget "https://depot.dinf.usherbrooke.ca/projets/a19/eq17/jdis/-/archive/master/jdis-master.tar.gz"
-tar xzf jdis-master.tar.gz
-cd jdis-master
+git clone https://github.com/JDIS/flaggr.git
+cd flaggr
 docker-compose up
 ```
 
 Pour que les différents services qui composent l'application puissent être créés correctement, les ports 80 et 443 (serveur web nginx) devront être disponibles sur le serveur, de même que le port 5432 (PostgreSQL).
+
+### Administration
+
+Pour administrer la plateforme, on doit aller sur `/admin`. Un nom d'utilisateur et un mot de passe seront demandés. **Cette information est affichée lors du premier démarrage** (`docker-compose up`).
 
 ### Contributions
 
