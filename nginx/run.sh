@@ -3,7 +3,7 @@ if [ ! -z "${DOMAIN}" ]; then
   echo 'USING HTTPS WITH DOMAIN ${DOMAIN}'
 
   if [ ! -f /etc/letsencrypt/$DOMAIN/fullchain.pem ]; then
-    certbot certonly -n --agree-tos -m=egg997@gmail.com -d $DOMAIN --standalone --test-cert
+    certbot certonly -n --agree-tos -m=egg997@gmail.com -d $DOMAIN --standalone
   else
     certbot renew
   fi
