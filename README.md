@@ -47,11 +47,11 @@ On startup, certbot will always attempt to renew the cert, if possible.
 
 If the domain name is not set (default), Flaggr uses HTTP (HTTP/2 cannot be used without HTTPS).
 
-### Administration
+## Administration
 
 To administer the platform, you need to go to `/admin`. **A username and password will be printed on the first startup of Flaggr. Take note those credentials!**
 
-### Contributions
+## Contributions
 
 Dependencies, procedures and contribution guidelines are detailled in their respective README:
 
