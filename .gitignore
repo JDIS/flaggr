@@ -1,3 +1,5 @@
 .vscode/
 .idea
 postgres-data/
+letsencrypt/
+*.txt

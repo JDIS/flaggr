@@ -9,20 +9,15 @@ services:
       POSTGRES_DB: jdisctf_db
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     restart: always
 
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    restart: always
-    depends_on:
-      - frontend-user
-      - frontend-admin
-      - backend
+  frontend-user:
+    build: ./frontend/user
+    image: frontend-user
+
+  frontend-admin:
+    build: ./frontend/admin
+    image: frontend-admin
 
   backend:
     build: ./backend
@@ -30,10 +25,22 @@ services:
     depends_on:
       - db
 
-  frontend-user:
-    build: ./frontend/user
-    restart: always
+  nginx:
+    build: ./nginx
+    cap_add:
+      - NET_ADMIN
+    # Set this if you want to use HTTPS with lets encrypt. If so, simply put the domain name at which Flaggr will be accessible (example mydomain.org)
+    #environment:
+    #  - DOMAIN=res260.xyz
 
-  frontend-admin:
-    build: ./frontend/admin
+    depends_on:
+      - backend
+      - frontend-user
+      - frontend-admin
+
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
     restart: always

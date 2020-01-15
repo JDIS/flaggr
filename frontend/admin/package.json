@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service lint --fix && vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-prod": "vue-cli-service build --no-clean --modern",
     "lint": "vue-cli-service lint",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },

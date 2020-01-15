@@ -1,44 +1,33 @@
 ![image](https://user-images.githubusercontent.com/14599855/70843130-39169700-1dfb-11ea-8057-36536f60072e.png)
 
-## Qu'est-ce que Flaggr ?
+**Flaggr is a CTF platform with a simple, modern UI.**
 
-Flaggr est une plateforme de gestion de compétitions informatiques de styles variés. Elle a été dévoloppée avec comme objectif de créer une plateforme qui pourrait répondre aux besoins du plus grand nombre de compétitions possible, tout en restant simple à utiliser et configurer.
+## Why Flaggr ?
 
-## Pourquoi Flaggr ?
+Flaggr was created by computer science students at Université de Sherbrooke. We wanted to build a platform that felt great to use for the admins and the participants. More precisely:
 
-Flaggr a été créé à l'origine par un groupe d'étudiants en Sciences Informatique de l'Université de Sherbrooke. Tous avaient organisé et/ou participé à un certain nombres de compétitions informatiques par le passé et trouvaient que celles-ci présentaient certains défis récurrents, tant pour les organisateurs que pour les participants. Voici une liste des principaux irritants qu'ils ont identifié chez les différentes plateformes existantes :
+* **A single instance, multiple competitions**
 
-* **Complexes à configurer**
+    **Flaggr allows to administer many competitions on the same machine, either simultanously or one at a time, with a single instance**. This reduces configuration time and allows event organizers to focus on what's important: the competition. It also allows to easily keep trace of scores in previous competitions.
+    ![image](https://user-images.githubusercontent.com/14599855/71643025-d722b200-2c81-11ea-8218-10283c9c5342.png)
 
-    Plusieurs des plateformes existantes nécessitent une quantité non-négligeable de configuration avant même de pouvoir lancer la compétition. De plus, cette configuration se fait souvent via des fichiers texte, une interface en ligne de commande ou même directement les fichiers source sur le serveur par accès direct, par SSH ou autre.
+* **Single-Page App**
+
+    Flaggr has been build with the idea that a competition platform should feel fluid to use. This is why we built it as a SPA, reducing subsequent pages load to a minimum. Combined with async API calls with a UI indicator, it makes using Flaggr feels like a fun, fast and fluid experience.
     
-    Nous pensons que cela apporte une complexité inutile qui pourrait être paliée par une **interface d'administration web** agréable et facile à utiliser.
+* **Intuitive UI**
+    
+    We wanted to build a UI where the users don't ask themselves hard questions about how Flaggr should be interacted with. We also wanted it to feel modern.
+    
+    https://www.youtube.com/watch?v=cUHMvHJ4g4c
 
-* **Une plateforme, une compétition**
+## Deployment
 
-    En plus de la configuration longue et complexe, les autres plateformes ne supportent généralement qu'une seule compétition. Ceci signifie que tout le temps qui a été investi dans la mise en place et la configuration d'une compétition est généralement perdu une fois la compétition terminée et doit être investi de nouveau lors de la prochaine compétition.
+### Dependencies
 
-    Nous pensons que cela représente une perte de temps énorme, surtout pour les groupes qui organisent plusieurs coméptitions par année, ou même par mois. C'est pourquoi nous avons créé une plateforme qui permet de **gérer autant de compétitions que vous le désirez** sans que cela n'ajoute de complexité supplémentaire pour les organisateurs.
+The only dependencies to deploy Flaggr are [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/), usually shipped with Docker.
 
-* **Mauvaise gestion des permissions**
-
-    La plupart des compétitions informatiques relèvent du travail commun d'un grand nombre d'individus. Ces différents individus doivent tous avoir accès à la plateforme de gestion, mais dans la plupart des cas, les autres plateformes ne font aucune distinction entre les différents individus qui y ont accès, qu'ils soient *challenge designers*, designers graphiques, ou simplement administrateurs. Ceci peut mener à beaucoup de problèmes et de frustrations quand un *challenge designer* de sécurité décide de corriger ce petit bug visuel sur la page d'acceuil qui traine depuis des semaines, mais finit plutôt par complètement démolir ladite page d'accueil par accident.
-
-    C'est pourquoi Flaggr offre un système de **gestion des permissions par compétition**. Ainsi, les administrateurs principaux d'une compétition peuvent décider de façon granulaire quels organisateurs ont accès à quelle partie de la compétition, réduisant ainsi les risques de bris et de conflits.
-
-* **Mauvaises interfaces**
-
-    Dans bien des cas, les autres plateformes de compétition offrent des interfaces utilisateur qui semblent avoir porté peu de considération pour l'expérience utilisateur de l'application, que l'on parle d'ergonomie, de simplicité ou tout simplement d'attrait visuel. Ces interfaces mal adaptées causent une expérience peu agréable et parfois même ardue pour les participants de la compétition, laquelle sera malheureusement associée à la compétition elle-même et pourra en faire souffrir sa réputation.
-
-    Flaggr propose plutôt une **interface web simple, moderne et réactive** qui vise à rendre l'utilisation de la plateforme la plus simple et la plus agréable possible.
-
-## Déploiement
-
-### Dépendances
-
-La seule dépendance pour le déploienent de la plateforme est [Docker](https://www.docker.com/) (et [Docker-Compose](https://docs.docker.com/compose/), généralement inclut avec Docker).
-
-Une fois Docker installé, il suffit d'exécuter les commandes suivantes :
+Once installed, all you need to do is execute these command:
 
 ```bash
 git clone https://github.com/JDIS/flaggr.git
@@ -46,15 +35,25 @@ cd flaggr
 docker-compose up
 ```
 
-Pour que les différents services qui composent l'application puissent être créés correctement, les ports 80 et 443 (serveur web nginx) devront être disponibles sur le serveur, de même que le port 5432 (PostgreSQL).
+Ports 80 and 443 need to be available for Flaggr to successfully start.
 
-### Administration
+### Using HTTPS with Flaggr
 
-Pour administrer la plateforme, on doit aller sur `/admin`. Un nom d'utilisateur et un mot de passe seront demandés. **Cette information est affichée lors du premier démarrage** (`docker-compose up`).
+Flaggr supports HTTPS (with HTTP/2) with Let's Encrypt. All you need to do is edit `docker-compose.yml` and set the `DOMAIN` environment variable to the domain you wish to have a certificate for. On startup, certbot will try to issue a signed certificate for the provided domain. The cert is kept in the newly created `letsencrypt` folder. **This is the recommanded approach.** 
 
-### Contributions
+If you already have a cert for the domain, you can use it by copying the content of `/etc/letsencrypt` in a folder named `letsencrypt` at the root of Flaggr.
 
-Les dépendances, procédures et normes de contribution au projet sont détaillées dans leurs fichiers respectifs :
+On startup, certbot will always attempt to renew the cert, if possible.
+
+If the domain name is not set (default), Flaggr uses HTTP (HTTP/2 cannot be used without HTTPS).
+
+## Administration
+
+To administer the platform, you need to go to `/admin`. **A username and password will be printed on the first startup of Flaggr. Take note those credentials!**
+
+## Contributions
+
+Dependencies, procedures and contribution guidelines are detailled in their respective README:
 
 * [Backend](backend/README.md)
 * [Frontend](frontend/README.md)
