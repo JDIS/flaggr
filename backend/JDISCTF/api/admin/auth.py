@@ -1,12 +1,12 @@
 """Authentication routes for administration"""
 
 import flask_rebar
-from flask_login import current_user, login_user
+from flask_login import login_user
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
-from JDISCTF.models import User, Administrator
-from JDISCTF.schemas import CreateUserSchema, LoginSchema, AdministratorSchema
+from JDISCTF.models import Administrator, User
+from JDISCTF.schemas import AdministratorSchema, CreateUserSchema, LoginSchema
 
 
 @REGISTRY.handles(
@@ -18,11 +18,6 @@ from JDISCTF.schemas import CreateUserSchema, LoginSchema, AdministratorSchema
 )
 def login_administrator():
     """Login an administrator"""
-    if current_user.is_authenticated:
-        administrator = current_user.get_administrator()
-        if administrator is None:
-            raise errors.Unauthorized("You must be an administrator to access this resource.")
-        return administrator
 
     body = flask_rebar.get_validated_body()
     email = body["email"]

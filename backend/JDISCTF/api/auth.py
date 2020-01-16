@@ -1,7 +1,7 @@
 """Authentication routes"""
 
 import flask_rebar
-from flask_login import current_user, login_user, logout_user
+from flask_login import login_user, logout_user
 from flask_rebar import errors
 
 from JDISCTF.app import DB, REGISTRY
@@ -20,11 +20,6 @@ from JDISCTF.schemas import CreateUserSchema, GenericMessageSchema, LoginSchema,
 @require_event
 def login(event: Event):
     """Login a participant"""
-    if current_user.is_authenticated:
-        participant = current_user.get_participant()
-        if participant is None:
-            raise errors.Unauthorized("You must be a participant to access this resource.")
-        return current_user.get_participant()
 
     body = flask_rebar.get_validated_body()
     email = body["email"]
@@ -90,7 +85,7 @@ def register_participant(event: Event):
     user = User(email=email, username=username)
     user.set_password(password)
 
-    participant = Participant(event_id=event.id, user_id=user.id, user=user)
+    participant = Participant(event_id=event.id, user=user)
 
     DB.session.add(participant)
 

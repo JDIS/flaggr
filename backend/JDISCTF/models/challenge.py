@@ -38,6 +38,8 @@ class Challenge(DB.Model):
 
     category = relationship('Category', lazy='joined')
 
+    category = relationship('Category', lazy='select')
+
     submissions = relationship('Submission', lazy='noload')
 
     solves = relationship('Submission',

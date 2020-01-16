@@ -20,6 +20,16 @@ export default Vue.extend({
   components: {
     NavigationBar,
     AppFooter
+  },
+  created() {
+    /**
+     * Fetch the event every 10 seconds to check for updates
+     */
+    window.setInterval(() => {
+      if (this.$route.params.eventId !== undefined) {
+        this.$store.dispatch('event/fetchEvent', this.$route.params.eventId)
+      }
+    }, 10000)
   }
 });
 </script>

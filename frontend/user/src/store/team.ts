@@ -50,7 +50,7 @@ const getters = {
  */
 function checkPermissions() {
   if (route.currentRoute.meta.requiresTeam === true) {
-    route.replace(`/${route.currentRoute.params.eventId}`)
+    route.push(`/${route.currentRoute.params.eventId}`)
   }
 }
 

@@ -21,7 +21,6 @@ def upgrade():
     op.create_table('Events',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
-    sa.Column('front_page', sa.Text(), nullable=False),
     sa.Column('teams', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )

@@ -45,7 +45,7 @@ def create_category(current_admin: Administrator):
         raise errors.NotFound(f'Event with id "{event_id}" not found.')
 
     if not current_admin.is_admin_of_event(event_id):
-        raise errors.Unauthorized("You do not have the permission to administer this category.")
+        raise errors.Unauthorized("You do not have the permission to administer this event.")
 
     category = Category.query.filter_by(name=name, event_id=event_id).first()
 

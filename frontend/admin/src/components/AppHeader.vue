@@ -10,7 +10,7 @@
         <router-link v-for="event in events" :to="`/${event.id}`">
           <b-navbar-item>{{ event.name }}</b-navbar-item>
         </router-link>
-        <b-navbar-item href="#">
+        <b-navbar-item @click="createEvent()">
           <b-icon icon="plus-circle" size="is-small"></b-icon>
           <strong>{{ this.$t('event.new') }}</strong>
         </b-navbar-item>
@@ -29,6 +29,9 @@
 import Vue from 'vue';
 import {AdminMixin} from '@/mixins/AdminMixin';
 import {EventMixin} from '@/mixins/EventMixin';
+import {createEvent, getEvents} from '@/services/event.service';
+import {sendErrorAlert} from '@/helpers/alerts.helper';
+import store from '@/store';
 
 /**
  * Application header (at the top of the page)
@@ -43,6 +46,23 @@ export default Vue.extend({
   methods: {
     logout() {
       this.$store.dispatch('admin/disconnectAdmin')
+    },
+
+    /**
+     * Create an event and then redirects to the created event page.
+     * Sets the events and event state accordingly.
+     */
+    createEvent() {
+      createEvent()
+          .then((event) => {
+            getEvents().then((events) => {
+              store.dispatch('event/setEvents', events)
+              const currentEvent = events.find((event2) => event2.id === event.id)
+              store.dispatch('event/setEvent', currentEvent)
+              this.$router.push({name: 'event', params: {eventId: event.id.toString()}})
+            })
+          })
+          .catch((error) => sendErrorAlert('createEvent.error', error))
     }
   },
   components: {}

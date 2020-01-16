@@ -1,5 +1,5 @@
-import { GeneralEvent } from './generalEvent';
-import { EventTheme } from './eventTheme';
+import {GeneralEvent} from './generalEvent';
+import {EventTheme} from './eventTheme';
 
 /**
  * Event Model
@@ -10,11 +10,15 @@ export class Event implements GeneralEvent, EventTheme {
   url: string;
   flagFormat: string;
   teamSize: number;
-  visible: boolean;
-  open: boolean;
+  is_visible: boolean;
+  is_open: boolean;
   customCSS: string;
-  homePage: string;
+  front_page: string;
   logo?: File;
+  /**
+   * True if the event is in teams (false if its an event where you participate alone)
+   */
+  teams: boolean;
 
   constructor() {
     this.id = -1;
@@ -22,9 +26,10 @@ export class Event implements GeneralEvent, EventTheme {
     this.url = '';
     this.flagFormat = '';
     this.teamSize = 4;
-    this.visible = false;
-    this.open = false;
+    this.is_visible = false;
+    this.is_open = false;
     this.customCSS = '';
-    this.homePage = '';
+    this.front_page = '';
+    this.teams = false;
   }
 }

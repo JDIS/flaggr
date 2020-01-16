@@ -28,4 +28,4 @@ def get_event(event: Event):
 def get_all_events():
     """Get the list of all events"""
 
-    return Event.query.all()
+    return Event.query.filter_by(is_visible=True).order_by(Event.id).all()
