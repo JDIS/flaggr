@@ -8,7 +8,7 @@ def get_records_dev(categories: [Category]):
     challenges = []
     for category in categories:
         challenges.append(Challenge(category_id=category.id, name='Super Duper Challenge',
-                                    description='A really cool challenge for everyone', points=50,
+                                    description='## title 2\n\nA **really** *cool* challenge for everyone https://google.ca', points=50,
                                     hidden=False))
         challenges.append(Challenge(category_id=category.id, name='Pretty hard challenge',
                                     description='A pretty hard challenge for veterans', points=100,

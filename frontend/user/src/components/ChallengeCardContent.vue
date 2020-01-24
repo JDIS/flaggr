@@ -13,7 +13,7 @@
         </div>
         <br>
       </b-collapse>
-      <div class="description">{{ challenge.description }}</div>
+      <div class="description" v-html="computedMarkdown"></div>
       <div class="files">
         <a v-for="file in challenge.files" v-bind:key="file">
           <b-icon icon="download" size="is-small"></b-icon>
@@ -54,6 +54,7 @@ import { Challenge } from '@/models/challenge'
 import { submitFlag } from '@/services/challenge.service'
 import { sendAlertWithVariables } from '@/helpers'
 import { TeamMixin } from '@/mixins/TeamMixin'
+import marked from 'marked'
 
 /**
  * Content of the challenge card
@@ -72,6 +73,11 @@ export default Vue.extend({
       isWrong: false, // A wrong flag was submitted,
       displaySolvesDetails: false,
     };
+  },
+  computed: {
+    computedMarkdown(): string {
+      return marked(this.challenge.description)
+    }
   },
   methods: {
     async submit() {

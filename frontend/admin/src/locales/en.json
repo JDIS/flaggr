@@ -1,7 +1,7 @@
 {
   "projectName": "Flaggr",
   "cancel": "Cancel",
-  "challenge.description": "Description",
+  "challenge.description": "Description (supports Markdown)",
   "challenge.flag": "Flag",
   "challenge.files": "Files",
   "challenge.get.error": "Could not get challenge",

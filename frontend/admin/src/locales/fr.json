@@ -1,7 +1,7 @@
 {
   "projectName": "Flaggr",
   "cancel": "Annuler",
-  "challenge.description": "Description",
+  "challenge.description": "Description (supporte Markdown)",
   "challenge.flag": "Réponse",
   "challenge.files": "Fichiers",
   "challenge.get.error": "Impossible de récupérer le défi",
