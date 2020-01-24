@@ -5,3 +5,4 @@ from JDISCTF.api.admin.challenges import create_challenge, delete_challenge, edi
     get_admin_challenge, get_admin_challenges_for_event, make_challenge_hidden, make_challenge_visible
 from JDISCTF.api.admin.events import create_event, delete_event, edit_event, get_admin_event, \
     get_admin_events
+from JDISCTF.api.admin.participants import get_participants_for_events

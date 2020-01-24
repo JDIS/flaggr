@@ -80,6 +80,6 @@
   "pageTitle.challenges": "Challenges - Admin",
   "pageTitle.edit-challenges": "Edit a challenge - Admin",
   "pageTitle.new-challenges": "Create a challenge - Admin",
-  "pageTitle.participants": "Participants - Admin"
-
+  "pageTitle.participants": "Participants - Admin",
+  "participants.get.error": "Error while fetching participants: {error}"
 }
