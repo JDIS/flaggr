@@ -3,6 +3,7 @@ import {sendAlertWithVariables, sendErrorAlert} from '@/helpers/alerts.helper'
 import store from '../store'
 import route from '../router'
 import {Admin} from '@/models/admin';
+import {getEvents} from '@/services/event.service';
 
 /**
  * Store to manage the connected admin's information.
@@ -49,7 +50,7 @@ const getters = {
  * is not connected.
  */
 function checkPermissions() {
-  if (route.currentRoute.meta.requiresAuth === true) {
+  if (route.currentRoute.name !== 'home' && route.currentRoute.meta.requiresAuth === true) {
     route.push(`/`)
   }
 }
@@ -67,8 +68,11 @@ const actions = {
       .then((response: AxiosResponse) => {
         context.commit('setAdmin', response.data as Admin)
         context.commit('setCreds', btoa(`${payload.email}:${payload.password}`))
-        store.dispatch('admin/fetchAdmin')
-        route.push('/')
+        store.dispatch('admin/fetchAdmin').then(() => {
+          getEvents().then((events) => {
+            store.dispatch('event/setEvents', events)
+          })
+        })
       }).catch((error) => {
         sendAlertWithVariables('login.error', {error: error.response.data.message})
     })
