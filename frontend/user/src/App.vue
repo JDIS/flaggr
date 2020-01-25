@@ -23,13 +23,13 @@ export default Vue.extend({
   },
   created() {
     /**
-     * Fetch the event every 10 seconds to check for updates
+     * Fetch the event every 60 seconds to check for updates
      */
     window.setInterval(() => {
       if (this.$route.params.eventId !== undefined) {
         this.$store.dispatch('event/fetchEvent', this.$route.params.eventId)
       }
-    }, 10000)
+    }, 60000)
   }
 });
 </script>

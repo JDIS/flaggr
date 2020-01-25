@@ -45,7 +45,7 @@ export default Vue.extend({
       if (this.$router.currentRoute.name === 'challenges') {
         getChallengesByTrack().then((tracks) => this.tracks = tracks)
       }
-    }, 30000)
+    }, 90000)
   },
   methods: {
     updateVisibleTracks(visibleTracks: Track[]) {
