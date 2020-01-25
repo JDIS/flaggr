@@ -12,7 +12,6 @@ RUN pip install -r requirements.txt --no-cache-dir && \
 
 COPY jdisctf.py .
 COPY config.py .
-COPY config.py .
 COPY gunicorn_config.py .
 COPY .env.production .env
 COPY run.prod.sh run.sh
