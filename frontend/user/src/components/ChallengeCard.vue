@@ -1,5 +1,5 @@
 <template>
-  <b-collapse class="card" :open="!challenge.is_solved || newlySolved">
+  <b-collapse class="card" :open="false">
     <div slot="trigger" slot-scope="props" class="card-header" role="button">
       <challenge-card-header :challenge="challenge" :open="props.open" />
     </div>
