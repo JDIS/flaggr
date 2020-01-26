@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export FLASK_APP=jdisctf.py
 export FLASK_ENV=development

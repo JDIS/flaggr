@@ -1,20 +1,23 @@
-FROM python:3.7.4-alpine
+FROM python:3.7-slim
 
-RUN mkdir /JDISCTF
-WORKDIR /JDISCTF
+WORKDIR /flaggr
 
-COPY requirements.txt /JDISCTF
+COPY requirements.txt .
+RUN pip install gunicorn==19.10.0 --no-cache-dir
+RUN pip install -r requirements.txt --no-cache-dir && \
+ find /usr/local \
+      \( -type d -a -name test -o -name tests \) \
+      -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
+      -exec rm -rf '{}' +
 
-RUN \
- apk add --no-cache postgresql-libs && \
- apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
- pip install -r requirements.txt --no-cache-dir && \
- apk --purge del .build-deps
-
-COPY . /JDISCTF
-
-RUN ["mv", ".env.production", ".env"]
+COPY jdisctf.py .
+COPY config.py .
+COPY gunicorn_config.py .
+COPY .env.production .env
+COPY run.prod.sh run.sh
+COPY seeds/ seeds/
+COPY migrations/ migrations/
+COPY JDISCTF/ JDISCTF/
 
 EXPOSE 8080
-
-ENTRYPOINT [ "sh", "run.prod.sh" ]
+CMD [ "./run.sh" ]
