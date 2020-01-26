@@ -9,4 +9,4 @@ COPY run.sh /
 RUN chmod +x /run.sh
 EXPOSE 80
 EXPOSE 443
-ENTRYPOINT ["/bin/sh", "/run.sh"]
+CMD ["/bin/sh", "/run.sh"]
