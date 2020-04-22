@@ -9,5 +9,5 @@ class ScoreboardSchema(ResponseSchema):
     team_id = fields.Integer(required=True)
     points = fields.Number(required=True)
     position = fields.Integer(required=True)
-    last_submission = fields.DateTime(required=True)
+    last_submission = fields.DateTime(format='%Y-%m-%d %H:%M:%S', required=True)
     solved_challenges = fields.Integer(required=True)
