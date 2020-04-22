@@ -115,7 +115,8 @@ export default Vue.extend({
     },
 
     isSignupDisabled() {
-      return this.isInscription && (this.password === '' || this.password !== this.passwordConfirmation)
+      return this.isInscription && (this.password === '' || this.password !== this.passwordConfirmation
+        || this.username === '')
     }
   },
   components: {

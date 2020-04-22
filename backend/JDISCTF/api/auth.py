@@ -67,6 +67,9 @@ def register_participant(event: Event):
     username = body["username"]
     password = body["password"]
 
+    if not username:
+        raise errors.UnprocessableEntity("Please choose a username")
+
     # Validate user uniqueness constraint.
     user = User.query.filter_by(email=email).first()
     if user is not None:

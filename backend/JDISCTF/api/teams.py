@@ -47,6 +47,9 @@ def create_team(current_participant: Participant):
     body = flask_rebar.get_validated_body()
     team_name = body["team_name"]
 
+    if not team_name:
+        raise errors.UnprocessableEntity("Please choose a team name")
+
     team = current_participant.get_team()
 
     if team is not None:
