@@ -17,7 +17,7 @@
     "buefy": "^0.8",
     "bulma-helpers": "^0.3",
     "core-js": "^3.5",
-    "marked": "^0.7",
+    "marked": "^4.0",
     "typescript-tslint-plugin": "^0.5",
     "vue": "^2.6",
     "vue-i18n": "^8.14",
